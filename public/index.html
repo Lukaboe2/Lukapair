@@ -1,485 +1,350 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>LUKA-AI | PRO TECH DASHBOARD</title>  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />  
-  <style>  
-    :root {  
-      --neon-primary: #00ff9d;  
-      --neon-secondary: #0080ff;  
-      --neon-accent: #ff00ff;  
-      --cyber-blue: #00f7ff;  
-      --cyber-purple: #9d00ff;  
-      --dark-bg: #0a0a14;  
-      --dark-surface: rgba(16, 18, 27, 0.85);  
-      --glass-border: rgba(0, 255, 157, 0.25);  
-      --text-primary: #ffffff;  
-      --text-secondary: #a0a0c0;  
-      --grid-color: rgba(0, 247, 255, 0.1);  
-    }  * {  
-  margin: 0;  
-  padding: 0;  
-  box-sizing: border-box;  
-}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-body {  
-  min-height: 100vh;  
-  font-family: 'Segoe UI', system-ui, sans-serif;  
-  background:   
-    radial-gradient(ellipse at 20% 30%, rgba(0, 128, 255, 0.15) 0%, transparent 40%),  
-    radial-gradient(ellipse at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),  
-    linear-gradient(135deg, #050510 0%, #0a0a1a 50%, #070714 100%);  
-  color: var(--text-primary);  
-  overflow-x: hidden;  
-  position: relative;  
-}  
+  <title>LUKA-AI | WhatsApp Bot Dashboard</title>
 
-/* Cyber Grid Background */  
-.cyber-grid {  
-  position: fixed;  
-  top: 0;  
-  left: 0;  
-  width: 100vw;  
-  height: 100vh;  
-  background-image:   
-    linear-gradient(var(--grid-color) 1px, transparent 1px),  
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);  
-  background-size: 50px 50px;  
-  mask-image: radial-gradient(circle at center, black 30%, transparent 70%);  
-  z-index: 0;  
-  animation: gridMove 20s linear infinite;  
-}  
+  <meta name="theme-color" content="#ff1493" />
 
-@keyframes gridMove {  
-  0% { transform: translate(0, 0); }  
-  100% { transform: translate(50px, 50px); }  
-}  
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* Floating Particles */  
-.floating-elements {  
-  position: fixed;  
-  width: 100%;  
-  height: 100%;  
-  z-index: 1;  
-  pointer-events: none;  
-}  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-.float-element {  
-  position: absolute;  
-  background: var(--neon-primary);  
-  border-radius: 50%;  
-  opacity: 0.1;  
-  filter: blur(20px);  
-  animation: float 15s infinite ease-in-out;  
-}  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-@keyframes float {  
-  0%, 100% { transform: translate(0, 0) scale(1); }  
-  50% { transform: translate(100px, -50px) scale(1.2); }  
-}  
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-/* Main Container */  
-.dashboard {  
-  position: relative;  
-  z-index: 10;  
-  max-width: 500px;  
-  margin: 4% auto;  
-  padding: 40px 35px;  
-  background: var(--dark-surface);  
-  border-radius: 24px;  
-  border: 1px solid var(--glass-border);  
-  backdrop-filter: blur(25px) saturate(180%);  
-  box-shadow:   
-    0 10px 40px rgba(0, 0, 0, 0.5),  
-    0 0 0 1px rgba(255, 255, 255, 0.05),  
-    0 0 50px rgba(0, 255, 157, 0.15),  
-    inset 0 0 20px rgba(255, 255, 255, 0.03);  
-  transform-style: preserve-3d;  
-  perspective: 1000px;  
-  animation: dashboardEntrance 1.2s cubic-bezier(0.23, 1, 0.32, 1);  
-}  
+    body{
+      font-family:'Inter',sans-serif;
+      background:#07040a;
+      color:white;
+      overflow-x:hidden;
+    }
 
-@keyframes dashboardEntrance {  
-  0% {  
-    opacity: 0;  
-    transform: translateY(60px) rotateX(-10deg) scale(0.9);  
-  }  
-  100% {  
-    opacity: 1;  
-    transform: translateY(0) rotateX(0) scale(1);  
-  }  
-}  
+    .gradient-text{
+      background:linear-gradient(135deg,#ff69b4,#ff1493,#ff00aa);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
-/* Logo Area */  
-.logo-container {  
-  position: relative;  
-  width: 140px;  
-  height: 140px;  
-  margin: 0 auto 30px;  
-}  
+    .glass{
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.08);
+    }
 
-.logo-outer-ring {  
-  position: absolute;  
-  width: 100%;  
-  height: 100%;  
-  border-radius: 50%;  
-  border: 3px solid transparent;  
-  border-top-color: var(--neon-primary);  
-  border-right-color: var(--neon-secondary);  
-  animation: spin 8s linear infinite;  
-}  
+    .blob{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(90px);
+      z-index:0;
+      pointer-events:none;
+      animation:float 12s ease-in-out infinite;
+    }
 
-.logo-inner-ring {  
-  position: absolute;  
-  width: 90%;  
-  height: 90%;  
-  top: 5%;  
-  left: 5%;  
-  border-radius: 50%;  
-  border: 2px solid transparent;  
-  border-bottom-color: var(--neon-accent);  
-  border-left-color: var(--cyber-blue);  
-  animation: spinReverse 6s linear infinite;  
-}  
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(-30px);
+      }
+    }
 
-.logo-image {  
-  position: absolute;  
-  width: 75%;  
-  height: 75%;  
-  top: 12.5%;  
-  left: 12.5%;  
-  border-radius: 50%;  
-  background: url('https://files.catbox.moe/1l02sd.png') center/cover no-repeat;  
-  border: 2px solid rgba(255, 255, 255, 0.1);  
-  box-shadow:   
-    0 0 30px rgba(0, 255, 157, 0.3),  
-    0 0 60px rgba(0, 128, 255, 0.2),  
-    inset 0 0 20px rgba(0, 0, 0, 0.5);  
-  overflow: hidden;  
-}  
+    .btn{
+      padding:14px 26px;
+      border-radius:14px;
+      font-weight:700;
+      transition:0.3s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+    }
 
-.logo-image::after {  
-  content: '';  
-  position: absolute;  
-  top: 0;  
-  left: 0;  
-  width: 100%;  
-  height: 100%;  
-  background: linear-gradient(135deg,   
-    transparent 30%,   
-    rgba(0, 255, 157, 0.1) 50%,   
-    transparent 70%);  
-  animation: shine 3s infinite;  
-}  
+    .btn-primary{
+      background:linear-gradient(135deg,#ff1493,#ff00aa);
+      color:white;
+      box-shadow:0 10px 30px rgba(255,20,147,0.35);
+    }
 
-@keyframes spin {  
-  100% { transform: rotate(360deg); }  
-}  
+    .btn-primary:hover{
+      transform:translateY(-5px);
+    }
 
-@keyframes spinReverse {  
-  100% { transform: rotate(-360deg); }  
-}  
+    .btn-outline{
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.05);
+      color:white;
+    }
 
-@keyframes shine {  
-  0%, 100% { transform: translateX(-100%); }  
-  50% { transform: translateX(100%); }  
-}  
+    .btn-outline:hover{
+      transform:translateY(-5px);
+      background:rgba(255,255,255,0.09);
+    }
 
-/* Title */  
-.title-container {  
-  margin-bottom: 40px;  
-  position: relative;  
-}  
+    .card{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:22px;
+      padding:28px;
+      transition:0.35s;
+    }
 
-.main-title {  
-  font-size: 2.8rem;  
-  font-weight: 900;  
-  background: linear-gradient(90deg,   
-    var(--neon-primary),   
-    var(--cyber-blue),   
-    var(--neon-accent)  
-  );  
-  -webkit-background-clip: text;  
-  background-clip: text;  
-  color: transparent;  
-  text-shadow: 0 0 30px rgba(0, 255, 157, 0.5);  
-  letter-spacing: 1px;  
-  margin-bottom: 8px;  
-  animation: titleGlow 4s ease-in-out infinite;  
-}  
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:#ff1493;
+      box-shadow:0 18px 45px rgba(255,20,147,0.18);
+    }
 
-.subtitle {  
-  font-size: 1rem;  
-  color: var(--text-secondary);  
-  letter-spacing: 3px;  
-  text-transform: uppercase;  
-  font-weight: 300;  
-  position: relative;  
-  display: inline-block;  
-}  
+    .icon-box{
+      width:60px;
+      height:60px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,20,147,0.12);
+      margin-bottom:18px;
+    }
 
-.subtitle::after {  
-  content: '';  
-  position: absolute;  
-  bottom: -5px;  
-  left: 0;  
-  width: 100%;  
-  height: 1px;  
-  background: linear-gradient(90deg,   
-    transparent,   
-    var(--neon-primary),   
-    transparent  
-  );  
-}  
+    .icon-box i{
+      font-size:24px;
+      color:#ff69b4;
+    }
 
-@keyframes titleGlow {  
-  0%, 100% { filter: brightness(1); }  
-  50% { filter: brightness(1.2); }  
-}  
+    .hero-image{
+      width:110px;
+      height:110px;
+      border-radius:50%;
+      border:3px solid #ff1493;
+      object-fit:cover;
+      box-shadow:
+      0 0 30px rgba(255,20,147,0.5),
+      0 0 60px rgba(255,0,170,0.3);
+    }
 
-/* Buttons Grid */  
-.buttons-grid {  
-  display: grid;  
-  grid-template-columns: repeat(2, 1fr);  
-  gap: 18px;  
-  margin-bottom: 35px;  
-}  
+    .nav-link{
+      color:#aaa;
+      text-decoration:none;
+      transition:0.3s;
+      font-size:14px;
+      font-weight:600;
+    }
 
-.tech-button {  
-  position: relative;  
-  padding: 20px 15px;  
-  background: rgba(20, 22, 35, 0.7);  
-  border-radius: 16px;  
-  border: 1px solid rgba(0, 255, 157, 0.1);  
-  color: var(--text-primary);  
-  text-decoration: none;  
-  font-weight: 600;  
-  font-size: 0.95rem;  
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);  
-  display: flex;  
-  flex-direction: column;  
-  align-items: center;  
-  gap: 12px;  
-  overflow: hidden;  
-  backdrop-filter: blur(10px);  
-}  
+    .nav-link:hover{
+      color:#ff69b4;
+    }
 
-.tech-button::before {  
-  content: '';  
-  position: absolute;  
-  top: 0;  
-  left: 0;  
-  width: 100%;  
-  height: 100%;  
-  background: linear-gradient(135deg,   
-    transparent 0%,   
-    rgba(0, 255, 157, 0.05) 50%,   
-    transparent 100%);  
-  transform: translateX(-100%);  
-  transition: transform 0.6s;  
-}  
+    footer{
+      border-top:1px solid rgba(255,255,255,0.08);
+    }
 
-.tech-button:hover::before {  
-  transform: translateX(100%);  
-}  
+  </style>
+</head>
 
-.tech-button:hover {  
-  transform: translateY(-5px) scale(1.03);  
-  border-color: var(--neon-primary);  
-  box-shadow:   
-    0 10px 25px rgba(0, 255, 157, 0.3),  
-    0 0 30px rgba(0, 128, 255, 0.2),  
-    inset 0 0 15px rgba(255, 255, 255, 0.05);  
-}  
+<body>
 
-.button-icon {  
-  font-size: 1.8rem;  
-  background: linear-gradient(135deg, var(--neon-primary), var(--cyber-blue));  
-  -webkit-background-clip: text;  
-  background-clip: text;  
-  color: transparent;  
-  filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.5));  
-}  
+  <!-- Background -->
+  <div class="blob w-[400px] h-[400px] bg-pink-600/30 top-[-100px] left-[-100px]"></div>
+  <div class="blob w-[350px] h-[350px] bg-fuchsia-600/20 bottom-0 right-0"></div>
 
-.button-label {  
-  font-size: 0.9rem;  
-  color: var(--text-secondary);  
-}  
+  <!-- Navbar -->
+  <nav class="glass fixed top-0 left-0 w-full z-50">
+    <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
 
-/* Status Bar */  
-.status-bar {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  padding: 15px 20px;  
-  background: rgba(10, 12, 20, 0.8);  
-  border-radius: 12px;  
-  margin-top: 25px;  
-  border: 1px solid rgba(0, 247, 255, 0.1);  
-}  
+      <div class="flex items-center gap-3">
+        <img src="https://files.catbox.moe/1l02sd.png"
+        class="w-10 h-10 rounded-full border border-pink-500 object-cover">
 
-.status-item {  
-  display: flex;  
-  align-items: center;  
-  gap: 10px;  
-}  
+        <h1 class="font-extrabold text-xl gradient-text">
+          LUKA-AI
+        </h1>
+      </div>
 
-.status-dot {  
-  width: 10px;  
-  height: 10px;  
-  border-radius: 50%;  
-  background: var(--neon-primary);  
-  box-shadow: 0 0 10px var(--neon-primary);  
-  animation: pulse 2s infinite;  
-}  
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/pair" class="nav-link">Pair Code</a>
+        <a href="/qr" class="nav-link">QR Code</a>
+        <a href="https://github.com/" class="nav-link">GitHub</a>
+      </div>
 
-.status-text {  
-  font-size: 0.85rem;  
-  color: var(--text-secondary);  
-}  
+    </div>
+  </nav>
 
-@keyframes pulse {  
-  0%, 100% { opacity: 1; }  
-  50% { opacity: 0.5; }  
-}  
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center justify-center px-5 relative z-10">
 
-/* Footer */  
-.footer {  
-  text-align: center;  
-  margin-top: 30px;  
-  color: var(--text-secondary);  
-  font-size: 0.85rem;  
-  letter-spacing: 1px;  
-  position: relative;  
-}  
+    <div class="max-w-4xl mx-auto text-center">
 
-.footer::before {  
-  content: '';  
-  position: absolute;  
-  top: -15px;  
-  left: 50%;  
-  transform: translateX(-50%);  
-  width: 150px;  
-  height: 1px;  
-  background: linear-gradient(90deg,   
-    transparent,   
-    var(--neon-primary),   
-    transparent  
-  );  
-}  
+      <div class="flex justify-center mb-6">
+        <img src="https://files.catbox.moe/1l02sd.png"
+        class="hero-image">
+      </div>
 
-.copyright {  
-  color: var(--neon-primary);  
-  font-weight: 600;  
-}  
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass mb-6">
+        <div class="w-2 h-2 rounded-full bg-green-400"></div>
+        <span class="text-sm text-pink-200">
+          LUKA-AI SESSION ACTIVE
+        </span>
+      </div>
 
-/* Responsive */  
-@media (max-width: 550px) {  
-  .dashboard {  
-    margin: 10% 20px;  
-    padding: 30px 25px;  
-  }  
-    
-  .buttons-grid {  
-    grid-template-columns: 1fr;  
-  }  
-    
-  .main-title {  
-    font-size: 2.2rem;  
-  }  
-}
+      <h1 class="text-5xl md:text-7xl font-extrabold leading-tight gradient-text mb-6">
+        Advanced WhatsApp <br>
+        Bot Dashboard
+      </h1>
 
-  </style>  
-</head>  
-<body>  
-  <div class="cyber-grid"></div>    <div class="floating-elements" id="floatingElements"></div>    <div class="dashboard">  
-    <div class="logo-container">  
-      <div class="logo-outer-ring"></div>  
-      <div class="logo-inner-ring"></div>  
-      <div class="logo-image"></div>  
-    </div>  <div class="title-container">  
-  <h1 class="main-title">LUKA-AI</h1>  
-  <div class="subtitle">LUKA TECH DASHBOARD</div>  
-</div>  
+      <p class="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+        LUKA-AI provides powerful WhatsApp automation with Pair Code and QR Login support. Fast, secure, and modern dashboard.
+      </p>
 
-<div class="buttons-grid">  
-  <a href="/qr" class="tech-button" target="_blank">  
-    <i class="fas fa-qrcode button-icon"></i>  
-    <span>QR CODE</span>  
-    <div class="button-label">Secure Login</div>  
-  </a>  
-    
-  <a href="/pair" class="tech-button" target="_blank">  
-    <i class="fas fa-link button-icon"></i>  
-    <span>PAIRING CODE</span>  
-    <div class="button-label">Device Sync</div>  
-  </a>  
-  
-    
-  </div>  
-<div class="status-bar">  
-  <div class="status-item">  
-    <div class="status-dot"></div>  
-    <div class="status-text">System Online</div>  
-  </div>  
-  <div class="status-item">  
-    <div class="status-text">v3.1.0 PRO</div>  
-  </div>  
-  <div class="status-item">  
-    <div class="status-text">24/7 Active</div>  
-  </div>  
-</div>  
+      <div class="flex flex-wrap justify-center gap-4">
 
-<div class="footer">  
-  <div class="copyright">&copy; <span id="currentYear">2026</span> LUKA TECH</div>  
-  <div>Advanced WhatsApp Bot Framework</div>  
-</div>
+        <a href="/pair" class="btn btn-primary">
+          <i class="fas fa-link"></i>
+          Pair Code
+        </a>
 
-  </div>    <script>  
-    // Set current year  
-    document.getElementById('currentYear').textContent = new Date().getFullYear();  
-  
-    // Create floating elements  
-    const floatingContainer = document.getElementById('floatingElements');  
-    for (let i = 0; i < 15; i++) {  
-      const element = document.createElement('div');  
-      element.className = 'float-element';  
-      const size = Math.random() * 100 + 50;  
-      const x = Math.random() * 100;  
-      const y = Math.random() * 100;  
-      const color = i % 3 === 0 ? 'var(--neon-primary)' :   
-                   i % 3 === 1 ? 'var(--neon-secondary)' :   
-                   'var(--neon-accent)';  
-        
-      element.style.width = `${size}px`;  
-      element.style.height = `${size}px`;  
-      element.style.left = `${x}%`;  
-      element.style.top = `${y}%`;  
-      element.style.background = color;  
-      element.style.animationDelay = `${Math.random() * 5}s`;  
-      element.style.animationDuration = `${15 + Math.random() * 10}s`;  
-        
-      floatingContainer.appendChild(element);  
-    }  
-  
-    // Add interactive hover effect to dashboard  
-    const dashboard = document.querySelector('.dashboard');  
-    document.addEventListener('mousemove', (e) => {  
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;  
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;  
-        
-      dashboard.style.transform = `  
-        perspective(1000px)  
-        rotateY(${x}deg)  
-        rotateX(${-y}deg)  
-        translateY(${y / 2}px)  
-      `;  
-    });  
-  
-    // Reset transform on mouse leave  
-    document.addEventListener('mouseleave', () => {  
-      dashboard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';  
-    });  
-  </script>  </body>  
-</html>  
+        <a href="/qr" class="btn btn-outline">
+          <i class="fas fa-qrcode"></i>
+          QR Code
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Features -->
+  <section class="py-24 px-5 relative z-10">
+
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-extrabold gradient-text mb-4">
+          LUKA-AI FEATURES
+        </h2>
+
+        <p class="text-gray-400">
+          Everything you need for WhatsApp automation.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="card">
+          <div class="icon-box">
+            <i class="fas fa-link"></i>
+          </div>
+
+          <h3 class="text-2xl font-bold mb-3">
+            Pair Code Login
+          </h3>
+
+          <p class="text-gray-400">
+            Generate pairing code instantly and connect your WhatsApp easily.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon-box">
+            <i class="fas fa-qrcode"></i>
+          </div>
+
+          <h3 class="text-2xl font-bold mb-3">
+            QR Login
+          </h3>
+
+          <p class="text-gray-400">
+            Secure QR code login with smooth WhatsApp connection support.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon-box">
+            <i class="fab fa-github"></i>
+          </div>
+
+          <h3 class="text-2xl font-bold mb-3">
+            Open Source
+          </h3>
+
+          <p class="text-gray-400">
+            Customize and edit your own WhatsApp bot freely.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-5 relative z-10">
+
+    <div class="max-w-4xl mx-auto text-center glass rounded-[30px] p-12">
+
+      <h2 class="text-4xl font-extrabold gradient-text mb-5">
+        Ready To Start?
+      </h2>
+
+      <p class="text-gray-300 mb-8 text-lg">
+        Connect your WhatsApp account and start using LUKA-AI today.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+
+        <a href="/pair" class="btn btn-primary">
+          <i class="fas fa-link"></i>
+          Connect Now
+        </a>
+
+        <a href="https://github.com/" class="btn btn-outline">
+          <i class="fab fa-github"></i>
+          GitHub
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 text-center">
+
+    <div class="flex justify-center gap-4 mb-5">
+
+      <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center text-pink-400">
+        <i class="fab fa-github"></i>
+      </a>
+
+      <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center text-pink-400">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+
+      <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center text-pink-400">
+        <i class="fab fa-telegram"></i>
+      </a>
+
+    </div>
+
+    <p class="text-gray-500 text-sm">
+      © 2026 LUKA-AI — Advanced WhatsApp Bot Dashboard
+    </p>
+
+  </footer>
+
+</body>
+</html>
