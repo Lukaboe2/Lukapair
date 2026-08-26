@@ -2,533 +2,1138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>LUKA-AI | Pair Code Login</title>
-  <meta name="description" content="Link your WhatsApp account to Luka-Ai using a pair code. Fast, secure, and simple.">
-  <meta name="theme-color" content="#7c3aed">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="LUKA-AI | Pair Code Login">
-  <meta property="og:description" content="Link your WhatsApp with Luka-Ai using a pair code — no QR scan needed.">
-  <meta property="og:image" content="https://files.catbox.moe/1l02sd.png">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="https://files.catbox.moe/1l02sd.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <title>MAYRA-AI | Pairing Portal</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #07070e;
-      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-height: 100vh;
+      background: #090611;
+      color: #f7f2ff;
       overflow-x: hidden;
-      scrollbar-width: none;
-    }
-    body::-webkit-scrollbar { display: none; }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #7c3aed 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .gradient-bg { background: linear-gradient(135deg, #7c3aed, #9333ea); }
-
-    .blob {
-      position: fixed; border-radius: 50%;
-      filter: blur(90px); pointer-events: none; z-index: 0; will-change: transform;
-    }
-    @keyframes blobFloat {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50%      { transform: translate(20px,-20px) scale(1.05); }
+      padding: 20px;
     }
 
-    .nav-glass {
-      background: rgba(7,7,14,0.85);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 0 0 22px 22px;
-    }
-    .nav-link { position: relative; transition: color 0.2s ease; }
-    .nav-link::after {
-      content: '';
-      position: absolute; bottom: -2px; left: 0;
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, #c084fc, #7c3aed);
-      transition: width 0.22s ease; border-radius: 2px;
-    }
-    .nav-link:hover { color: #c084fc; }
-    .nav-link:hover::after { width: 100%; }
-
-    .sidebar-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 12px; border-radius: 10px;
-      color: #9ca3af; text-decoration: none;
-      font-size: 0.875rem; font-weight: 500;
-      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-    }
-    .sidebar-link:hover { background: rgba(124,58,237,0.12); color: #c084fc; transform: translateX(4px); }
-    .sidebar-link i { width: 18px; text-align: center; font-size: 0.9rem; }
-
-    #sidebar { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-    #sidebarOverlay { transition: opacity 0.3s ease; }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 11px 24px; border-radius: 12px;
-      font-weight: 600; font-size: 0.875rem;
-      cursor: pointer; border: none; text-decoration: none;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, opacity 0.18s ease;
-      will-change: transform;
-    }
-    .btn:active { transform: scale(0.97) !important; }
-    .btn-primary { background: linear-gradient(135deg, #7c3aed, #9333ea); color: #fff; }
-    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px rgba(124,58,237,0.45); }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
-    .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
-    .btn-ghost:hover { transform: translateY(-2px); background: rgba(255,255,255,0.1); }
-
-    .icon-animated {
-      display: inline-flex; align-items: center; justify-content: center;
-      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .btn:hover .icon-animated { transform: scale(1.25) rotate(-8deg); }
-
-    .social-icon {
-      width: 34px; height: 34px; border-radius: 8px;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      display: flex; align-items: center; justify-content: center;
-      color: #6b7280; font-size: 0.85rem; text-decoration: none;
-      transition: background 0.2s, color 0.2s, transform 0.2s;
-    }
-    .social-icon:hover { background: rgba(124,58,237,0.2); color: #c084fc; transform: translateY(-3px); }
-
-    .footer-link { color: #6b7280; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: color 0.18s, transform 0.18s; }
-    .footer-link:hover { color: #c084fc; transform: translateX(4px); }
-    .divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent); }
-
-    .card {
-      background: rgba(15,15,26,0.95);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,58,237,0.08);
-    }
-
-    .input-field {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #f1f1f1; border-radius: 12px;
-      font-size: 0.875rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
       width: 100%;
-    }
-    .input-field::placeholder { color: #4b5563; }
-    .input-field:focus {
-      outline: none;
-      border-color: rgba(168,85,247,0.5);
-      box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .65;
     }
 
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      20%,60%  { transform: translateX(-6px); }
-      40%,80%  { transform: translateX(6px); }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(124,58,237,.25), transparent 35%),
+        radial-gradient(circle at 85% 90%, rgba(236,72,153,.22), transparent 40%),
+        linear-gradient(135deg, rgba(5,3,15,.88), rgba(14,7,30,.96));
+      z-index: -1;
     }
-    .shake { animation: shake 0.4s ease; }
 
-    @keyframes spinOnce {
+    /* NEON SCREEN BORDER */
+
+    .lighting {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .light-line {
+      position: absolute;
+      filter: blur(2px);
+    }
+
+    .top-line,
+    .bottom-line {
+      width: 100%;
+      height: 3px;
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          #7c3aed,
+          #ec4899,
+          #a855f7,
+          transparent
+        );
+      box-shadow: 0 0 18px #a855f7;
+    }
+
+    .top-line { top: 0; }
+    .bottom-line { bottom: 0; }
+
+    .left-line,
+    .right-line {
+      width: 3px;
+      height: 100%;
+      background:
+        linear-gradient(
+          180deg,
+          transparent,
+          #7c3aed,
+          #ec4899,
+          transparent
+        );
+      box-shadow: 0 0 18px #a855f7;
+    }
+
+    .left-line { left: 0; }
+    .right-line { right: 0; }
+
+    /* MAIN CARD */
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 540px;
+      padding: 32px 28px;
+      border-radius: 48px;
+
+      background: rgba(20, 10, 38, .62);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border: 1px solid rgba(192,132,252,.25);
+
+      box-shadow:
+        0 25px 50px rgba(0,0,0,.5),
+        0 0 0 1px rgba(168,85,247,.15) inset,
+        0 0 40px rgba(124,58,237,.18);
+
+      animation: floatGlow 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatGlow {
+      0% {
+        transform: translateY(0);
+        box-shadow:
+          0 25px 50px rgba(0,0,0,.5),
+          0 0 0 1px rgba(168,85,247,.15) inset;
+      }
+
+      100% {
+        transform: translateY(-8px);
+        box-shadow:
+          0 35px 60px rgba(124,58,237,.25),
+          0 0 0 2px rgba(216,180,254,.35) inset,
+          0 0 45px rgba(236,72,153,.15);
+      }
+    }
+
+    /* HEADER */
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .profile-pic {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      position: relative;
+      padding: 4px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7c3aed,
+          #ec4899,
+          #c084fc
+        );
+
+      animation:
+        spinSlow 12s linear infinite,
+        borderPulse 2s ease-in-out infinite alternate;
+
+      box-shadow: 0 0 30px rgba(168,85,247,.7);
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #10051f;
+    }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff; border-radius: 50%;
-      animation: spinOnce 0.7s linear infinite;
+
+    @keyframes borderPulse {
+      0% {
+        box-shadow:
+          0 0 8px #7c3aed,
+          0 0 20px #7c3aed;
+      }
+
+      100% {
+        box-shadow:
+          0 0 22px #ec4899,
+          0 0 38px #ec4899;
+      }
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f3e8ff,
+          #c084fc,
+          #ec4899
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: .9rem;
+      color: #d8b4fe;
+      margin-top: 8px;
+    }
+
+    .brand {
+      display: inline-block;
+      padding: 5px 18px !important;
+      border-radius: 40px;
+
+      background: rgba(124,58,237,.16);
+
+      border: 1px solid rgba(192,132,252,.18);
+    }
+
+    /* INPUTS */
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin: 24px 0;
+    }
+
+    .country-selector,
+    .phone-input {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      background: rgba(0,0,0,.32);
+
+      border-radius: 60px;
+
+      border: 1px solid rgba(192,132,252,.28);
+
+      transition: all .25s ease;
+    }
+
+    .country-selector {
+      padding: 4px 16px 4px 20px;
+    }
+
+    .phone-input {
+      padding: 4px 20px;
+    }
+
+    .country-selector i {
+      color: #c084fc;
+      font-size: 1.25rem;
+    }
+
+    .country-selector select {
+      flex: 1;
+      padding: 14px 8px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: .95rem;
+      cursor: pointer;
+    }
+
+    .country-selector option {
+      background: #180c2b;
+      color: white;
+    }
+
+    .phone-input:focus-within,
+    .country-selector:focus-within {
+      border-color: #c084fc;
+
+      box-shadow:
+        0 0 18px rgba(168,85,247,.35);
+
+      background: rgba(45,20,70,.65);
+    }
+
+    .country-code {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #f3e8ff;
+
+      background: rgba(124,58,237,.25);
+
+      padding: 9px 12px;
+      border-radius: 40px;
+    }
+
+    .phone-input input {
+      flex: 1;
+      padding: 14px 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .phone-input input::placeholder {
+      color: #a78bfa;
+    }
+
+    /* BUTTON */
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 60px;
+
+      border: 1px solid #a855f7;
+
+      background:
+        linear-gradient(
+          95deg,
+          #7c3aed,
+          #581c87
+        );
+
+      color: white;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: .7px;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      transition: all .25s ease;
+
+      box-shadow:
+        0 10px 25px rgba(124,58,237,.4);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px) scale(1.01);
+
+      background:
+        linear-gradient(
+          95deg,
+          #9333ea,
+          #7e22ce
+        );
+
+      box-shadow:
+        0 16px 35px rgba(168,85,247,.55);
+    }
+
+    .submit-btn:active {
+      transform: translateY(2px);
+    }
+
+    /* RESULT */
+
+    .result-container {
+      margin-top: 20px;
+      text-align: center;
     }
 
     .code-display {
-      font-size: 2rem; font-weight: 800; letter-spacing: 6px;
-      background: linear-gradient(135deg, #c084fc, #818cf8, #7c3aed);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      padding: 18px;
+      border-radius: 80px;
+
+      background: rgba(0,0,0,.48);
+
+      color: white;
+
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      border:
+        1px solid rgba(192,132,252,.55);
+
+      transition: all .25s;
+      word-break: break-word;
     }
 
-    .copy-btn {
-      transition: transform 0.18s ease, background 0.18s ease;
-      background: rgba(124,58,237,0.15); border: 1px solid rgba(168,85,247,0.25);
-      border-radius: 10px; color: #c084fc;
-      padding: 8px 18px; font-size: 0.8rem; font-weight: 600;
-      cursor: pointer; display: flex; align-items: center; gap: 6px;
-    }
-    .copy-btn:hover { background: rgba(124,58,237,0.28); transform: translateY(-2px); }
-    .copy-btn.copied { background: rgba(74,222,128,0.15); border-color: rgba(74,222,128,0.3); color: #4ade80; }
+    .code-display:hover {
+      transform: scale(1.02);
 
-    .new-btn {
-      transition: transform 0.18s ease, background 0.18s ease;
-      background: transparent; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; color: #9ca3af;
-      padding: 8px 18px; font-size: 0.8rem; font-weight: 600;
-      cursor: pointer; display: flex; align-items: center; gap: 6px;
-    }
-    .new-btn:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); color: #fff; }
+      background: rgba(60,20,90,.65);
 
-    [data-anim] {
-      will-change: transform, opacity;
-      transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+      box-shadow:
+        0 0 25px rgba(168,85,247,.45);
+
+      border-color: #ec4899;
     }
-    [data-anim="fade-up"]    { opacity: 0; transform: translateY(28px); }
-    [data-anim="zoom-in"]    { opacity: 0; transform: scale(0.9); }
-    [data-anim="slide-left"] { opacity: 0; transform: translateX(-28px); }
-    [data-anim="slide-right"]{ opacity: 0; transform: translateX(28px); }
-    [data-anim].in-view { opacity: 1; transform: translateY(0) scale(1) translateX(0); }
-    [data-delay="1"] { transition-delay: 0.1s; }
-    [data-delay="2"] { transition-delay: 0.2s; }
-    [data-delay="3"] { transition-delay: 0.3s; }
-    [data-delay="4"] { transition-delay: 0.4s; }
+
+    #waiting-message {
+      font-size: .9rem;
+      color: #d8b4fe;
+    }
+
+    /* SOCIAL */
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .social-icon {
+      width: 48px;
+      height: 48px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(35,15,60,.8);
+
+      color: white;
+      font-size: 1.35rem;
+
+      border:
+        1px solid rgba(192,132,252,.35);
+
+      text-decoration: none;
+
+      transition: all .3s ease;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-7px) rotate(8deg);
+
+      background:
+        linear-gradient(
+          145deg,
+          #7c3aed,
+          #ec4899
+        );
+
+      box-shadow:
+        0 0 22px rgba(192,132,252,.7);
+
+      border-color: white;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      padding-top: 18px;
+
+      color: #a78bfa;
+      font-size: .75rem;
+
+      border-top:
+        1px dashed rgba(192,132,252,.28);
+    }
+
+    /* NOTIFICATION */
+
+    .notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+
+      transform:
+        translateX(-50%)
+        translateY(100px);
+
+      padding: 12px 24px;
+      border-radius: 60px;
+
+      background: rgba(15,5,30,.92);
+
+      color: #e9d5ff;
+
+      border-left: 3px solid #7c3aed;
+      border-right: 3px solid #ec4899;
+
+      box-shadow:
+        0 0 25px rgba(168,85,247,.6);
+
+      z-index: 2000;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      transition: transform .35s ease;
+    }
+
+    .notification.show {
+      transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 550px) {
+      .container {
+        padding: 24px 18px;
+        border-radius: 32px;
+      }
+
+      .header h1 {
+        font-size: 1.55rem;
+      }
+
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+
+      .code-display {
+        font-size: 1rem;
+        padding: 15px;
+      }
+
+      .social-icons {
+        gap: 12px;
+      }
+
+      .social-icon {
+        width: 43px;
+        height: 43px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="blob w-96 h-96 bg-purple-800/18 top-[-80px] left-[-80px]" style="animation:blobFloat 14s ease-in-out infinite;"></div>
-  <div class="blob w-72 h-72 bg-violet-600/12 bottom-[10%] right-[-60px]" style="animation:blobFloat 18s ease-in-out 5s infinite;"></div>
 
-  <nav class="nav-glass sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-5 h-12 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3 no-underline">
-        <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA" class="w-8 h-8 rounded-full border border-purple-500/50 object-cover" style="transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 14px rgba(168,85,247,0.6)'" onmouseout="this.style.boxShadow='none'">
-        <span class="text-base font-bold gradient-text">LUKA-AI</span>
-      </a>
-      <div class="hidden md:flex items-center gap-7">
-        <a href="https://github.com/lucvoice/LUKA-AI" target="_blank" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fab fa-github text-xs"></i> Source Code</a>
-        <a href="/pair" class="nav-link text-purple-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fas fa-link text-xs"></i> Pair Code</a>
-        <a href="/qr" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
-        <a href="https://t.me/lucvoice" target="_blank" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fab fa-telegram text-xs"></i> Support</a>
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="overlay"></div>
+
+  <div class="lighting">
+    <div class="light-line top-line"></div>
+    <div class="light-line bottom-line"></div>
+    <div class="light-line left-line"></div>
+    <div class="light-line right-line"></div>
+  </div>
+
+
+  <div class="container">
+
+    <div class="header">
+
+      <div class="profile-pic">
+        <img
+          src="https://files.catbox.moe/f86jfh.jpg"
+          alt="MAYRA-AI">
       </div>
-      <div class="flex items-center gap-3">
-        <a href="/qr" class="hidden md:inline-flex btn btn-ghost py-2 px-4 text-xs">
-          <span class="icon-animated"><i class="fas fa-qrcode"></i></span> Use QR Instead
-        </a>
-        <button id="menuBtn" class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/8 text-gray-500 outline-none focus:outline-none focus:ring-0" style="transition:background 0.18s, color 0.18s;">
-          <i class="fas fa-bars" id="menuIcon"></i>
-        </button>
-      </div>
+
+      <h1>✦ MAYRA-AI PAIRING</h1>
+
+      <p class="brand">
+        <i class="fas fa-robot"></i>
+        Powered by LUKA iT
+      </p>
+
+      <p>
+        <i class="fas fa-key"></i>
+        Secure Pairing · Enter your WhatsApp number
+      </p>
+
     </div>
-  </nav>
 
-  <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none"></div>
-  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 bg-[#0a0a14] border-r border-white/6 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-3xl">
-    <div class="flex items-center justify-between px-5 mb-6">
-      <a href="/" class="flex items-center gap-2.5 no-underline">
-        <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA" class="w-8 h-8 rounded-full border border-purple-500/50 object-cover">
-        <span class="text-sm font-bold gradient-text">LUKA-AI</span>
-      </a>
-      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-gray-400" style="transition:background 0.18s,color 0.18s;">
-        <i class="fas fa-times text-sm"></i>
+
+    <div class="input-container">
+
+      <div class="country-selector">
+
+        <i class="fas fa-globe-africa"></i>
+
+        <select id="country">
+
+          <option value="255" selected>
+            Tanzania (+255)
+          </option>
+
+          <option value="254">Kenya (+254)</option>
+          <option value="256">Uganda (+256)</option>
+          <option value="250">Rwanda (+250)</option>
+          <option value="257">Burundi (+257)</option>
+
+          <option value="234">Nigeria (+234)</option>
+          <option value="233">Ghana (+233)</option>
+          <option value="27">South Africa (+27)</option>
+
+          <option value="1">USA (+1)</option>
+          <option value="44">UK (+44)</option>
+          <option value="91">India (+91)</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="phone-input">
+
+        <span class="country-code" id="country-code">
+          255
+        </span>
+
+        <input
+          type="tel"
+          id="number"
+          placeholder="712 345 678"
+          autocomplete="off">
+
+      </div>
+
+
+      <button id="submit" class="submit-btn">
+
+        <i class="fas fa-bolt"></i>
+
+        GENERATE PAIR CODE
+
+        <i class="fas fa-arrow-right"></i>
+
       </button>
+
     </div>
-    <div class="px-3 flex-1 space-y-1">
-      <a href="/" class="sidebar-link"><i class="fas fa-home"></i> Home</a>
-      <a href="/pair" class="sidebar-link" style="background:rgba(124,58,237,0.1);color:#c084fc;"><i class="fas fa-link"></i> Pair Code</a>
-      <a href="/qr" class="sidebar-link"><i class="fas fa-qrcode"></i> QR Code</a>
-      <a href="https://github.com/lucvoice/LUKA-AI" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Source Code</a>
-      <a href="https://t.me/lucvoice" target="_blank" class="sidebar-link"><i class="fab fa-telegram"></i> Support</a>
-      <a href="https://whatsapp.com/channel/0029VbCpYtZLtOj5Duj7Q1p" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
-    </div>
-    <div class="px-5 pt-5 border-t border-white/6">
-      <p class="text-gray-600 text-xs">Powered by Luka Tech</p>
-    </div>
-  </aside>
 
-  <main class="relative z-10">
-    <section class="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-5 py-12">
-      <div class="w-full max-w-md">
 
-        <div class="text-center mb-8" data-anim="fade-up">
-          <div class="flex justify-center mb-4">
-            <div class="relative">
-              <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA" class="w-20 h-20 rounded-full border-2 border-purple-500/60 object-cover" style="box-shadow:0 0 0 6px rgba(124,58,237,0.1),0 0 30px rgba(124,58,237,0.25);">
-              <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#0a0a14] rounded-full border border-purple-500/40 flex items-center justify-center">
-                <i class="fas fa-link text-purple-400 text-xs"></i>
-              </span>
-            </div>
-          </div>
-          <h1 class="text-2xl font-bold gradient-text mb-1">Pair Code Login</h1>
-          <p class="text-gray-500 text-sm">Enter your WhatsApp number — no + sign needed</p>
-        </div>
+    <div class="result-container">
 
-        <div class="card p-7" data-anim="zoom-in" data-delay="1">
-          <div id="formSection">
-            <div class="mb-5">
-              <label for="phoneNumber" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Phone Number</label>
-              <div class="relative">
-                <i class="fas fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-600 text-xs"></i>
-                <input
-                  id="phoneNumber"
-                  type="text"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="e.g., 2557xxxxxxxx"
-                  class="input-field pl-10 pr-4 py-3"
-                >
-              </div>
-              <p id="phoneError" class="text-red-400 text-xs mt-2 hidden flex items-center gap-1.5">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="phoneErrorText"></span>
-              </p>
-            </div>
+      <div
+        id="waiting-message"
+        style="display:none;">
 
-            <div class="mb-5">
-              <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Session Type</label>
-              <div class="flex rounded-xl overflow-hidden border border-white/10 bg-white/[0.03]">
-                <button type="button" id="typeShort" onclick="selectType('short')"
-                  class="flex-1 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200"
-                  style="background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;">
-                  <i class="fas fa-database text-xs"></i> Short
-                </button>
-                <button type="button" id="typeLong" onclick="selectType('long')"
-                  class="flex-1 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200"
-                  style="background:transparent;color:#6b7280;">
-                  <i class="fas fa-file-code text-xs"></i> Long
-                </button>
-              </div>
-            </div>
+        <i class="fas fa-spinner fa-spin"></i>
 
-            <button id="submitBtn" class="btn btn-primary w-full py-3 text-sm">
-              <span id="btnContent" class="flex items-center gap-2">
-                <span class="icon-animated"><i class="fas fa-bolt"></i></span>
-                <span>GET PAIR CODE</span>
-              </span>
-              <span id="btnLoading" class="hidden flex items-center gap-2">
-                <span class="spinner"></span>
-                <span>Fetching code...</span>
-              </span>
-            </button>
+        Connecting to MAYRA-AI...
 
-            <p id="generalError" class="text-red-400 text-xs text-center mt-3 hidden"></p>
-
-            <div class="mt-5 pt-5 border-t border-white/6 flex items-center justify-center gap-3">
-              <span class="text-gray-600 text-xs">Prefer QR?</span>
-              <a href="/qr" class="text-purple-400 text-xs font-medium no-underline flex items-center gap-1" style="transition:color 0.18s;" onmouseover="this.style.color='#c084fc'" onmouseout="this.style.color='#a855f7'">
-                <i class="fas fa-qrcode text-xs"></i> Scan QR Code instead
-              </a>
-            </div>
-          </div>
-
-          <div id="resultSection" class="hidden">
-            <div id="fallbackBanner" class="hidden mb-4 rounded-xl p-3.5 border border-blue-500/25 bg-blue-900/10 flex items-start gap-3">
-              <i class="fas fa-info-circle text-blue-400 mt-0.5 text-sm flex-shrink-0"></i>
-              <p class="text-blue-300 text-xs leading-relaxed">Session store is not configured — automatically switched to <strong>Long session</strong>.</p>
-            </div>
-            <div class="text-center mb-6">
-              <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-check text-green-400"></i>
-              </div>
-              <p class="text-white font-semibold text-sm mb-1">Your Pair Code</p>
-              <p class="text-gray-500 text-xs">Enter this in WhatsApp → Linked Devices → Link a Device</p>
-            </div>
-
-            <div class="bg-purple-900/12 border border-purple-500/18 rounded-2xl p-5 text-center mb-5">
-              <p id="pairCode" class="code-display"></p>
-            </div>
-
-            <div class="flex gap-3 justify-center">
-              <button id="copyBtn" class="copy-btn">
-                <i class="fas fa-copy text-xs"></i>
-                <span id="copyText">Copy Code</span>
-              </button>
-              <button id="newCodeBtn" class="new-btn">
-                <i class="fas fa-redo text-xs"></i> New Code
-              </button>
-            </div>
-
-            <div class="mt-5 pt-5 border-t border-white/6 text-center">
-              <a href="/" class="text-gray-500 text-xs no-underline flex items-center justify-center gap-1.5" style="transition:color 0.18s;" onmouseover="this.style.color='#c084fc'" onmouseout="this.style.color='#6b7280'">
-                <i class="fas fa-arrow-left text-xs"></i> Back to Home
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-8 grid grid-cols-3 gap-3" data-anim="fade-up" data-delay="2">
-          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
-            <i class="fas fa-shield-alt text-purple-400 text-sm mb-1.5 block"></i>
-            <p class="text-gray-500 text-xs">Encrypted</p>
-          </div>
-          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
-            <i class="fas fa-bolt text-purple-400 text-sm mb-1.5 block"></i>
-            <p class="text-gray-500 text-xs">Instant</p>
-          </div>
-          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
-            <i class="fas fa-mobile-alt text-purple-400 text-sm mb-1.5 block"></i>
-            <p class="text-gray-500 text-xs">No Phone</p>
-          </div>
-        </div>
       </div>
-    </section>
 
-    <div class="divider-line"></div>
-    <footer class="py-8 px-5 bg-[#040408]">
-      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-2 no-underline">
-          <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA" class="w-6 h-6 rounded-full border border-purple-500/40 object-cover">
-          <span class="text-xs font-bold gradient-text">LUKA-AI</span>
-        </a>
-        <p class="text-gray-700 text-xs text-center">
-          &copy; <span id="yr"></span> LUKA-AI &mdash; Built by <a href="https://github.com/lucvoice" target="_blank" class="text-purple-400 no-underline font-medium" style="transition:color 0.18s;" onmouseover="this.style.color='#c084fc'" onmouseout="this.style.color='#a855f7'">Luka Tech</a>
-        </p>
-        <div class="flex gap-2">
-          <a href="https://github.com/lucvoice/LUKA-AI" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-          <a href="https://t.me/lucvoice" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
-          <a href="https://whatsapp.com/channel/0029VbCpYtZLtOj5LujQ1p" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-        </div>
-      </div>
-    </footer>
-  </main>
+      <main id="pair"></main>
+
+    </div>
+
+
+    <div class="social-icons">
+
+      <a
+        href="https://wa.me/255768619068"
+        target="_blank"
+        class="social-icon"
+        aria-label="WhatsApp">
+
+        <i class="fab fa-whatsapp"></i>
+
+      </a>
+
+
+      <a
+        href="https://github.com/Mayrabrand"
+        target="_blank"
+        class="social-icon"
+        aria-label="GitHub">
+
+        <i class="fab fa-github"></i>
+
+      </a>
+
+
+      <a
+        href="https://github.com/Mayrabrand/MAYRA-AI"
+        target="_blank"
+        class="social-icon"
+        aria-label="Repository">
+
+        <i class="fas fa-code"></i>
+
+      </a>
+
+    </div>
+
+
+    <div class="footer">
+
+      <p>
+        <i class="fas fa-bolt"></i>
+
+        MAYRA-AI · Powered by LUKA iT · © 2026
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="notification" id="notification">
+
+    <i class="fas fa-copy"></i>
+
+    <span id="notification-text">
+      Pairing code copied
+    </span>
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+
 
   <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
 
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuBtn = document.getElementById('menuBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const menuIcon = document.getElementById('menuIcon');
+    const countrySelect =
+      document.getElementById("country");
 
-    function openSidebar() {
-      sidebar.style.transform = 'translateX(0)';
-      overlay.style.opacity = '1';
-      overlay.style.pointerEvents = 'auto';
-      menuIcon.className = 'fas fa-times';
-      document.body.style.overflow = 'hidden';
-    }
-    function closeSidebar() {
-      sidebar.style.transform = 'translateX(-100%)';
-      overlay.style.opacity = '0';
-      overlay.style.pointerEvents = 'none';
-      menuIcon.className = 'fas fa-bars';
-      document.body.style.overflow = '';
-    }
-    menuBtn.addEventListener('click', () => { sidebar.style.transform === 'translateX(0)' ? closeSidebar() : openSidebar(); menuBtn.blur(); });
-    closeBtn.addEventListener('click', closeSidebar);
-    overlay.addEventListener('click', closeSidebar);
+    const countryCodeSpan =
+      document.getElementById("country-code");
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view'));
-    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-    document.querySelectorAll('[data-anim]').forEach(el => observer.observe(el));
+    const numberInput =
+      document.getElementById("number");
 
-    (function setCircularFavicon(src) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 64; canvas.height = 64;
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.beginPath(); ctx.arc(32,32,32,0,Math.PI*2); ctx.closePath(); ctx.clip();
-        ctx.drawImage(img, 0, 0, 64, 64);
-        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-        link.type = 'image/png'; link.rel = 'shortcut icon';
-        link.href = canvas.toDataURL(); document.head.appendChild(link);
-      };
-      img.src = src;
-    })('https://files.gifted.co.ke/image/u90mimage.jpg');
+    const submitBtn =
+      document.getElementById("submit");
 
-    let selectedType = 'short';
-    function selectType(type) {
-      selectedType = type;
-      const shortBtn = document.getElementById('typeShort');
-      const longBtn  = document.getElementById('typeLong');
-      if (type === 'short') {
-        shortBtn.style.background = 'linear-gradient(135deg,#7c3aed,#9333ea)';
-        shortBtn.style.color = '#fff';
-        longBtn.style.background = 'transparent';
-        longBtn.style.color = '#6b7280';
-      } else {
-        longBtn.style.background = 'linear-gradient(135deg,#7c3aed,#9333ea)';
-        longBtn.style.color = '#fff';
-        shortBtn.style.background = 'transparent';
-        shortBtn.style.color = '#6b7280';
+    const pairElement =
+      document.getElementById("pair");
+
+    const waitingMsg =
+      document.getElementById("waiting-message");
+
+    const notificationDiv =
+      document.getElementById("notification");
+
+    const notifText =
+      document.getElementById("notification-text");
+
+
+    /* COUNTRY CODE */
+
+    countrySelect.addEventListener(
+      "change",
+      () => {
+
+        countryCodeSpan.innerText =
+          countrySelect.value;
+
       }
-    }
+    );
 
-    const phoneInput   = document.getElementById('phoneNumber');
-    const submitBtn    = document.getElementById('submitBtn');
-    const btnContent   = document.getElementById('btnContent');
-    const btnLoading   = document.getElementById('btnLoading');
-    const phoneError   = document.getElementById('phoneError');
-    const phoneErrTxt  = document.getElementById('phoneErrorText');
-    const generalError = document.getElementById('generalError');
-    const formSection  = document.getElementById('formSection');
-    const resultSection= document.getElementById('resultSection');
-    const pairCode     = document.getElementById('pairCode');
-    const copyBtn      = document.getElementById('copyBtn');
-    const copyText     = document.getElementById('copyText');
-    const newCodeBtn   = document.getElementById('newCodeBtn');
 
-    phoneInput.addEventListener('input', () => {
-      phoneInput.value = phoneInput.value.replace(/\D/g, '');
-      phoneError.classList.add('hidden');
-      generalError.classList.add('hidden');
-    });
-    phoneInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+    /* COPY PAIR CODE */
 
-    function showPhoneError(msg) {
-      phoneErrTxt.textContent = msg;
-      phoneError.classList.remove('hidden');
-      phoneInput.classList.add('shake');
-      phoneError.classList.add('shake');
-      setTimeout(() => { phoneInput.classList.remove('shake'); phoneError.classList.remove('shake'); }, 450);
-    }
+    window.copyCode = async function () {
 
-    submitBtn.addEventListener('click', async () => {
-      const num = phoneInput.value.trim();
-      if (!num || num.length < 10 || num.length > 15) {
-        showPhoneError('Enter a valid number (10–15 digits, no + sign)');
-        return;
-      }
-      phoneError.classList.add('hidden');
-      generalError.classList.add('hidden');
-      btnContent.classList.add('hidden');
-      btnLoading.classList.remove('hidden');
-      submitBtn.disabled = true;
+      const copyDiv =
+        document.getElementById("copy");
+
+      if (!copyDiv) return;
+
+      const rawCode =
+        copyDiv.dataset.code ||
+        copyDiv.innerText
+          .replace("CODE:", "")
+          .trim();
 
       try {
-        const res  = await fetch(`/code?number=${encodeURIComponent(num)}&type=${selectedType}`);
-        const data = await res.json();
-        const code = data.code || '';
-        if (!res.ok || !code || code.toLowerCase().includes('error') || code.toLowerCase().includes('unavailable')) {
-          throw new Error(code || 'Service unavailable. Please try again.');
-        }
-        pairCode.textContent = code;
-        if (data.fallback) document.getElementById('fallbackBanner').classList.remove('hidden');
-        formSection.classList.add('hidden');
-        resultSection.classList.remove('hidden');
-      } catch (err) {
-        generalError.textContent = err.message || 'Failed to get code. Please try again.';
-        generalError.classList.remove('hidden');
-      } finally {
-        btnContent.classList.remove('hidden');
-        btnLoading.classList.add('hidden');
-        submitBtn.disabled = false;
+
+        await navigator.clipboard.writeText(
+          rawCode
+        );
+
+        notifText.innerText =
+          "✓ Pairing code copied!";
+
+        notificationDiv.classList.add(
+          "show"
+        );
+
+        setTimeout(() => {
+
+          notificationDiv.classList.remove(
+            "show"
+          );
+
+        }, 2000);
+
+      } catch (error) {
+
+        notifText.innerText =
+          "⚠️ Copy the code manually";
+
+        notificationDiv.classList.add(
+          "show"
+        );
+
+        setTimeout(() => {
+
+          notificationDiv.classList.remove(
+            "show"
+          );
+
+        }, 2000);
+
       }
-    });
 
-    copyBtn.addEventListener('click', () => {
-      const code = pairCode.textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        copyText.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => { copyText.textContent = 'Copy Code'; copyBtn.classList.remove('copied'); }, 2500);
+    };
+
+
+    /* PARTICLE BACKGROUND */
+
+    const canvas =
+      document.getElementById(
+        "particle-canvas"
+      );
+
+    const ctx =
+      canvas.getContext("2d");
+
+    let particles = [];
+
+
+    function resizeCanvas() {
+
+      canvas.width =
+        window.innerWidth;
+
+      canvas.height =
+        window.innerHeight;
+
+    }
+
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
+
+
+    resizeCanvas();
+
+
+    class Particle {
+
+      constructor() {
+
+        this.x =
+          Math.random() * canvas.width;
+
+        this.y =
+          Math.random() * canvas.height;
+
+        this.radius =
+          Math.random() * 2 + 1;
+
+        this.speedX =
+          (Math.random() - .5) * .4;
+
+        this.speedY =
+          (Math.random() - .5) * .3;
+
+        this.alpha =
+          Math.random() * .45 + .2;
+
+      }
+
+
+      update() {
+
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (
+          this.x < 0 ||
+          this.x > canvas.width
+        ) {
+          this.speedX *= -1;
+        }
+
+        if (
+          this.y < 0 ||
+          this.y > canvas.height
+        ) {
+          this.speedY *= -1;
+        }
+
+      }
+
+
+      draw() {
+
+        ctx.beginPath();
+
+        ctx.arc(
+          this.x,
+          this.y,
+          this.radius,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle =
+          `rgba(192,132,252,${this.alpha})`;
+
+        ctx.fill();
+
+      }
+
+    }
+
+
+    for (
+      let i = 0;
+      i < 90;
+      i++
+    ) {
+
+      particles.push(
+        new Particle()
+      );
+
+    }
+
+
+    function animateParticles() {
+
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      particles.forEach(p => {
+
+        p.update();
+
+        p.draw();
+
       });
-    });
 
-    newCodeBtn.addEventListener('click', () => {
-      resultSection.classList.add('hidden');
-      formSection.classList.remove('hidden');
-      phoneInput.value = '';
-      phoneInput.focus();
-    });
+      requestAnimationFrame(
+        animateParticles
+      );
+
+    }
+
+
+    animateParticles();
+
+
+    /* PAIRING REQUEST */
+
+    submitBtn.addEventListener(
+      "click",
+      async (event) => {
+
+        event.preventDefault();
+
+        const rawNumber =
+          numberInput.value.replace(
+            /\D/g,
+            ""
+          );
+
+
+        if (!rawNumber) {
+
+          pairElement.innerHTML =
+            `<div style="
+              color:#fca5a5;
+              background:rgba(60,10,25,.55);
+              border-radius:40px;
+              padding:14px;
+              border:1px solid rgba(248,113,113,.3);
+            ">
+              <i class="fas fa-exclamation-triangle"></i>
+              Enter your WhatsApp number
+            </div>`;
+
+          return;
+
+        }
+
+
+        const countryCodeVal =
+          countrySelect.value;
+
+
+        const fullNumber =
+          countryCodeVal + rawNumber;
+
+
+        if (
+          fullNumber.length < 8
+        ) {
+
+          pairElement.innerHTML =
+            `<div style="color:#fca5a5;">
+              <i class="fas fa-ban"></i>
+              Invalid phone number
+            </div>`;
+
+          return;
+
+        }
+
+
+        waitingMsg.style.display =
+          "block";
+
+
+        pairElement.innerHTML =
+          `<div style="
+            padding:12px;
+            color:#d8b4fe;
+          ">
+            <i class="
+              fas fa-sync-alt
+              fa-spin
+            "></i>
+
+            Requesting MAYRA-AI code...
+          </div>`;
+
+
+        try {
+
+          const response =
+            await axios(
+              `/code?number=${encodeURIComponent(fullNumber)}`
+            );
+
+
+          const data =
+            response.data;
+
+
+          const pairCode =
+            data.code ||
+            "SERVICE_UNAVAILABLE";
+
+
+          pairElement.innerHTML =
+            `<div
+              id="copy"
+              data-code="${pairCode}"
+              onclick="copyCode()"
+              class="code-display">
+
+              <i class="fas fa-qrcode"></i>
+
+              CODE:
+
+              <span style="
+                color:#e9d5ff;
+                letter-spacing:2px;
+              ">
+                ${pairCode}
+              </span>
+
+              <i
+                class="fas fa-copy"
+                style="
+                  margin-left:8px;
+                  font-size:.9rem;
+                ">
+              </i>
+
+            </div>
+
+            <p style="
+              font-size:12px;
+              margin-top:8px;
+              color:#a78bfa;
+            ">
+              🔒 Tap code to copy
+            </p>`;
+
+
+          waitingMsg.style.display =
+            "none";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          pairElement.innerHTML =
+            `<div style="
+              background:rgba(100,10,40,.65);
+              border:1px solid rgba(244,63,94,.35);
+              border-radius:40px;
+              padding:14px;
+              color:#fecdd3;
+            ">
+
+              <i class="fas fa-triangle-exclamation"></i>
+
+              Pairing server offline · Retry
+
+            </div>`;
+
+
+          waitingMsg.style.display =
+            "none";
+
+        }
+
+      }
+    );
+
   </script>
+
 </body>
-</html>
+      </html>
