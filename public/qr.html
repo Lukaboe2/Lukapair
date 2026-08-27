@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>LUKA-AI | QR Code</title>
+  <meta name="description" content="Connect your WhatsApp account to LUKA-AI using QR Code.">
+  <meta name="theme-color" content="#1d9f8d">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #10191d;
+      --panel: #26333c;
+      --line: #3a4a55;
+      --muted: #98a5af;
+      --text: #eef2f3;
+      --teal: #1aa18e;
+      --teal2: #29b9a5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      font-family: Inter, sans-serif;
+      background:
+        radial-gradient(circle at 50% -20%, #18353a 0%, transparent 38%),
+        linear-gradient(180deg, #111a1e 0%, #0d161a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .25;
+      background-image:
+        linear-gradient(rgba(41,185,165,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(41,185,165,.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+
+    /* NAVBAR */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 86px;
+      background: rgba(26,38,46,.96);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      display: flex;
+      align-items: center;
+    }
+
+    .top-inner {
+      width: min(1120px, 100%);
+      margin: auto;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #4bb8aa;
+      margin-top: 5px;
+    }
+
+    .menu-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      background: #2a3943;
+      border: 1px solid #40515c;
+      color: #aebbc2;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* MAIN */
+
+    .shell {
+      width: min(760px, calc(100% - 32px));
+      margin: auto;
+      padding: 36px 0 46px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .hero h1 {
+      font-size: 27px;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin-top: 9px;
+      color: #9aa7ae;
+      font-size: 14px;
+    }
+
+    /* CARD */
+
+    .card {
+      background: linear-gradient(145deg, #26333c, #223039);
+      border: 1px solid #344550;
+      border-radius: 30px;
+      padding: 36px;
+      box-shadow:
+        0 25px 60px rgba(0,0,0,.26),
+        inset 0 1px 0 rgba(255,255,255,.025);
+      text-align: center;
+    }
+
+    .qr-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 15px;
+      border-radius: 19px;
+      background: rgba(29,159,141,.13);
+      border: 1px solid rgba(42,169,149,.3);
+      display: grid;
+      place-items: center;
+      color: #42c8b6;
+      font-size: 27px;
+    }
+
+    .card h2 {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .card-desc {
+      color: #99a6ad;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    /* QR AREA */
+
+    .qr-container {
+      width: 280px;
+      height: 280px;
+      margin: 28px auto;
+      padding: 15px;
+      background: #fff;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 18px 45px rgba(0,0,0,.3),
+        0 0 35px rgba(41,185,165,.08);
+    }
+
+    #qrImage {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .qr-loading {
+      color: #77868e;
+      font-size: 14px;
+    }
+
+    .refresh-btn {
+      width: 100%;
+      height: 62px;
+      border: 0;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #21a996, #18957f);
+      color: #eaf7f5;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow: 0 14px 28px rgba(26,161,142,.15);
+      transition: .2s;
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .refresh-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* STATUS */
+
+    .status {
+      margin-top: 17px;
+      padding: 13px;
+      border-radius: 13px;
+      background: rgba(25,151,136,.08);
+      border: 1px solid rgba(42,169,149,.2);
+      color: #7ed8cc;
+      font-size: 13px;
+      display: none;
+    }
+
+    .error {
+      margin-top: 15px;
+      color: #ff8d8d;
+      font-size: 13px;
+      display: none;
+    }
+
+    /* HOW TO */
+
+    .how {
+      margin-top: 30px;
+      border: 1px solid #31545a;
+      border-radius: 22px;
+      padding: 24px;
+      background: rgba(25,63,65,.16);
+      text-align: left;
+    }
+
+    .how-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #54b7aa;
+      margin-bottom: 18px;
+    }
+
+    .how-title i {
+      margin-right: 9px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(36,69,72,.48);
+      border: 1px solid rgba(54,125,119,.35);
+      border-radius: 15px;
+      padding: 16px;
+      margin-top: 11px;
+      color: #aeb8be;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .step-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #1d9f8d;
+      color: #d9faf4;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      flex: none;
+    }
+
+    .step b {
+      color: #d7dfe2;
+    }
+
+    .accent {
+      color: #42b9aa;
+      font-weight: 700;
+    }
+
+    /* PAIR LINK */
+
+    .pair-link {
+      display: block;
+      margin-top: 24px;
+      color: #4bb8aa;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .pair-link:hover {
+      color: #6de1d1;
+    }
+
+    /* FEATURES */
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: #26333c;
+      border: 1px solid #344550;
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      color: #aeb8bd;
+    }
+
+    .feature i {
+      display: block;
+      color: #28b4a1;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feature span {
+      font-size: 13px;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      position: fixed;
+      z-index: 70;
+      top: 0;
+      right: 0;
+      width: min(330px, 88vw);
+      height: 100vh;
+      background: #17242b;
+      border-left: 1px solid #364751;
+      padding: 28px;
+      transform: translateX(105%);
+      transition: .25s;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .side-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0,0,0,.55);
+      display: none;
+    }
+
+    .side-overlay.show {
+      display: block;
+    }
+
+    .side-link {
+      display: block;
+      color: #aeb9be;
+      text-decoration: none;
+      padding: 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .side-link i {
+      width: 25px;
+      color: #45bcae;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:600px) {
+
+      .top-inner {
+        padding: 0 18px;
+      }
+
+      .brand-title {
+        font-size: 17px;
+      }
+
+      .shell {
+        width: min(100% - 20px, 760px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        display: none;
+      }
+
+      .card {
+        padding: 28px 18px;
+        border-radius: 26px;
+      }
+
+      .qr-container {
+        width: 250px;
+        height: 250px;
+      }
+
+      .features {
+        gap: 8px;
+      }
+
+      .feature {
+        padding: 15px 8px;
+        border-radius: 16px;
+      }
+
+      .brand img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .menu-btn {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <header class="topbar">
+    <div class="top-inner">
+
+      <a class="brand" href="/">
+        <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA">
+
+        <div>
+          <div class="brand-title">LUKA-AI ULTRA PAIR</div>
+          <div class="brand-sub">QR CODE</div>
+        </div>
+      </a>
+
+      <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- SIDEBAR -->
+
+  <div class="side-overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+
+    <button class="menu-btn" id="closeBtn">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div style="margin-top:24px">
+
+      <a class="side-link" href="/">
+        <i class="fa-solid fa-house"></i>
+        Home
+      </a>
+
+      <a class="side-link" href="/pair">
+        <i class="fa-solid fa-link"></i>
+        Pair Code
+      </a>
+
+      <a class="side-link" href="/qr">
+        <i class="fa-solid fa-qrcode"></i>
+        QR Code
+      </a>
+
+      <a class="side-link" href="https://github.com/lucvoice/LUKA-AI">
+        <i class="fa-brands fa-github"></i>
+        Source Code
+      </a>
+
+      <a class="side-link" href="https://t.me/lucvoice">
+        <i class="fa-brands fa-telegram"></i>
+        Support
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="shell">
+
+    <div class="hero">
+      <h1>LUKA-AI QR CODE</h1>
+      <p>Scan the QR code to connect your WhatsApp account</p>
+    </div>
+
+
+    <section class="card">
+
+      <div class="qr-icon">
+        <i class="fa-solid fa-qrcode"></i>
+      </div>
+
+      <h2>Scan QR Code</h2>
+
+      <p class="card-desc">
+        Open WhatsApp and scan this QR code
+        to connect your account.
+      </p>
+
+
+      <!-- QR -->
+
+      <div class="qr-container" id="qrContainer">
+
+        <div class="qr-loading" id="qrLoading">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Loading QR...
+        </div>
+
+        <img
+          id="qrImage"
+          src=""
+          alt="LUKA-AI QR Code"
+          style="display:none"
+        >
+
+      </div>
+
+
+      <!-- REFRESH -->
+
+      <button class="refresh-btn" id="refreshBtn">
+
+        <span id="refreshText">
+          <i class="fa-solid fa-rotate"></i>
+          &nbsp; GET NEW QR CODE
+        </span>
+
+        <span id="refreshLoading" style="display:none">
+          <span class="spinner"></span>
+          Generating QR...
+        </span>
+
+      </button>
+
+
+      <div class="status" id="status">
+        <i class="fa-solid fa-circle-check"></i>
+        QR Code generated successfully.
+      </div>
+
+      <div class="error" id="error"></div>
+
+
+      <!-- HOW TO -->
+
+      <div class="how">
+
+        <div class="how-title">
+          <i class="fa-solid fa-circle-info"></i>
+          How to connect
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">1</span>
+
+          <div>
+            Open <b>WhatsApp</b> on your phone.
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">2</span>
+
+          <div>
+            Go to
+            <span class="accent">
+              Settings → Linked Devices
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">3</span>
+
+          <div>
+            Tap <b>Link a Device</b>.
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">4</span>
+
+          <div>
+            Scan the QR code displayed above.
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">5</span>
+
+          <div>
+            Wait for your WhatsApp account
+            to connect successfully.
+            <span style="color:#4be0be">✔</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <a class="pair-link" href="/pair">
+
+        <i class="fa-solid fa-link"></i>
+        Prefer Pair Code? Use Pair Code instead
+
+      </a>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <div class="features">
+
+      <div class="feature">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Secure</span>
+      </div>
+
+      <div class="feature">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Fast</span>
+      </div>
+
+      <div class="feature">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <span>Mobile Ready</span>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    /* SIDEBAR */
+
+    const sidebar =
+      document.getElementById('sidebar');
+
+    const overlay =
+      document.getElementById('overlay');
+
+
+    document.getElementById('menuBtn').onclick = () => {
+
+      sidebar.classList.add('open');
+      overlay.classList.add('show');
+
+    };
+
+
+    function closeSide() {
+
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+
+    }
+
+
+    document.getElementById('closeBtn').onclick =
+      closeSide;
+
+    overlay.onclick =
+      closeSide;
+
+
+    /* QR ELEMENTS */
+
+    const qrImage =
+      document.getElementById('qrImage');
+
+    const qrLoading =
+      document.getElementById('qrLoading');
+
+    const refreshBtn =
+      document.getElementById('refreshBtn');
+
+    const refreshText =
+      document.getElementById('refreshText');
+
+    const refreshLoading =
+      document.getElementById('refreshLoading');
+
+    const status =
+      document.getElementById('status');
+
+    const error =
+      document.getElementById('error');
+
+
+    /* LOAD QR */
+
+    async function loadQR() {
+
+      error.style.display = 'none';
+
+      status.style.display = 'none';
+
+      qrImage.style.display = 'none';
+
+      qrLoading.style.display = 'block';
+
+      refreshBtn.disabled = true;
+
+      refreshText.style.display = 'none';
+
+      refreshLoading.style.display = 'inline';
+
+
+      try {
+
+        /*
+          Your backend should provide:
+
+          GET /qr
+
+          and return either:
+
+          {
+            "qr": "data:image/png;base64,..."
+          }
+
+          OR
+
+          {
+            "qr": "https://example.com/qr.png"
+          }
+        */
+
+        const response =
+          await fetch('/qr');
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok || !data.qr) {
+
+          throw new Error(
+            data.error ||
+            'QR Code is currently unavailable.'
+          );
+
+        }
+
+
+        qrImage.src = data.qr;
+
+        qrImage.onload = () => {
+
+          qrLoading.style.display = 'none';
+
+          qrImage.style.display = 'block';
+
+          status.style.display = 'block';
+
+        };
+
+
+        qrImage.onerror = () => {
+
+          throw new Error(
+            'Unable to display QR Code.'
+          );
+
+        };
+
+
+      } catch (err) {
+
+        qrLoading.style.display = 'none';
+
+        error.textContent =
+          err.message ||
+          'Failed to load QR Code.';
+
+        error.style.display = 'block';
+
+      }
+
+
+      refreshBtn.disabled = false;
+
+      refreshText.style.display = 'inline';
+
+      refreshLoading.style.display = 'none';
+
+    }
+
+
+    /* REFRESH */
+
+    refreshBtn.onclick = loadQR;
+
+
+    /* AUTO LOAD */
+
+    loadQR();
+
+  </script>
+
+</body>
+              </html>
