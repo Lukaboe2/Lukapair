@@ -1,1139 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-  <title>MAYRA-AI | Pairing Portal</title>
-
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #090611;
-      color: #f7f2ff;
-      overflow-x: hidden;
-      padding: 20px;
-    }
-
-    #particle-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      pointer-events: none;
-      opacity: .65;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(124,58,237,.25), transparent 35%),
-        radial-gradient(circle at 85% 90%, rgba(236,72,153,.22), transparent 40%),
-        linear-gradient(135deg, rgba(5,3,15,.88), rgba(14,7,30,.96));
-      z-index: -1;
-    }
-
-    /* NEON SCREEN BORDER */
-
-    .lighting {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .light-line {
-      position: absolute;
-      filter: blur(2px);
-    }
-
-    .top-line,
-    .bottom-line {
-      width: 100%;
-      height: 3px;
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          #7c3aed,
-          #ec4899,
-          #a855f7,
-          transparent
-        );
-      box-shadow: 0 0 18px #a855f7;
-    }
-
-    .top-line { top: 0; }
-    .bottom-line { bottom: 0; }
-
-    .left-line,
-    .right-line {
-      width: 3px;
-      height: 100%;
-      background:
-        linear-gradient(
-          180deg,
-          transparent,
-          #7c3aed,
-          #ec4899,
-          transparent
-        );
-      box-shadow: 0 0 18px #a855f7;
-    }
-
-    .left-line { left: 0; }
-    .right-line { right: 0; }
-
-    /* MAIN CARD */
-
-    .container {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 540px;
-      padding: 32px 28px;
-      border-radius: 48px;
-
-      background: rgba(20, 10, 38, .62);
-
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-
-      border: 1px solid rgba(192,132,252,.25);
-
-      box-shadow:
-        0 25px 50px rgba(0,0,0,.5),
-        0 0 0 1px rgba(168,85,247,.15) inset,
-        0 0 40px rgba(124,58,237,.18);
-
-      animation: floatGlow 6s infinite alternate ease-in-out;
-    }
-
-    @keyframes floatGlow {
-      0% {
-        transform: translateY(0);
-        box-shadow:
-          0 25px 50px rgba(0,0,0,.5),
-          0 0 0 1px rgba(168,85,247,.15) inset;
-      }
-
-      100% {
-        transform: translateY(-8px);
-        box-shadow:
-          0 35px 60px rgba(124,58,237,.25),
-          0 0 0 2px rgba(216,180,254,.35) inset,
-          0 0 45px rgba(236,72,153,.15);
-      }
-    }
-
-    /* HEADER */
-
-    .header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .profile-pic {
-      width: 125px;
-      height: 125px;
-      border-radius: 50%;
-      margin: 0 auto 18px;
-      position: relative;
-      padding: 4px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #7c3aed,
-          #ec4899,
-          #c084fc
-        );
-
-      animation:
-        spinSlow 12s linear infinite,
-        borderPulse 2s ease-in-out infinite alternate;
-
-      box-shadow: 0 0 30px rgba(168,85,247,.7);
-    }
-
-    .profile-pic img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      background: #10051f;
-    }
-
-    @keyframes spinSlow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes borderPulse {
-      0% {
-        box-shadow:
-          0 0 8px #7c3aed,
-          0 0 20px #7c3aed;
-      }
-
-      100% {
-        box-shadow:
-          0 0 22px #ec4899,
-          0 0 38px #ec4899;
-      }
-    }
-
-    .header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #f3e8ff,
-          #c084fc,
-          #ec4899
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      margin-bottom: 8px;
-    }
-
-    .header p {
-      font-size: .9rem;
-      color: #d8b4fe;
-      margin-top: 8px;
-    }
-
-    .brand {
-      display: inline-block;
-      padding: 5px 18px !important;
-      border-radius: 40px;
-
-      background: rgba(124,58,237,.16);
-
-      border: 1px solid rgba(192,132,252,.18);
-    }
-
-    /* INPUTS */
-
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      margin: 24px 0;
-    }
-
-    .country-selector,
-    .phone-input {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-
-      background: rgba(0,0,0,.32);
-
-      border-radius: 60px;
-
-      border: 1px solid rgba(192,132,252,.28);
-
-      transition: all .25s ease;
-    }
-
-    .country-selector {
-      padding: 4px 16px 4px 20px;
-    }
-
-    .phone-input {
-      padding: 4px 20px;
-    }
-
-    .country-selector i {
-      color: #c084fc;
-      font-size: 1.25rem;
-    }
-
-    .country-selector select {
-      flex: 1;
-      padding: 14px 8px;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      font-size: .95rem;
-      cursor: pointer;
-    }
-
-    .country-selector option {
-      background: #180c2b;
-      color: white;
-    }
-
-    .phone-input:focus-within,
-    .country-selector:focus-within {
-      border-color: #c084fc;
-
-      box-shadow:
-        0 0 18px rgba(168,85,247,.35);
-
-      background: rgba(45,20,70,.65);
-    }
-
-    .country-code {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #f3e8ff;
-
-      background: rgba(124,58,237,.25);
-
-      padding: 9px 12px;
-      border-radius: 40px;
-    }
-
-    .phone-input input {
-      flex: 1;
-      padding: 14px 0;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      font-size: 1rem;
-    }
-
-    .phone-input input::placeholder {
-      color: #a78bfa;
-    }
-
-    /* BUTTON */
-
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      border-radius: 60px;
-
-      border: 1px solid #a855f7;
-
-      background:
-        linear-gradient(
-          95deg,
-          #7c3aed,
-          #581c87
-        );
-
-      color: white;
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: .7px;
-
-      cursor: pointer;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-
-      transition: all .25s ease;
-
-      box-shadow:
-        0 10px 25px rgba(124,58,237,.4);
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-3px) scale(1.01);
-
-      background:
-        linear-gradient(
-          95deg,
-          #9333ea,
-          #7e22ce
-        );
-
-      box-shadow:
-        0 16px 35px rgba(168,85,247,.55);
-    }
-
-    .submit-btn:active {
-      transform: translateY(2px);
-    }
-
-    /* RESULT */
-
-    .result-container {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .code-display {
-      padding: 18px;
-      border-radius: 80px;
-
-      background: rgba(0,0,0,.48);
-
-      color: white;
-
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-
-      cursor: pointer;
-
-      border:
-        1px solid rgba(192,132,252,.55);
-
-      transition: all .25s;
-      word-break: break-word;
-    }
-
-    .code-display:hover {
-      transform: scale(1.02);
-
-      background: rgba(60,20,90,.65);
-
-      box-shadow:
-        0 0 25px rgba(168,85,247,.45);
-
-      border-color: #ec4899;
-    }
-
-    #waiting-message {
-      font-size: .9rem;
-      color: #d8b4fe;
-    }
-
-    /* SOCIAL */
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      margin-top: 30px;
-    }
-
-    .social-icon {
-      width: 48px;
-      height: 48px;
-
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: rgba(35,15,60,.8);
-
-      color: white;
-      font-size: 1.35rem;
-
-      border:
-        1px solid rgba(192,132,252,.35);
-
-      text-decoration: none;
-
-      transition: all .3s ease;
-    }
-
-    .social-icon:hover {
-      transform: translateY(-7px) rotate(8deg);
-
-      background:
-        linear-gradient(
-          145deg,
-          #7c3aed,
-          #ec4899
-        );
-
-      box-shadow:
-        0 0 22px rgba(192,132,252,.7);
-
-      border-color: white;
-    }
-
-    /* FOOTER */
-
-    .footer {
-      text-align: center;
-      margin-top: 28px;
-      padding-top: 18px;
-
-      color: #a78bfa;
-      font-size: .75rem;
-
-      border-top:
-        1px dashed rgba(192,132,252,.28);
-    }
-
-    /* NOTIFICATION */
-
-    .notification {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-
-      transform:
-        translateX(-50%)
-        translateY(100px);
-
-      padding: 12px 24px;
-      border-radius: 60px;
-
-      background: rgba(15,5,30,.92);
-
-      color: #e9d5ff;
-
-      border-left: 3px solid #7c3aed;
-      border-right: 3px solid #ec4899;
-
-      box-shadow:
-        0 0 25px rgba(168,85,247,.6);
-
-      z-index: 2000;
-
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      transition: transform .35s ease;
-    }
-
-    .notification.show {
-      transform:
-        translateX(-50%)
-        translateY(0);
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 550px) {
-      .container {
-        padding: 24px 18px;
-        border-radius: 32px;
-      }
-
-      .header h1 {
-        font-size: 1.55rem;
-      }
-
-      .profile-pic {
-        width: 100px;
-        height: 100px;
-      }
-
-      .code-display {
-        font-size: 1rem;
-        padding: 15px;
-      }
-
-      .social-icons {
-        gap: 12px;
-      }
-
-      .social-icon {
-        width: 43px;
-        height: 43px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTRA GURU MD — Link Bot</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{min-height:100vh;background:linear-gradient(135deg,#0a0a0a 0%,#0a1a2a 50%,#0a0f1e 100%);font-family:'Segoe UI',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:20px}
+        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 36px;max-width:480px;width:100%;backdrop-filter:blur(12px);box-shadow:0 8px 48px rgba(0,0,0,0.6)}
+        h1{color:#fff;font-size:1.5rem;font-weight:700;text-align:center;margin-bottom:4px}
+        .sub{color:#8899aa;font-size:.85rem;text-align:center;margin-bottom:28px}
+        label{display:block;color:#aabbd0;font-size:.8rem;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+        input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-size:1rem;outline:none;transition:border-color .2s}
+        input:focus{border-color:#4ea8ff}
+        input::placeholder{color:#445566}
+        button{width:100%;margin-top:16px;padding:14px;background:linear-gradient(135deg,#1a6fff,#0a4fcc);border:none;border-radius:10px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+        button:hover{opacity:.88}
+        button:disabled{opacity:.4;cursor:not-allowed}
+        .step{margin-top:28px;display:none}
+        .step.active{display:block}
+        .code-box{background:rgba(30,215,96,.1);border:2px solid rgba(30,215,96,.3);border-radius:14px;padding:24px;text-align:center;margin:20px 0}
+        .code{font-size:2.6rem;font-weight:900;color:#1ed760;letter-spacing:6px;font-family:'Courier New',monospace}
+        .code-label{color:#aac;font-size:.78rem;margin-top:6px}
+        .instructions{background:rgba(255,255,255,0.04);border-radius:10px;padding:16px;margin-top:16px}
+        .instructions ol{color:#aabbd0;font-size:.85rem;line-height:1.9;padding-left:20px}
+        .instructions ol li{margin-bottom:2px}
+        .success-box{background:rgba(30,215,96,.1);border:2px solid rgba(30,215,96,.4);border-radius:14px;padding:20px;margin:16px 0}
+        .session-title{color:#1ed760;font-weight:700;font-size:.9rem;margin-bottom:10px}
+        .session-val{background:rgba(0,0,0,.4);border-radius:8px;padding:12px;font-family:'Courier New',monospace;font-size:.72rem;color:#7ff;word-break:break-all;max-height:110px;overflow-y:auto;line-height:1.4}
+        .copy-btn{width:100%;margin-top:10px;padding:11px;background:rgba(30,215,96,.2);border:1px solid rgba(30,215,96,.4);border-radius:8px;color:#1ed760;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s}
+        .copy-btn:hover{background:rgba(30,215,96,.3)}
+        .warning{background:rgba(255,170,0,.1);border:1px solid rgba(255,170,0,.3);border-radius:10px;padding:14px;margin-top:16px;color:#ffa;font-size:.82rem;line-height:1.6}
+        .warning strong{color:#ffd740}
+        .status-msg{text-align:center;color:#8899aa;font-size:.85rem;margin-top:14px;min-height:20px}
+        .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#4ea8ff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .err-box{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);border-radius:10px;padding:14px;margin-top:14px;color:#ff9999;font-size:.84rem}
+        .back-btn{width:100%;margin-top:12px;padding:11px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#889;font-size:.85rem;cursor:pointer;transition:border-color .2s}
+        .back-btn:hover{border-color:rgba(255,255,255,.35)}
+        .badge{display:inline-block;background:rgba(78,168,255,.15);border:1px solid rgba(78,168,255,.3);border-radius:20px;padding:3px 12px;font-size:.75rem;color:#4ea8ff;margin-bottom:18px}
+    </style>
 </head>
-
 <body>
+<div class="card">
+    <h1>📱 Link ULTRA GURU MD</h1>
+    <p class="sub">Re-link your WhatsApp number to get a new SESSION_ID</p>
 
-  <canvas id="particle-canvas"></canvas>
-
-  <div class="overlay"></div>
-
-  <div class="lighting">
-    <div class="light-line top-line"></div>
-    <div class="light-line bottom-line"></div>
-    <div class="light-line left-line"></div>
-    <div class="light-line right-line"></div>
-  </div>
-
-
-  <div class="container">
-
-    <div class="header">
-
-      <div class="profile-pic">
-        <img
-          src="https://files.catbox.moe/f86jfh.jpg"
-          alt="MAYRA-AI">
-      </div>
-
-      <h1>✦ MAYRA-AI PAIRING</h1>
-
-      <p class="brand">
-        <i class="fas fa-robot"></i>
-        Powered by LUKA iT
-      </p>
-
-      <p>
-        <i class="fas fa-key"></i>
-        Secure Pairing · Enter your WhatsApp number
-      </p>
-
+    <!-- STEP 1: Enter phone -->
+    <div class="step active" id="step1">
+        <div style="text-align:center;margin-bottom:20px">
+            <span class="badge">Step 1 of 3 — Enter your number</span>
+        </div>
+        <label for="phone">Your WhatsApp Number</label>
+        <input type="tel" id="phone" placeholder="e.g. 254763986398" autocomplete="off">
+        <p style="color:#556;font-size:.78rem;margin-top:6px">Include country code, no + sign. E.g. 254700000000</p>
+        <button id="pairBtn" onclick="startPair()">Get Pairing Code →</button>
+        <div class="status-msg" id="status1"></div>
     </div>
 
-
-    <div class="input-container">
-
-      <div class="country-selector">
-
-        <i class="fas fa-globe-africa"></i>
-
-        <select id="country">
-
-          <option value="255" selected>
-            Tanzania (+255)
-          </option>
-
-          <option value="254">Kenya (+254)</option>
-          <option value="256">Uganda (+256)</option>
-          <option value="250">Rwanda (+250)</option>
-          <option value="257">Burundi (+257)</option>
-
-          <option value="234">Nigeria (+234)</option>
-          <option value="233">Ghana (+233)</option>
-          <option value="27">South Africa (+27)</option>
-
-          <option value="1">USA (+1)</option>
-          <option value="44">UK (+44)</option>
-          <option value="91">India (+91)</option>
-
-        </select>
-
-      </div>
-
-
-      <div class="phone-input">
-
-        <span class="country-code" id="country-code">
-          255
-        </span>
-
-        <input
-          type="tel"
-          id="number"
-          placeholder="712 345 678"
-          autocomplete="off">
-
-      </div>
-
-
-      <button id="submit" class="submit-btn">
-
-        <i class="fas fa-bolt"></i>
-
-        GENERATE PAIR CODE
-
-        <i class="fas fa-arrow-right"></i>
-
-      </button>
-
+    <!-- STEP 2: Show pairing code -->
+    <div class="step" id="step2">
+        <div style="text-align:center;margin-bottom:20px">
+            <span class="badge">Step 2 of 3 — Enter this code in WhatsApp</span>
+        </div>
+        <div class="code-box">
+            <div class="code" id="pairingCode">---- ----</div>
+            <div class="code-label">Enter this code in WhatsApp Linked Devices</div>
+        </div>
+        <div class="instructions">
+            <ol>
+                <li>Open <strong style="color:#fff">WhatsApp</strong> on your phone</li>
+                <li>Tap <strong style="color:#fff">⋮ Menu → Linked Devices</strong></li>
+                <li>Tap <strong style="color:#fff">Link a Device</strong></li>
+                <li>Tap <strong style="color:#fff">"Link with phone number instead"</strong></li>
+                <li>Enter the code above</li>
+            </ol>
+        </div>
+        <div class="status-msg" id="status2"><span class="spinner"></span> Waiting for you to enter the code…</div>
+        <div class="err-box" id="errBox2" style="display:none"></div>
+        <button class="back-btn" onclick="goBack()">← Use a different number</button>
     </div>
 
-
-    <div class="result-container">
-
-      <div
-        id="waiting-message"
-        style="display:none;">
-
-        <i class="fas fa-spinner fa-spin"></i>
-
-        Connecting to MAYRA-AI...
-
-      </div>
-
-      <main id="pair"></main>
-
+    <!-- STEP 3: Success — show SESSION_ID -->
+    <div class="step" id="step3">
+        <div style="text-align:center;margin-bottom:20px">
+            <span class="badge">Step 3 of 3 — Save your SESSION_ID</span>
+        </div>
+        <div class="success-box">
+            <div class="session-title">✅ Linked! Your new SESSION_ID:</div>
+            <div class="session-val" id="sessionVal">GURU~...</div>
+            <button class="copy-btn" onclick="copySession()">📋 Copy SESSION_ID</button>
+        </div>
+        <div class="warning">
+            <strong>⚡ Next steps:</strong><br>
+            1. Copy the SESSION_ID above<br>
+            2. Go to your Replit project → <strong>Secrets</strong><br>
+            3. Update <code style="background:rgba(0,0,0,.3);padding:1px 5px;border-radius:4px">SESSION_ID</code> with the copied value<br>
+            4. Click <strong>Restart</strong> on the workflow — bot will connect!
+        </div>
+        <button class="back-btn" style="margin-top:16px" onclick="goBack()">← Link another number</button>
     </div>
-
-
-    <div class="social-icons">
-
-      <a
-        href="https://wa.me/255768619068"
-        target="_blank"
-        class="social-icon"
-        aria-label="WhatsApp">
-
-        <i class="fab fa-whatsapp"></i>
-
-      </a>
-
-
-      <a
-        href="https://github.com/Mayrabrand"
-        target="_blank"
-        class="social-icon"
-        aria-label="GitHub">
-
-        <i class="fab fa-github"></i>
-
-      </a>
-
-
-      <a
-        href="https://github.com/Mayrabrand/MAYRA-AI"
-        target="_blank"
-        class="social-icon"
-        aria-label="Repository">
-
-        <i class="fas fa-code"></i>
-
-      </a>
-
-    </div>
-
-
-    <div class="footer">
-
-      <p>
-        <i class="fas fa-bolt"></i>
-
-        MAYRA-AI · Powered by LUKA iT · © 2026
-      </p>
-
-    </div>
-
-  </div>
-
-
-  <div class="notification" id="notification">
-
-    <i class="fas fa-copy"></i>
-
-    <span id="notification-text">
-      Pairing code copied
-    </span>
-
-  </div>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-
-
-  <script>
-
-    const countrySelect =
-      document.getElementById("country");
-
-    const countryCodeSpan =
-      document.getElementById("country-code");
-
-    const numberInput =
-      document.getElementById("number");
-
-    const submitBtn =
-      document.getElementById("submit");
-
-    const pairElement =
-      document.getElementById("pair");
-
-    const waitingMsg =
-      document.getElementById("waiting-message");
-
-    const notificationDiv =
-      document.getElementById("notification");
-
-    const notifText =
-      document.getElementById("notification-text");
-
-
-    /* COUNTRY CODE */
-
-    countrySelect.addEventListener(
-      "change",
-      () => {
-
-        countryCodeSpan.innerText =
-          countrySelect.value;
-
-      }
-    );
-
-
-    /* COPY PAIR CODE */
-
-    window.copyCode = async function () {
-
-      const copyDiv =
-        document.getElementById("copy");
-
-      if (!copyDiv) return;
-
-      const rawCode =
-        copyDiv.dataset.code ||
-        copyDiv.innerText
-          .replace("CODE:", "")
-          .trim();
-
-      try {
-
-        await navigator.clipboard.writeText(
-          rawCode
-        );
-
-        notifText.innerText =
-          "✓ Pairing code copied!";
-
-        notificationDiv.classList.add(
-          "show"
-        );
-
-        setTimeout(() => {
-
-          notificationDiv.classList.remove(
-            "show"
-          );
-
-        }, 2000);
-
-      } catch (error) {
-
-        notifText.innerText =
-          "⚠️ Copy the code manually";
-
-        notificationDiv.classList.add(
-          "show"
-        );
-
-        setTimeout(() => {
-
-          notificationDiv.classList.remove(
-            "show"
-          );
-
-        }, 2000);
-
-      }
-
-    };
-
-
-    /* PARTICLE BACKGROUND */
-
-    const canvas =
-      document.getElementById(
-        "particle-canvas"
-      );
-
-    const ctx =
-      canvas.getContext("2d");
-
-    let particles = [];
-
-
-    function resizeCanvas() {
-
-      canvas.width =
-        window.innerWidth;
-
-      canvas.height =
-        window.innerHeight;
-
+</div>
+
+<script>
+let pollTimer = null;
+
+function show(stepId) {
+    ['step1','step2','step3'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+    });
+    document.getElementById(stepId).classList.add('active');
+}
+
+function setStatus(elId, html) {
+    document.getElementById(elId).innerHTML = html;
+}
+
+async function startPair() {
+    const phone = document.getElementById('phone').value.trim().replace(/\D/g,'');
+    if (!phone || phone.length < 7) {
+        setStatus('status1', '<span style="color:#f88">❌ Please enter a valid phone number.</span>');
+        return;
     }
+    const btn = document.getElementById('pairBtn');
+    btn.disabled = true;
+    setStatus('status1', '<span class="spinner"></span> Requesting pairing code…');
 
-
-    window.addEventListener(
-      "resize",
-      resizeCanvas
-    );
-
-
-    resizeCanvas();
-
-
-    class Particle {
-
-      constructor() {
-
-        this.x =
-          Math.random() * canvas.width;
-
-        this.y =
-          Math.random() * canvas.height;
-
-        this.radius =
-          Math.random() * 2 + 1;
-
-        this.speedX =
-          (Math.random() - .5) * .4;
-
-        this.speedY =
-          (Math.random() - .5) * .3;
-
-        this.alpha =
-          Math.random() * .45 + .2;
-
-      }
-
-
-      update() {
-
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (
-          this.x < 0 ||
-          this.x > canvas.width
-        ) {
-          this.speedX *= -1;
+    try {
+        const res = await fetch('/api/pair', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        if (!data.ok) {
+            setStatus('status1', `<span style="color:#f88">❌ ${data.error || 'Failed to start pairing.'}</span>`);
+            btn.disabled = false;
+            return;
         }
 
-        if (
-          this.y < 0 ||
-          this.y > canvas.height
-        ) {
-          this.speedY *= -1;
-        }
-
-      }
-
-
-      draw() {
-
-        ctx.beginPath();
-
-        ctx.arc(
-          this.x,
-          this.y,
-          this.radius,
-          0,
-          Math.PI * 2
-        );
-
-        ctx.fillStyle =
-          `rgba(192,132,252,${this.alpha})`;
-
-        ctx.fill();
-
-      }
-
+        // Poll for the code
+        pollTimer = setInterval(checkStatus, 2000);
+        setTimeout(() => show('step2'), 400);
+    } catch (e) {
+        setStatus('status1', `<span style="color:#f88">❌ Network error: ${e.message}</span>`);
+        btn.disabled = false;
     }
+}
 
+async function checkStatus() {
+    try {
+        const res  = await fetch('/api/pair/status');
+        const data = await res.json();
 
-    for (
-      let i = 0;
-      i < 90;
-      i++
-    ) {
-
-      particles.push(
-        new Particle()
-      );
-
-    }
-
-
-    function animateParticles() {
-
-      ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      particles.forEach(p => {
-
-        p.update();
-
-        p.draw();
-
-      });
-
-      requestAnimationFrame(
-        animateParticles
-      );
-
-    }
-
-
-    animateParticles();
-
-
-    /* PAIRING REQUEST */
-
-    submitBtn.addEventListener(
-      "click",
-      async (event) => {
-
-        event.preventDefault();
-
-        const rawNumber =
-          numberInput.value.replace(
-            /\D/g,
-            ""
-          );
-
-
-        if (!rawNumber) {
-
-          pairElement.innerHTML =
-            `<div style="
-              color:#fca5a5;
-              background:rgba(60,10,25,.55);
-              border-radius:40px;
-              padding:14px;
-              border:1px solid rgba(248,113,113,.3);
-            ">
-              <i class="fas fa-exclamation-triangle"></i>
-              Enter your WhatsApp number
-            </div>`;
-
-          return;
-
+        if (data.status === 'ready' || data.status === 'success') {
+            if (data.code) {
+                document.getElementById('pairingCode').textContent = data.code;
+            }
         }
 
-
-        const countryCodeVal =
-          countrySelect.value;
-
-
-        const fullNumber =
-          countryCodeVal + rawNumber;
-
-
-        if (
-          fullNumber.length < 8
-        ) {
-
-          pairElement.innerHTML =
-            `<div style="color:#fca5a5;">
-              <i class="fas fa-ban"></i>
-              Invalid phone number
-            </div>`;
-
-          return;
-
+        if (data.status === 'success' && data.sessionId) {
+            clearInterval(pollTimer);
+            document.getElementById('sessionVal').textContent = data.sessionId;
+            show('step3');
+        } else if (data.status === 'error') {
+            clearInterval(pollTimer);
+            const errBox = document.getElementById('errBox2');
+            errBox.style.display = 'block';
+            errBox.textContent = '❌ ' + (data.error || 'Pairing failed. Try again.');
+            setStatus('status2', '');
         }
+    } catch (_) {}
+}
 
+function copySession() {
+    const val = document.getElementById('sessionVal').textContent;
+    navigator.clipboard.writeText(val).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => { btn.textContent = '📋 Copy SESSION_ID'; }, 2500);
+    });
+}
 
-        waitingMsg.style.display =
-          "block";
-
-
-        pairElement.innerHTML =
-          `<div style="
-            padding:12px;
-            color:#d8b4fe;
-          ">
-            <i class="
-              fas fa-sync-alt
-              fa-spin
-            "></i>
-
-            Requesting MAYRA-AI code...
-          </div>`;
-
-
-        try {
-
-          const response =
-            await axios(
-              `/code?number=${encodeURIComponent(fullNumber)}`
-            );
-
-
-          const data =
-            response.data;
-
-
-          const pairCode =
-            data.code ||
-            "SERVICE_UNAVAILABLE";
-
-
-          pairElement.innerHTML =
-            `<div
-              id="copy"
-              data-code="${pairCode}"
-              onclick="copyCode()"
-              class="code-display">
-
-              <i class="fas fa-qrcode"></i>
-
-              CODE:
-
-              <span style="
-                color:#e9d5ff;
-                letter-spacing:2px;
-              ">
-                ${pairCode}
-              </span>
-
-              <i
-                class="fas fa-copy"
-                style="
-                  margin-left:8px;
-                  font-size:.9rem;
-                ">
-              </i>
-
-            </div>
-
-            <p style="
-              font-size:12px;
-              margin-top:8px;
-              color:#a78bfa;
-            ">
-              🔒 Tap code to copy
-            </p>`;
-
-
-          waitingMsg.style.display =
-            "none";
-
-
-        } catch (error) {
-
-          console.error(error);
-
-
-          pairElement.innerHTML =
-            `<div style="
-              background:rgba(100,10,40,.65);
-              border:1px solid rgba(244,63,94,.35);
-              border-radius:40px;
-              padding:14px;
-              color:#fecdd3;
-            ">
-
-              <i class="fas fa-triangle-exclamation"></i>
-
-              Pairing server offline · Retry
-
-            </div>`;
-
-
-          waitingMsg.style.display =
-            "none";
-
-        }
-
-      }
-    );
-
-  </script>
-
+function goBack() {
+    clearInterval(pollTimer);
+    fetch('/api/pair/cancel').catch(()=>{});
+    document.getElementById('pairBtn').disabled = false;
+    setStatus('status1','');
+    setStatus('status2','<span class="spinner"></span> Waiting for you to enter the code…');
+    document.getElementById('errBox2').style.display='none';
+    show('step1');
+}
+</script>
 </body>
-      </html>
+</html>
