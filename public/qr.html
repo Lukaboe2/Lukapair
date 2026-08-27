@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>LUKA-AI | QR Code</title>
-  <meta name="description" content="Connect your WhatsApp account to LUKA-AI using QR Code.">
+  <title>LUKA-AI | QR Code Login</title>
+  <meta name="description" content="Link your WhatsApp account to LUKA-AI by scanning a QR code.">
   <meta name="theme-color" content="#1d9f8d">
-
-  <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,9 +15,11 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
+
     :root {
       --bg: #10191d;
       --panel: #26333c;
+      --panel2: #223039;
       --line: #3a4a55;
       --muted: #98a5af;
       --text: #eef2f3;
@@ -59,7 +59,7 @@
       background-size: 42px 42px;
     }
 
-    /* NAVBAR */
+    /* ================= NAVBAR ================= */
 
     .topbar {
       position: sticky;
@@ -94,6 +94,7 @@
       height: 48px;
       border-radius: 50%;
       object-fit: cover;
+      border: 1px solid rgba(42,169,149,.35);
     }
 
     .brand-title {
@@ -119,19 +120,27 @@
       color: #aebbc2;
       font-size: 24px;
       cursor: pointer;
+      transition: .2s;
     }
 
-    /* MAIN */
+    .menu-btn:hover {
+      background: #31424c;
+      color: #fff;
+    }
+
+    /* ================= MAIN ================= */
 
     .shell {
       width: min(760px, calc(100% - 32px));
-      margin: auto;
+      margin: 0 auto;
       padding: 36px 0 46px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero {
       text-align: center;
-      margin-bottom: 26px;
+      margin: 0 auto 26px;
     }
 
     .hero h1 {
@@ -146,175 +155,292 @@
       font-size: 14px;
     }
 
-    /* CARD */
+    /* ================= CARD ================= */
 
     .card {
-      background: linear-gradient(145deg, #26333c, #223039);
+      background: linear-gradient(145deg, var(--panel), var(--panel2));
       border: 1px solid #344550;
       border-radius: 30px;
-      padding: 36px;
+      padding: 42px;
       box-shadow:
         0 25px 60px rgba(0,0,0,.26),
         inset 0 1px 0 rgba(255,255,255,.025);
+    }
+
+    .qr-header {
       text-align: center;
     }
 
-    .qr-icon {
-      width: 62px;
-      height: 62px;
-      margin: 0 auto 15px;
-      border-radius: 19px;
-      background: rgba(29,159,141,.13);
-      border: 1px solid rgba(42,169,149,.3);
+    .qr-logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      margin: 0 auto 16px;
+      background: #31414b;
+      border: 1px solid #45555f;
       display: grid;
       place-items: center;
-      color: #42c8b6;
-      font-size: 27px;
+      color: #3fc0ae;
+      font-size: 29px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.18);
     }
 
-    .card h2 {
-      font-size: 22px;
+    .qr-header h2 {
+      font-size: 24px;
       font-weight: 800;
+      letter-spacing: .5px;
     }
 
-    .card-desc {
-      color: #99a6ad;
+    .qr-header p {
+      color: #96a3aa;
       font-size: 14px;
       margin-top: 8px;
+      line-height: 1.5;
     }
 
-    /* QR AREA */
+    /* ================= SESSION ================= */
 
-    .qr-container {
-      width: 280px;
-      height: 280px;
-      margin: 28px auto;
+    .section {
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      color: #aab4bb;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .session-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-align: left;
+      border: 1px dashed #465660;
+      background: transparent;
+      border-radius: 20px;
+      padding: 17px 22px;
+      margin-top: 12px;
+      color: #aab4bb;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .session-option:hover {
+      border-color: #2aa995;
+    }
+
+    .session-option.active {
+      border: 2px solid #2aa995;
+      background: rgba(25,151,136,.08);
+      box-shadow: 0 0 24px rgba(26,161,142,.08);
+    }
+
+    .session-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 15px;
+      background: #31414b;
+      border: 1px solid #45555f;
+      display: grid;
+      place-items: center;
+      color: #aab6bc;
+      font-size: 20px;
+      flex: none;
+    }
+
+    .active .session-icon {
+      background: #249e8e;
+      color: #dffaf5;
+      border-color: #249e8e;
+    }
+
+    .session-copy {
+      flex: 1;
+    }
+
+    .session-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #d8dee1;
+    }
+
+    .session-desc {
+      font-size: 14px;
+      color: #96a3aa;
+      margin-top: 5px;
+    }
+
+    .optional {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      border-radius: 6px;
+      padding: 3px 8px;
+      background: #35434c;
+      color: #a9b2b8;
+      margin-left: 6px;
+    }
+
+    .radio {
+      width: 26px;
+      height: 26px;
+      border: 3px solid #50616c;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .active .radio {
+      border-color: #29b9a5;
+    }
+
+    .active .radio::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d8fff8;
+      position: absolute;
+      inset: 5px;
+    }
+
+    /* ================= BUTTON ================= */
+
+    .qr-btn {
+      width: 100%;
+      height: 70px;
+      border: 0;
+      border-radius: 19px;
+      background: linear-gradient(135deg, #21a996, #18957f);
+      color: #eaf7f5;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      font-size: 19px;
+      margin-top: 30px;
+      cursor: pointer;
+      box-shadow: 0 15px 30px rgba(26,161,142,.16);
+      transition: .2s;
+    }
+
+    .qr-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .qr-btn:active {
+      transform: scale(.98);
+    }
+
+    /* ================= QR RESULT ================= */
+
+    .qr-result {
+      display: none;
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #3a4952;
+      text-align: center;
+    }
+
+    .qr-result h3 {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .qr-result p {
+      color: #96a3aa;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .qr-box {
+      width: 290px;
+      height: 290px;
+      margin: auto;
       padding: 15px;
       background: #fff;
-      border-radius: 25px;
+      border-radius: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow:
-        0 18px 45px rgba(0,0,0,.3),
-        0 0 35px rgba(41,185,165,.08);
+        0 20px 45px rgba(0,0,0,.3),
+        0 0 25px rgba(42,169,149,.08);
     }
 
     #qrImage {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      border-radius: 10px;
+      display: none;
+      border-radius: 8px;
     }
 
     .qr-loading {
-      color: #77868e;
+      color: #64747c;
       font-size: 14px;
     }
 
-    .refresh-btn {
-      width: 100%;
-      height: 62px;
-      border: 0;
-      border-radius: 17px;
-      background: linear-gradient(135deg, #21a996, #18957f);
-      color: #eaf7f5;
-      font-weight: 800;
-      letter-spacing: 1px;
-      font-size: 17px;
-      cursor: pointer;
-      box-shadow: 0 14px 28px rgba(26,161,142,.15);
-      transition: .2s;
+    .qr-loading i {
+      margin-right: 7px;
     }
 
-    .refresh-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
-    }
-
-    .refresh-btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 8px;
-      animation: spin .7s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* STATUS */
+    /* ================= STATUS ================= */
 
     .status {
-      margin-top: 17px;
-      padding: 13px;
-      border-radius: 13px;
-      background: rgba(25,151,136,.08);
-      border: 1px solid rgba(42,169,149,.2);
-      color: #7ed8cc;
-      font-size: 13px;
       display: none;
+      margin-top: 17px;
+      color: #4be0be;
+      font-size: 13px;
     }
 
     .error {
-      margin-top: 15px;
+      display: none;
       color: #ff8d8d;
       font-size: 13px;
-      display: none;
+      margin-top: 12px;
     }
 
-    /* HOW TO */
+    /* ================= HOW TO ================= */
 
     .how {
-      margin-top: 30px;
+      margin-top: 38px;
       border: 1px solid #31545a;
       border-radius: 22px;
-      padding: 24px;
+      padding: 25px;
       background: rgba(25,63,65,.16);
-      text-align: left;
     }
 
     .how-title {
       font-size: 18px;
       font-weight: 700;
       color: #54b7aa;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .how-title i {
-      margin-right: 9px;
+      margin-right: 10px;
     }
 
     .step {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 16px;
       background: rgba(36,69,72,.48);
       border: 1px solid rgba(54,125,119,.35);
       border-radius: 15px;
-      padding: 16px;
-      margin-top: 11px;
+      padding: 18px;
+      margin-top: 12px;
       color: #aeb8be;
-      line-height: 1.5;
-      font-size: 14px;
+      line-height: 1.55;
     }
 
     .step-num {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #1d9f8d;
       color: #d9faf4;
@@ -333,22 +459,28 @@
       font-weight: 700;
     }
 
-    /* PAIR LINK */
+    /* ================= PAIR LINK ================= */
 
-    .pair-link {
-      display: block;
-      margin-top: 24px;
+    .pair-row {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px solid #3a4952;
+      text-align: center;
+      color: #a6afb5;
+    }
+
+    .pair-row a {
       color: #4bb8aa;
       text-decoration: none;
       font-weight: 700;
-      font-size: 14px;
+      margin-left: 8px;
     }
 
-    .pair-link:hover {
-      color: #6de1d1;
+    .pair-row a:hover {
+      color: #71dfd0;
     }
 
-    /* FEATURES */
+    /* ================= FEATURES ================= */
 
     .features {
       display: grid;
@@ -377,7 +509,7 @@
       font-size: 13px;
     }
 
-    /* SIDEBAR */
+    /* ================= SIDEBAR ================= */
 
     .sidebar {
       position: fixed;
@@ -415,6 +547,12 @@
       text-decoration: none;
       padding: 14px;
       border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: .2s;
+    }
+
+    .side-link:hover {
+      color: #4bb8aa;
+      padding-left: 18px;
     }
 
     .side-link i {
@@ -422,9 +560,13 @@
       color: #45bcae;
     }
 
-    /* MOBILE */
+    /* ================= MOBILE ================= */
 
     @media(max-width:600px) {
+
+      .topbar {
+        height: 86px;
+      }
 
       .top-inner {
         padding: 0 18px;
@@ -448,9 +590,43 @@
         border-radius: 26px;
       }
 
-      .qr-container {
+      .qr-logo {
+        width: 62px;
+        height: 62px;
+      }
+
+      .qr-header h2 {
+        font-size: 21px;
+      }
+
+      .session-option {
+        padding: 14px;
+      }
+
+      .session-title {
+        font-size: 16px;
+      }
+
+      .session-desc {
+        font-size: 13px;
+      }
+
+      .qr-btn {
+        font-size: 17px;
+      }
+
+      .qr-box {
         width: 250px;
         height: 250px;
+      }
+
+      .how {
+        padding: 18px;
+      }
+
+      .step {
+        padding: 15px;
+        font-size: 14px;
       }
 
       .features {
@@ -472,68 +648,105 @@
         height: 56px;
       }
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ================= NAVBAR ================= -->
 
   <header class="topbar">
+
     <div class="top-inner">
 
       <a class="brand" href="/">
-        <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA">
+
+        <img
+          src="https://files.catbox.moe/1l02sd.png"
+          alt="LUKA"
+        >
 
         <div>
-          <div class="brand-title">LUKA-AI ULTRA PAIR</div>
-          <div class="brand-sub">QR CODE</div>
+
+          <div class="brand-title">
+            LUKA-AI ULTRA PAIR
+          </div>
+
+          <div class="brand-sub">
+            QR CODE
+          </div>
+
         </div>
+
       </a>
 
       <button class="menu-btn" id="menuBtn">
+
         <i class="fa-solid fa-bars"></i>
+
       </button>
 
     </div>
+
   </header>
 
 
-  <!-- SIDEBAR -->
+  <!-- ================= SIDEBAR ================= -->
 
   <div class="side-overlay" id="overlay"></div>
 
   <aside class="sidebar" id="sidebar">
 
     <button class="menu-btn" id="closeBtn">
+
       <i class="fa-solid fa-xmark"></i>
+
     </button>
 
     <div style="margin-top:24px">
 
       <a class="side-link" href="/">
+
         <i class="fa-solid fa-house"></i>
         Home
+
       </a>
 
       <a class="side-link" href="/pair">
+
         <i class="fa-solid fa-link"></i>
         Pair Code
+
       </a>
 
       <a class="side-link" href="/qr">
+
         <i class="fa-solid fa-qrcode"></i>
         QR Code
+
       </a>
 
-      <a class="side-link" href="https://github.com/lucvoice/LUKA-AI">
+      <a
+        class="side-link"
+        href="https://github.com/lucvoice/LUKA-AI"
+        target="_blank"
+      >
+
         <i class="fa-brands fa-github"></i>
         Source Code
+
       </a>
 
-      <a class="side-link" href="https://t.me/lucvoice">
+      <a
+        class="side-link"
+        href="https://t.me/lucvoice"
+        target="_blank"
+      >
+
         <i class="fa-brands fa-telegram"></i>
         Support
+
       </a>
 
     </div>
@@ -541,72 +754,190 @@
   </aside>
 
 
-  <!-- MAIN -->
+  <!-- ================= MAIN ================= -->
 
   <main class="shell">
 
     <div class="hero">
-      <h1>LUKA-AI QR CODE</h1>
-      <p>Scan the QR code to connect your WhatsApp account</p>
+
+      <h1>
+        LUKA-AI QR CODE
+      </h1>
+
+      <p>
+        Scan the QR code to connect your WhatsApp account
+      </p>
+
     </div>
 
 
     <section class="card">
 
-      <div class="qr-icon">
-        <i class="fa-solid fa-qrcode"></i>
-      </div>
 
-      <h2>Scan QR Code</h2>
+      <!-- QR HEADER -->
 
-      <p class="card-desc">
-        Open WhatsApp and scan this QR code
-        to connect your account.
-      </p>
+      <div class="qr-header">
 
+        <div class="qr-logo">
 
-      <!-- QR -->
+          <i class="fa-solid fa-qrcode"></i>
 
-      <div class="qr-container" id="qrContainer">
-
-        <div class="qr-loading" id="qrLoading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          Loading QR...
         </div>
 
-        <img
-          id="qrImage"
-          src=""
-          alt="LUKA-AI QR Code"
-          style="display:none"
-        >
+        <h2>
+          QR Code Login
+        </h2>
+
+        <p>
+          Generate a QR code and scan it from
+          WhatsApp Linked Devices.
+        </p>
 
       </div>
 
 
-      <!-- REFRESH -->
+      <!-- SESSION TYPE -->
 
-      <button class="refresh-btn" id="refreshBtn">
+      <div class="section">
 
-        <span id="refreshText">
-          <i class="fa-solid fa-rotate"></i>
-          &nbsp; GET NEW QR CODE
-        </span>
+        <label>
+          Session Type
+        </label>
 
-        <span id="refreshLoading" style="display:none">
-          <span class="spinner"></span>
-          Generating QR...
-        </span>
+
+        <button
+          type="button"
+          class="session-option active"
+          id="typeShort"
+          onclick="selectType('short')"
+        >
+
+          <span class="session-icon">
+
+            <i class="fa-solid fa-database"></i>
+
+          </span>
+
+          <span class="session-copy">
+
+            <span class="session-title">
+              Short Session
+            </span>
+
+            <span class="session-desc">
+              Compact session string
+            </span>
+
+          </span>
+
+          <span class="radio"></span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="session-option"
+          id="typeLong"
+          onclick="selectType('long')"
+        >
+
+          <span class="session-icon">
+
+            <i class="fa-solid fa-file-code"></i>
+
+          </span>
+
+          <span class="session-copy">
+
+            <span class="session-title">
+              Long Session
+            </span>
+
+            <span class="session-desc">
+              Full session string — recommended
+            </span>
+
+          </span>
+
+          <span class="radio"></span>
+
+        </button>
+
+      </div>
+
+
+      <!-- GENERATE BUTTON -->
+
+      <button
+        id="generateBtn"
+        class="qr-btn"
+        onclick="startQR()"
+      >
+
+        <i class="fa-solid fa-qrcode"></i>
+
+        &nbsp; GENERATE QR CODE
 
       </button>
 
 
-      <div class="status" id="status">
-        <i class="fa-solid fa-circle-check"></i>
-        QR Code generated successfully.
-      </div>
+      <!-- QR RESULT -->
 
-      <div class="error" id="error"></div>
+      <div
+        class="qr-result"
+        id="qrResult"
+      >
+
+        <h3>
+          Scan QR Code
+        </h3>
+
+        <p>
+          WhatsApp → Settings → Linked Devices
+        </p>
+
+
+        <div class="qr-box">
+
+          <div
+            class="qr-loading"
+            id="qrLoading"
+          >
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            Loading QR Code...
+
+          </div>
+
+
+          <img
+            id="qrImage"
+            alt="LUKA-AI QR Code"
+          >
+
+        </div>
+
+
+        <div
+          class="status"
+          id="status"
+        >
+
+          <i class="fa-solid fa-circle-check"></i>
+
+          QR Code generated successfully.
+
+        </div>
+
+
+        <div
+          class="error"
+          id="error"
+        ></div>
+
+      </div>
 
 
       <!-- HOW TO -->
@@ -614,17 +945,23 @@
       <div class="how">
 
         <div class="how-title">
+
           <i class="fa-solid fa-circle-info"></i>
-          How to connect
+
+          How to link with QR code
+
         </div>
 
 
         <div class="step">
 
-          <span class="step-num">1</span>
+          <span class="step-num">
+            1
+          </span>
 
           <div>
-            Open <b>WhatsApp</b> on your phone.
+            Choose your preferred
+            <b>Session Type</b>.
           </div>
 
         </div>
@@ -632,13 +969,33 @@
 
         <div class="step">
 
-          <span class="step-num">2</span>
+          <span class="step-num">
+            2
+          </span>
 
           <div>
-            Go to
+            Click
+            <b>GENERATE QR CODE</b>
+            and wait for the QR page.
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="step-num">
+            3
+          </span>
+
+          <div>
+
+            Open WhatsApp →
+
             <span class="accent">
               Settings → Linked Devices
             </span>
+
           </div>
 
         </div>
@@ -646,10 +1003,16 @@
 
         <div class="step">
 
-          <span class="step-num">3</span>
+          <span class="step-num">
+            4
+          </span>
 
           <div>
-            Tap <b>Link a Device</b>.
+
+            Tap
+            <b>Link a Device</b>
+            and scan the QR code.
+
           </div>
 
         </div>
@@ -657,23 +1020,19 @@
 
         <div class="step">
 
-          <span class="step-num">4</span>
+          <span class="step-num">
+            5
+          </span>
 
           <div>
-            Scan the QR code displayed above.
-          </div>
 
-        </div>
-
-
-        <div class="step">
-
-          <span class="step-num">5</span>
-
-          <div>
             Wait for your WhatsApp account
             to connect successfully.
-            <span style="color:#4be0be">✔</span>
+
+            <span style="color:#4be0be">
+              ✔
+            </span>
+
           </div>
 
         </div>
@@ -681,12 +1040,21 @@
       </div>
 
 
-      <a class="pair-link" href="/pair">
+      <!-- PAIR LINK -->
 
-        <i class="fa-solid fa-link"></i>
-        Prefer Pair Code? Use Pair Code instead
+      <div class="pair-row">
 
-      </a>
+        Prefer Pair Code?
+
+        <a href="/pair">
+
+          <i class="fa-solid fa-link"></i>
+
+          Use Pair Code instead
+
+        </a>
+
+      </div>
 
     </section>
 
@@ -696,24 +1064,43 @@
     <div class="features">
 
       <div class="feature">
+
         <i class="fa-solid fa-shield-halved"></i>
-        <span>Secure</span>
+
+        <span>
+          Secure
+        </span>
+
       </div>
 
+
       <div class="feature">
+
         <i class="fa-solid fa-bolt"></i>
-        <span>Fast</span>
+
+        <span>
+          Fast
+        </span>
+
       </div>
 
+
       <div class="feature">
+
         <i class="fa-solid fa-mobile-screen"></i>
-        <span>Mobile Ready</span>
+
+        <span>
+          Mobile Ready
+        </span>
+
       </div>
 
     </div>
 
   </main>
 
+
+  <!-- ================= JAVASCRIPT ================= -->
 
   <script>
 
@@ -725,164 +1112,84 @@
     const overlay =
       document.getElementById('overlay');
 
+    const menuBtn =
+      document.getElementById('menuBtn');
 
-    document.getElementById('menuBtn').onclick = () => {
+    const closeBtn =
+      document.getElementById('closeBtn');
+
+
+    menuBtn.onclick = () => {
 
       sidebar.classList.add('open');
+
       overlay.classList.add('show');
 
     };
 
 
-    function closeSide() {
+    function closeSidebar() {
 
       sidebar.classList.remove('open');
+
       overlay.classList.remove('show');
 
     }
 
 
-    document.getElementById('closeBtn').onclick =
-      closeSide;
+    closeBtn.onclick =
+      closeSidebar;
 
     overlay.onclick =
-      closeSide;
+      closeSidebar;
 
 
-    /* QR ELEMENTS */
+    /* SESSION TYPE */
 
-    const qrImage =
-      document.getElementById('qrImage');
-
-    const qrLoading =
-      document.getElementById('qrLoading');
-
-    const refreshBtn =
-      document.getElementById('refreshBtn');
-
-    const refreshText =
-      document.getElementById('refreshText');
-
-    const refreshLoading =
-      document.getElementById('refreshLoading');
-
-    const status =
-      document.getElementById('status');
-
-    const error =
-      document.getElementById('error');
+    let selectedType = 'short';
 
 
-    /* LOAD QR */
+    function selectType(type) {
 
-    async function loadQR() {
-
-      error.style.display = 'none';
-
-      status.style.display = 'none';
-
-      qrImage.style.display = 'none';
-
-      qrLoading.style.display = 'block';
-
-      refreshBtn.disabled = true;
-
-      refreshText.style.display = 'none';
-
-      refreshLoading.style.display = 'inline';
+      selectedType = type;
 
 
-      try {
+      const shortBtn =
+        document.getElementById('typeShort');
 
-        /*
-          Your backend should provide:
-
-          GET /qr
-
-          and return either:
-
-          {
-            "qr": "data:image/png;base64,..."
-          }
-
-          OR
-
-          {
-            "qr": "https://example.com/qr.png"
-          }
-        */
-
-        const response =
-          await fetch('/qr');
-
-        const data =
-          await response.json();
+      const longBtn =
+        document.getElementById('typeLong');
 
 
-        if (!response.ok || !data.qr) {
-
-          throw new Error(
-            data.error ||
-            'QR Code is currently unavailable.'
-          );
-
-        }
+      shortBtn.classList.toggle(
+        'active',
+        type === 'short'
+      );
 
 
-        qrImage.src = data.qr;
-
-        qrImage.onload = () => {
-
-          qrLoading.style.display = 'none';
-
-          qrImage.style.display = 'block';
-
-          status.style.display = 'block';
-
-        };
-
-
-        qrImage.onerror = () => {
-
-          throw new Error(
-            'Unable to display QR Code.'
-          );
-
-        };
-
-
-      } catch (err) {
-
-        qrLoading.style.display = 'none';
-
-        error.textContent =
-          err.message ||
-          'Failed to load QR Code.';
-
-        error.style.display = 'block';
-
-      }
-
-
-      refreshBtn.disabled = false;
-
-      refreshText.style.display = 'inline';
-
-      refreshLoading.style.display = 'none';
+      longBtn.classList.toggle(
+        'active',
+        type === 'long'
+      );
 
     }
 
 
-    /* REFRESH */
+    /* QR */
 
-    refreshBtn.onclick = loadQR;
+    function startQR() {
 
+      /*
+       * This keeps the same backend route
+       * from your original ATASSA QR page.
+       */
 
-    /* AUTO LOAD */
+      window.location.href =
+        `/qr/session?type=${selectedType}`;
 
-    loadQR();
+    }
 
   </script>
 
 </body>
-              </html>
+</html>
