@@ -2,1229 +2,647 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <title>LUKA-AI | Home</title>
-
-  <meta name="description"
-    content="Connect your WhatsApp account quickly with LUKA-AI.">
-
-  <meta name="theme-color" content="#1d9f8d">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>PANTHER X ULTRA PAIR | WhatsApp Session Studio</title>
+  <meta name="description" content="PANTHER X ULTRA PAIR — Generate your WhatsApp session with pair code or QR code. Fast, secure, dark-mode WhatsApp experience.">
+  <meta name="theme-color" content="#00a884">
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     :root {
-      --bg: #10191d;
-      --bg2: #0d161a;
-      --panel: #26333c;
-      --panel2: #2d3b44;
-      --line: #3a4a55;
-      --text: #eef2f3;
-      --muted: #98a5af;
-      --teal: #1aa18e;
-      --teal2: #29b9a5;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
+      --bg-primary:   #111b21;
+      --bg-secondary: #1f2c34;
+      --bg-panel:     #2a3942;
+      --bg-input:     #2a3942;
+      --green:        #00a884;
+      --green-light:  #25d366;
+      --green-dark:   #008069;
+      --text-primary: #e9edef;
+      --text-secondary: #8696a0;
+      --border:       rgba(134,150,160,0.15);
+      --border-green: rgba(0,168,132,0.35);
+      --teal:         #02b0a0;
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(
-          circle at 50% -10%,
-          #19383b 0%,
-          transparent 35%
-        ),
-        linear-gradient(
-          180deg,
-          var(--bg) 0%,
-          var(--bg2) 100%
-        );
-
-      color: var(--text);
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-panel) var(--bg-secondary);
     }
+    body::-webkit-scrollbar { width: 5px; }
+    body::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    body::-webkit-scrollbar-thumb { background: var(--bg-panel); border-radius: 4px; }
 
+    /* Subtle pattern bg */
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .3;
-
-      background-image:
-        linear-gradient(
-          rgba(41,185,165,.025) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(41,185,165,.025) 1px,
-          transparent 1px
-        );
-
-      background-size: 42px 42px;
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300a884' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
     }
 
+    /* Blobs */
+    .blob { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    @keyframes floaty { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,-25px) scale(1.06);} }
 
-    /* =========================
-       NAVBAR
-    ========================= */
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-
-      height: 86px;
-
-      background: rgba(26,38,46,.97);
-
-      border-bottom:
-        1px solid rgba(255,255,255,.06);
-
-      display: flex;
-      align-items: center;
+    /* Nav */
+    .nav-bar {
+      background: rgba(17,27,33,0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     }
-
-    .top-inner {
-      width: min(1120px, 100%);
-      margin: auto;
-
-      padding: 0 30px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .nav-link {
+      color: var(--text-secondary); font-size: 0.875rem; font-weight: 500;
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color 0.18s; position: relative; padding-bottom: 2px;
     }
+    .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--green); border-radius:2px; transition:width 0.22s; }
+    .nav-link:hover { color: var(--green-light); }
+    .nav-link:hover::after { width: 100%; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-
-      text-decoration: none;
-      color: white;
+    /* Sidebar */
+    .sidebar-link {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      border-radius: 10px; color: var(--text-secondary); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: background 0.18s, color 0.18s, transform 0.18s;
+      border: 1px solid transparent;
     }
+    .sidebar-link:hover { background: rgba(0,168,132,0.1); border-color: var(--border-green); color: var(--green-light); transform: translateX(4px); }
+    .sidebar-link i { width: 18px; text-align: center; }
+    #sidebar { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+    #sidebarOverlay { transition: opacity 0.3s ease; }
 
-    .brand img {
-      width: 48px;
-      height: 48px;
-
-      border-radius: 50%;
-      object-fit: cover;
-
-      border: 1px solid #41545d;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: .5px;
-    }
-
-    .brand-sub {
-      color: #4bb8aa;
-
-      font-size: 10px;
-      font-weight: 800;
-
-      letter-spacing: 4px;
-      margin-top: 5px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .nav-links a {
-      color: #9ba9b0;
-
-      text-decoration: none;
-
-      font-size: 13px;
-      font-weight: 600;
-
-      transition: .2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #4ed2be;
-    }
-
-    .menu-btn {
-      width: 56px;
-      height: 56px;
-
-      border-radius: 18px;
-
-      background: #2a3943;
-
-      border: 1px solid #40515c;
-
-      color: #aebbc2;
-
-      font-size: 22px;
-
-      cursor: pointer;
-
-      transition: .2s;
-    }
-
-    .menu-btn:hover {
-      background: #33454f;
-      color: #fff;
-    }
-
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      width: min(1080px, calc(100% - 32px));
-      margin: auto;
-
-      padding: 90px 0 70px;
-
-      text-align: center;
-      position: relative;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      background: rgba(28,72,70,.45);
-
-      border: 1px solid rgba(63,170,155,.25);
-
-      border-radius: 30px;
-
-      padding: 9px 16px;
-
-      color: #63d5c4;
-
-      font-size: 12px;
-      font-weight: 700;
-
-      margin-bottom: 25px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-
-      background: #35d3b6;
-
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 12px #35d3b6;
-    }
-
-    .hero h1 {
-      max-width: 800px;
-      margin: auto;
-
-      font-size: clamp(36px, 6vw, 66px);
-      line-height: 1.1;
-
-      font-weight: 800;
-
-      letter-spacing: -2px;
-    }
-
-    .hero h1 span {
-      color: #39c5b1;
-    }
-
-    .hero p {
-      max-width: 650px;
-
-      margin: 22px auto 0;
-
-      color: #98a7ae;
-
-      font-size: 16px;
-
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-
-      gap: 14px;
-
-      margin-top: 34px;
-    }
-
+    /* Buttons */
     .btn {
-      min-height: 56px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 28px; border-radius: 999px; font-weight: 600; font-size: 0.875rem;
+      font-family: 'Inter', sans-serif; text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+    }
+    .btn:active { transform: scale(0.97) !important; }
+    .btn-green {
+      background: var(--green); color: #fff;
+      box-shadow: 0 4px 20px rgba(0,168,132,0.35);
+    }
+    .btn-green:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,168,132,0.5); filter: brightness(1.05); }
+    .btn-outline {
+      background: transparent; border: 1.5px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .btn-outline:hover { transform: translateY(-3px); border-color: var(--green); color: var(--green-light); background: rgba(0,168,132,0.06); }
+    .btn-dark {
+      background: var(--bg-panel); color: var(--text-secondary); border: 1px solid var(--border);
+    }
+    .btn-dark:hover { transform: translateY(-3px); border-color: var(--green); color: var(--green-light); }
 
-      padding: 0 25px;
+    .icon-anim { display: inline-flex; align-items: center; justify-content: center; transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn:hover .icon-anim { transform: scale(1.2) rotate(-8deg); }
 
+    /* Cards */
+    .wa-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
       border-radius: 16px;
+      transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
+      position: relative; overflow: hidden;
+    }
+    .wa-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--teal));
+      opacity: 0; transition: opacity 0.28s;
+    }
+    .wa-card:hover { transform: translateY(-6px); border-color: var(--border-green); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .wa-card:hover::before { opacity: 1; }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(0,168,132,0.12); border: 1px solid var(--border-green);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .wa-card:hover .card-icon { transform: scale(1.12) rotate(-6deg); }
+    .card-icon i { color: var(--green); font-size: 1.1rem; }
 
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    /* Status badge */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,168,132,0.1); border: 1px solid var(--border-green);
+      border-radius: 999px; padding: 6px 16px;
+      font-size: 0.72rem; font-weight: 600; color: var(--green-light);
+      letter-spacing: 0.06em;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-      gap: 10px;
-
-      text-decoration: none;
-
-      font-size: 14px;
-      font-weight: 800;
-
-      transition: .2s;
+    /* Step items */
+    .step-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px; border-radius: 14px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .step-item:hover { border-color: var(--border-green); background: rgba(0,168,132,0.05); }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(0,168,132,0.4);
     }
 
-    .btn-primary {
-      background:
-        linear-gradient(
-          135deg,
-          #21aa96,
-          #178c7b
-        );
-
-      color: white;
-
-      border: 1px solid #28af9d;
-
-      box-shadow:
-        0 16px 30px
-        rgba(25,161,142,.18);
+    /* Chat bubble decorative */
+    .chat-bubble {
+      background: var(--bg-panel); border-radius: 0 12px 12px 12px;
+      padding: 10px 14px; position: relative;
+      border: 1px solid var(--border);
+      font-size: 0.875rem; color: var(--text-primary);
     }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      filter: brightness(1.08);
+    .chat-bubble-out {
+      background: rgba(0,168,132,0.12); border-radius: 12px 0 12px 12px;
+      padding: 10px 14px; position: relative;
+      border: 1px solid var(--border-green);
+      font-size: 0.875rem; color: var(--text-primary);
     }
+    .chat-time { font-size: 0.65rem; color: var(--text-secondary); text-align: right; margin-top: 4px; }
 
-    .btn-secondary {
-      background: #26343d;
-
-      color: #d9e0e3;
-
-      border: 1px solid #40525b;
+    /* Stat */
+    .stat-card {
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px; text-align: center;
+      transition: border-color 0.2s;
     }
+    .stat-card:hover { border-color: var(--border-green); }
 
-    .btn-secondary:hover {
-      background: #31424c;
-      transform: translateY(-3px);
+    /* Social icon */
+    .social-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); font-size: 0.9rem; text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
     }
-
-
-    /* =========================
-       MAIN CARD
-    ========================= */
-
-    .main-card {
-      width: min(900px, calc(100% - 32px));
-
-      margin: 0 auto 70px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #26343c,
-          #202d34
-        );
-
-      border: 1px solid #354751;
-
-      border-radius: 32px;
-
-      padding: 34px;
-
-      box-shadow:
-        0 28px 70px rgba(0,0,0,.25);
-    }
-
-    .main-card-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .main-card-header h2 {
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .main-card-header p {
-      color: #92a0a7;
-      font-size: 14px;
-      margin-top: 8px;
-    }
-
-    .options {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .option-card {
-      text-decoration: none;
-
-      background: #2b3942;
-
-      border: 1px solid #40515b;
-
-      border-radius: 22px;
-
-      padding: 28px 24px;
-
-      color: white;
-
-      transition: .25s;
-    }
-
-    .option-card:hover {
-      transform: translateY(-5px);
-
-      border-color: #2aa995;
-
-      box-shadow:
-        0 18px 35px
-        rgba(0,0,0,.18);
-    }
-
-    .option-icon {
-      width: 58px;
-      height: 58px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 17px;
-
-      background: rgba(27,159,141,.14);
-
-      border: 1px solid rgba(55,185,166,.22);
-
-      color: #4bd1be;
-
-      font-size: 23px;
-
-      margin-bottom: 20px;
-    }
-
-    .option-card h3 {
-      font-size: 20px;
-      margin-bottom: 9px;
-    }
-
-    .option-card p {
-      color: #99a6ad;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .option-go {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      color: #4bc6b4;
-
-      margin-top: 20px;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-
-    /* =========================
-       FEATURES
-    ========================= */
-
-    .section {
-      width: min(1080px, calc(100% - 32px));
-      margin: 0 auto 80px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .section-title h2 {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .section-title p {
-      color: #92a0a7;
-      margin-top: 9px;
-      font-size: 14px;
-    }
-
-    .features {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 18px;
-    }
-
-    .feature {
-      background: #25323a;
-
-      border: 1px solid #344650;
-
-      border-radius: 22px;
-
-      padding: 26px;
-
-      text-align: center;
-    }
-
-    .feature i {
-      width: 52px;
-      height: 52px;
-
-      display: inline-grid;
-      place-items: center;
-
-      border-radius: 16px;
-
-      background: rgba(29,159,141,.12);
-
-      color: #3ccbb6;
-
-      font-size: 20px;
-
-      margin-bottom: 17px;
-    }
-
-    .feature h3 {
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .feature p {
-      color: #94a1a8;
-
-      font-size: 13px;
-
-      line-height: 1.6;
-    }
-
-
-    /* =========================
-       SIDEBAR
-    ========================= */
-
-    .side-overlay {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 150;
-
-      background: rgba(0,0,0,.62);
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .25s;
-    }
-
-    .side-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .sidebar {
-      position: fixed;
-
-      top: 0;
-      right: 0;
-
-      z-index: 160;
-
-      width: min(330px, 88vw);
-      height: 100vh;
-
-      background: #17242b;
-
-      border-left: 1px solid #344650;
-
-      padding: 28px;
-
-      transform: translateX(105%);
-
-      transition: .3s;
-    }
-
-    .sidebar.open {
-      transform: translateX(0);
-    }
-
-    .side-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      padding-bottom: 24px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,.07);
-    }
-
-    .side-brand {
-      color: white;
-
-      font-weight: 800;
-
-      text-decoration: none;
-    }
-
-    .side-link {
-      display: flex;
-      align-items: center;
-
-      gap: 13px;
-
-      color: #a7b1b7;
-
-      text-decoration: none;
-
-      padding: 17px 8px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,.06);
-
-      transition: .2s;
-    }
-
-    .side-link:hover {
-      color: #4fd3c0;
-      padding-left: 14px;
-    }
-
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      border-top:
-        1px solid rgba(255,255,255,.06);
-
-      background: #0b1216;
-
-      padding: 32px 20px;
-
-      text-align: center;
-
-      color: #657178;
-
-      font-size: 12px;
-    }
-
-    footer strong {
-      color: #3bbba8;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media(max-width: 750px) {
-
-      .top-inner {
-        padding: 0 18px;
-      }
-
-      .brand-title {
-        font-size: 16px;
-      }
-
-      .brand-sub {
-        font-size: 9px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding:
-          65px 0
-          55px;
-      }
-
-      .hero h1 {
-        letter-spacing: -1px;
-      }
-
-      .hero p {
-        font-size: 14px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .main-card {
-        padding: 20px;
-        border-radius: 27px;
-      }
-
-      .options {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .feature {
-        text-align: left;
-
-        display: flex;
-        align-items: center;
-        gap: 17px;
-      }
-
-      .feature i {
-        margin: 0;
-        flex: none;
-      }
-
-      .feature-content {
-        flex: 1;
-      }
-
-    }
-
+    .social-icon:hover { background: rgba(0,168,132,0.15); color: var(--green-light); border-color: var(--border-green); transform: translateY(-3px); }
+
+    /* Marquee */
+    .marquee-wrap { background: var(--green-dark); overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-flex; animation: marquee 30s linear infinite; }
+    .marquee-track span { display: inline-flex; align-items: center; gap: 12px; padding: 10px 24px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.85); }
+    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+    /* Divider */
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+    /* Footer link */
+    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: color 0.18s; }
+    .footer-link:hover { color: var(--green-light); }
+
+    /* Animations */
+    [data-anim] { will-change: transform, opacity; transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+    [data-anim="fade-up"] { opacity: 0; transform: translateY(30px); }
+    [data-anim="zoom-in"] { opacity: 0; transform: scale(0.88); }
+    [data-anim="slide-left"] { opacity: 0; transform: translateX(-24px); }
+    [data-anim="slide-right"] { opacity: 0; transform: translateX(24px); }
+    [data-anim].in-view { opacity: 1; transform: none; }
+    [data-delay="1"] { transition-delay: 0.08s; }
+    [data-delay="2"] { transition-delay: 0.16s; }
+    [data-delay="3"] { transition-delay: 0.24s; }
+    [data-delay="4"] { transition-delay: 0.32s; }
+    [data-delay="5"] { transition-delay: 0.4s; }
   </style>
 </head>
-
 <body>
+  <!-- Blobs -->
+  <div class="blob" style="width:500px;height:500px;top:-150px;left:-150px;background:rgba(0,168,132,0.12);animation:floaty 18s ease-in-out infinite;"></div>
+  <div class="blob" style="width:400px;height:400px;bottom:0;right:-100px;background:rgba(0,128,105,0.1);animation:floaty 22s ease-in-out 6s infinite;"></div>
 
-
-  <!-- NAVBAR -->
-
-  <header class="topbar">
-
-    <div class="top-inner">
-
-      <a href="index.html" class="brand">
-
-        <img
-          src="https://files.catbox.moe/1l02sd.png"
-          alt="LUKA-AI">
-
-        <div>
-
-          <div class="brand-title">
-            LUKA-AI
+  <!-- Nav -->
+  <nav class="nav-bar sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 h-15 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 no-underline group">
+        <div class="flex items-center gap-2">
+          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-9 h-9 rounded-xl object-cover" style="box-shadow:0 0 12px rgba(0,168,132,0.4);" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;width:36px;height:36px;border-radius:12px;background:var(--green);align-items:center;justify-content:center;">
+            <i class="fas fa-paw" style="color:#fff;font-size:0.85rem;"></i>
           </div>
-
-          <div class="brand-sub">
-            WHATSAPP BOT
-          </div>
-
+          <img src="https://github.com/GuruhTech.png" alt="Ultra Guru" class="w-9 h-9 rounded-xl object-cover -ml-2" style="border:2px solid var(--bg-primary);box-shadow:0 0 12px rgba(0,168,132,0.3);" onerror="this.style.display='none'">
         </div>
-
+        <div class="flex flex-col leading-none">
+          <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
+          <span class="text-[9px] font-semibold tracking-[0.2em]" style="color:var(--green)">SESSION STUDIO</span>
+        </div>
       </a>
-
-
-      <nav class="nav-links">
-
-        <a href="index.html" class="active">
-          Home
+      <div class="hidden md:flex items-center gap-6">
+        <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Black Panther</a>
+        <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Ultra Guru</a>
+        <a href="/pair" class="nav-link"><i class="fas fa-link text-xs"></i> Pair Code</a>
+        <a href="/qr" class="nav-link"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
+        <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="nav-link"><i class="fab fa-whatsapp text-xs"></i> Channel</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/pair" class="hidden md:inline-flex btn btn-green py-2.5 px-5 text-xs">
+          <span class="icon-anim"><i class="fas fa-link"></i></span> Get Session
         </a>
+        <button id="menuBtn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl outline-none focus:outline-none" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);">
+          <i class="fas fa-bars" id="menuIcon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-        <a href="pair.html">
-          Pair Code
-        </a>
-
-        <a href="qr.html">
-          QR Code
-        </a>
-
-        <a
-          href="https://github.com/lucvoice/LUKA-AI"
-          target="_blank">
-
-          Source Code
-
-        </a>
-
-      </nav>
-
-
-      <button class="menu-btn" id="menuBtn">
-
-        <i class="fa-solid fa-bars"></i>
-
+  <!-- Sidebar overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none"></div>
+  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full" style="background:var(--bg-secondary);border-right:1px solid var(--border);">
+    <div class="flex items-center justify-between px-5 mb-6">
+      <div class="flex items-center gap-2">
+        <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-8 h-8 rounded-lg object-cover" onerror="this.style.display='none'">
+        <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
+      </div>
+      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg" style="background:var(--bg-panel);color:var(--text-secondary);">
+        <i class="fas fa-times text-sm"></i>
       </button>
-
     </div>
-
-  </header>
-
-
-
-  <!-- SIDEBAR -->
-
-  <div
-    class="side-overlay"
-    id="overlay">
-  </div>
-
-
-  <aside
-    class="sidebar"
-    id="sidebar">
-
-    <div class="side-head">
-
-      <a
-        href="index.html"
-        class="side-brand">
-
-        LUKA-AI
-
-      </a>
-
-      <button
-        class="menu-btn"
-        id="closeBtn"
-        style="
-          width:45px;
-          height:45px;
-          border-radius:14px;
-        ">
-
-        <i class="fa-solid fa-xmark"></i>
-
-      </button>
-
+    <div class="px-3 flex-1 space-y-1">
+      <a href="/" class="sidebar-link" style="background:rgba(0,168,132,0.1);border-color:var(--border-green);color:var(--green-light);"><i class="fas fa-house"></i> Home</a>
+      <a href="/pair" class="sidebar-link"><i class="fas fa-link"></i> Pair Code</a>
+      <a href="/qr" class="sidebar-link"><i class="fas fa-qrcode"></i> QR Code</a>
+      <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Black Panther Repo</a>
+      <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Ultra Guru Repo</a>
+      <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
+      <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="sidebar-link"><i class="fas fa-users"></i> WA Group</a>
     </div>
-
-
-    <div style="margin-top:18px">
-
-      <a
-        class="side-link"
-        href="index.html">
-
-        <i class="fa-solid fa-house"></i>
-        Home
-
-      </a>
-
-
-      <a
-        class="side-link"
-        href="pair.html">
-
-        <i class="fa-solid fa-link"></i>
-        Pair Code
-
-      </a>
-
-
-      <a
-        class="side-link"
-        href="qr.html">
-
-        <i class="fa-solid fa-qrcode"></i>
-        QR Code
-
-      </a>
-
-
-      <a
-        class="side-link"
-        target="_blank"
-        href="https://github.com/lucvoice/LUKA-AI">
-
-        <i class="fa-brands fa-github"></i>
-        Source Code
-
-      </a>
-
-
-      <a
-        class="side-link"
-        target="_blank"
-        href="https://t.me/lucvoice">
-
-        <i class="fa-brands fa-telegram"></i>
-        Support
-
-      </a>
-
+    <div class="px-5 pt-4" style="border-top:1px solid var(--border);">
+      <p style="color:var(--text-secondary);font-size:0.75rem;">⚡ Powered by GuruTech Lab</p>
     </div>
-
   </aside>
 
+  <!-- Main -->
+  <main class="relative z-10">
 
+    <!-- Hero -->
+    <section class="min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-16">
+      <div class="max-w-3xl mx-auto w-full">
 
-  <!-- HERO -->
+        <!-- Status -->
+        <div class="flex justify-center mb-7" data-anim="zoom-in">
+          <span class="status-badge">SESSION SERVER ONLINE</span>
+        </div>
 
-  <main>
+        <!-- Hero Logo (both repos) -->
+        <div class="flex justify-center mb-8" data-anim="zoom-in" data-delay="1">
+          <div class="relative inline-flex items-end gap-3">
+            <!-- BLACK-PANTHER logo -->
+            <div class="relative">
+              <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg"
+                alt="BLACK-PANTHER"
+                class="w-24 h-24 rounded-2xl object-cover"
+                style="box-shadow:0 8px 32px rgba(0,168,132,0.35);border:2px solid var(--border-green);"
+                onerror="this.src='';this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div style="display:none;width:96px;height:96px;border-radius:16px;background:linear-gradient(135deg,var(--green-dark),var(--green));align-items:center;justify-content:center;font-size:2rem;color:#fff;">🐾</div>
+              <div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--bg-primary);border:2px solid var(--border-green);">
+                <i class="fab fa-github" style="color:var(--green);font-size:0.75rem;"></i>
+              </div>
+            </div>
 
-    <section class="hero">
+            <!-- WhatsApp centre icon -->
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-2" style="background:var(--green);box-shadow:0 0 30px rgba(37,211,102,0.4);z-index:2;">
+              <i class="fab fa-whatsapp" style="color:#fff;font-size:1.8rem;"></i>
+            </div>
 
-      <div class="status">
+            <!-- ULTRA-GURU logo -->
+            <div class="relative">
+              <img src="https://github.com/GuruhTech.png"
+                alt="ULTRA-GURU"
+                class="w-24 h-24 rounded-2xl object-cover"
+                style="box-shadow:0 8px 32px rgba(0,168,132,0.35);border:2px solid var(--border-green);"
+                onerror="this.src='';this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div style="display:none;width:96px;height:96px;border-radius:16px;background:linear-gradient(135deg,#1a3c2e,var(--green));align-items:center;justify-content:center;font-size:2rem;color:#fff;">⚡</div>
+              <div class="absolute -bottom-2 -left-2 w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--bg-primary);border:2px solid var(--border-green);">
+                <i class="fab fa-github" style="color:var(--green);font-size:0.75rem;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <span class="status-dot"></span>
-
-        SYSTEM ONLINE
-
-      </div>
-
-
-      <h1>
-
-        Connect Your WhatsApp
-        <br>
-
-        <span>
-          To LUKA-AI
-        </span>
-
-      </h1>
-
-
-      <p>
-
-        Link your WhatsApp account quickly and securely.
-        Choose Pair Code or QR Code to connect your
-        LUKA-AI WhatsApp bot.
-
-      </p>
-
-
-      <div class="hero-actions">
-
-        <a
-          href="pair.html"
-          class="btn btn-primary">
-
-          <i class="fa-solid fa-link"></i>
-
-          GET PAIR CODE
-
-        </a>
-
-
-        <a
-          href="qr.html"
-          class="btn btn-secondary">
-
-          <i class="fa-solid fa-qrcode"></i>
-
-          SCAN QR CODE
-
-        </a>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- CONNECT OPTIONS -->
-
-    <section class="main-card">
-
-      <div class="main-card-header">
-
-        <h2>
-          Choose Connection Method
-        </h2>
-
-        <p>
-          Select the easiest way to connect your account
+        <p class="text-xs font-semibold tracking-[0.3em] mb-2" style="color:var(--green);" data-anim="fade-up" data-delay="2">BLACK-PANTHER × ULTRA-GURU</p>
+        <h1 class="text-5xl sm:text-6xl font-extrabold leading-tight mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="2">
+          PANTHER X<br><span style="color:var(--green);">ULTRA PAIR</span>
+        </h1>
+        <p class="text-base sm:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color:var(--text-secondary);" data-anim="fade-up" data-delay="3">
+          Generate your WhatsApp session in seconds. Pair code or QR — encrypted, instant, and always online.
         </p>
 
+        <div class="flex flex-row items-center justify-center gap-3 flex-wrap" data-anim="fade-up" data-delay="4">
+          <a href="/pair" class="btn btn-green">
+            <span class="icon-anim"><i class="fas fa-link"></i></span> Pair Code
+          </a>
+          <a href="/qr" class="btn btn-dark">
+            <span class="icon-anim"><i class="fas fa-qrcode"></i></span> QR Code
+          </a>
+          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="btn btn-outline">
+            <span class="icon-anim"><i class="fab fa-github"></i></span> GitHub
+          </a>
+        </div>
       </div>
 
-
-      <div class="options">
-
-
-        <!-- PAIR -->
-
-        <a
-          href="pair.html"
-          class="option-card">
-
-          <div class="option-icon">
-
-            <i class="fa-solid fa-link"></i>
-
-          </div>
-
-
-          <h3>
-            Pair Code
-          </h3>
-
-
-          <p>
-
-            Enter your WhatsApp phone number
-            and receive a code for linking your account.
-
-          </p>
-
-
-          <div class="option-go">
-
-            GET PAIR CODE
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-          </div>
-
-        </a>
-
-
-
-        <!-- QR -->
-
-        <a
-          href="qr.html"
-          class="option-card">
-
-          <div class="option-icon">
-
-            <i class="fa-solid fa-qrcode"></i>
-
-          </div>
-
-
-          <h3>
-            QR Code
-          </h3>
-
-
-          <p>
-
-            Scan the generated QR code using
-            WhatsApp Linked Devices to connect.
-
-          </p>
-
-
-          <div class="option-go">
-
-            OPEN QR SCANNER
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-          </div>
-
-        </a>
-
+      <!-- Stat row -->
+      <div class="mt-14 w-full max-w-2xl mx-auto grid grid-cols-3 gap-4" data-anim="fade-up" data-delay="5">
+        <div class="stat-card">
+          <p class="text-2xl font-extrabold" style="color:var(--green);">2</p>
+          <p class="text-xs mt-1" style="color:var(--text-secondary);">Login Methods</p>
+        </div>
+        <div class="stat-card">
+          <p class="text-2xl font-extrabold" style="color:var(--green-light);">100%</p>
+          <p class="text-xs mt-1" style="color:var(--text-secondary);">Open Source</p>
+        </div>
+        <div class="stat-card">
+          <p class="text-2xl font-extrabold" style="color:var(--green);">24/7</p>
+          <p class="text-xs mt-1" style="color:var(--text-secondary);">Available</p>
+        </div>
       </div>
-
     </section>
 
-
-
-    <!-- FEATURES -->
-
-    <section class="section">
-
-      <div class="section-title">
-
-        <h2>
-          Fast. Simple. Secure.
-        </h2>
-
-        <p>
-          Everything you need to connect your LUKA-AI bot.
-        </p>
-
+    <!-- Marquee -->
+    <div class="marquee-wrap" style="transform:rotate(-0.8deg);margin:-2px 0;">
+      <div class="marquee-track">
+        <span><i class="fab fa-whatsapp"></i> FAST PAIRING &nbsp;•&nbsp; <i class="fas fa-shield-halved"></i> ENCRYPTED &nbsp;•&nbsp; <i class="fas fa-bolt"></i> INSTANT SESSION &nbsp;•&nbsp; <i class="fas fa-code"></i> OPEN SOURCE &nbsp;•&nbsp; <i class="fab fa-whatsapp"></i> PANTHER X ULTRA PAIR</span>
+        <span><i class="fab fa-whatsapp"></i> FAST PAIRING &nbsp;•&nbsp; <i class="fas fa-shield-halved"></i> ENCRYPTED &nbsp;•&nbsp; <i class="fas fa-bolt"></i> INSTANT SESSION &nbsp;•&nbsp; <i class="fas fa-code"></i> OPEN SOURCE &nbsp;•&nbsp; <i class="fab fa-whatsapp"></i> PANTHER X ULTRA PAIR</span>
       </div>
+    </div>
 
+    <div class="divider"></div>
 
-      <div class="features">
-
-
-        <div class="feature">
-
-          <i class="fa-solid fa-bolt"></i>
-
-          <div class="feature-content">
-
-            <h3>
-              Fast Connection
-            </h3>
-
-            <p>
-              Get connected quickly with an easy pairing process.
-            </p>
-
-          </div>
-
+    <!-- How to Link -->
+    <section class="py-20 px-5">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// HOW TO LINK</p>
+          <h2 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Link Your WhatsApp</h2>
+          <p class="text-sm max-w-md mx-auto" style="color:var(--text-secondary);" data-anim="fade-up" data-delay="2">Two ways to connect — pick the one that suits you.</p>
         </div>
 
-
-
-        <div class="feature">
-
-          <i class="fa-solid fa-shield-halved"></i>
-
-          <div class="feature-content">
-
-            <h3>
-              Secure
-            </h3>
-
-            <p>
-              Your connection process is designed to be simple and secure.
-            </p>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Method 1: Pair Code -->
+          <div data-anim="slide-left" data-delay="1">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--green);box-shadow:0 0 14px rgba(0,168,132,0.4);">
+                <i class="fas fa-link" style="color:#fff;font-size:0.85rem;"></i>
+              </div>
+              <h3 class="text-lg font-bold" style="color:var(--text-primary);">Method 1 — Pair Code</h3>
+            </div>
+            <div class="space-y-3">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Open WhatsApp</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">On your phone, open WhatsApp and go to Settings</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Tap Linked Devices</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Go to <strong style="color:var(--green)">Settings → Linked Devices → Link a Device</strong></p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Enter Phone Number Here</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Click Pair Code below, enter your number (with country code)</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">4</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Enter the 8-Digit Code</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Type the code shown here into WhatsApp's "Enter Code" field</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">5</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Receive Your Session</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Your session ID will be sent to you via WhatsApp message</p>
+                </div>
+              </div>
+            </div>
+            <a href="/pair" class="btn btn-green mt-5 w-full justify-center">
+              <span class="icon-anim"><i class="fas fa-link"></i></span> Get Pair Code
+            </a>
           </div>
 
-        </div>
-
-
-
-        <div class="feature">
-
-          <i class="fa-solid fa-mobile-screen"></i>
-
-          <div class="feature-content">
-
-            <h3>
-              Mobile Ready
-            </h3>
-
-            <p>
-              Works perfectly on mobile phones and desktop devices.
-            </p>
-
+          <!-- Method 2: QR Code -->
+          <div data-anim="slide-right" data-delay="1">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--bg-panel);border:1px solid var(--border-green);">
+                <i class="fas fa-qrcode" style="color:var(--green);font-size:0.85rem;"></i>
+              </div>
+              <h3 class="text-lg font-bold" style="color:var(--text-primary);">Method 2 — QR Code</h3>
+            </div>
+            <div class="space-y-3">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Open WhatsApp</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">On your phone, open WhatsApp and go to Settings</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Tap Linked Devices</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Go to <strong style="color:var(--green)">Settings → Linked Devices → Link a Device</strong></p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Generate QR Here</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Click QR Code below to generate your scan code</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">4</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Scan the QR Code</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Point your phone camera at the QR code to scan it</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">5</div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Receive Your Session</p>
+                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Your session ID will be sent to you via WhatsApp message</p>
+                </div>
+              </div>
+            </div>
+            <a href="/qr" class="btn btn-dark mt-5 w-full justify-center" style="border-color:var(--border-green);color:var(--green-light);">
+              <span class="icon-anim"><i class="fas fa-qrcode"></i></span> Generate QR Code
+            </a>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
+    <div class="divider"></div>
+
+    <!-- Features -->
+    <section class="py-20 px-5">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// FEATURES</p>
+          <h2 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Built for Reliability</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <a href="/pair" class="wa-card p-7 no-underline" data-anim="fade-up" data-delay="1">
+            <div class="card-icon"><i class="fas fa-link"></i></div>
+            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">Pair Code Login</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Connect instantly with an 8-digit code. No QR scan needed — just your phone number and the code.</p>
+          </a>
+          <a href="/qr" class="wa-card p-7 no-underline" data-anim="fade-up" data-delay="2">
+            <div class="card-icon"><i class="fas fa-qrcode"></i></div>
+            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">QR Code Login</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Classic QR scan for seamless WhatsApp linking. Open your camera and connect in seconds.</p>
+          </a>
+          <div class="wa-card p-7 cursor-default" data-anim="fade-up" data-delay="3">
+            <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">End-to-End Encrypted</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Gzip-compressed session handling. Your credentials stay secure with industry-standard encryption.</p>
+          </div>
+          <div class="wa-card p-7 cursor-default" data-anim="fade-up" data-delay="4">
+            <div class="card-icon"><i class="fas fa-database"></i></div>
+            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">PostgreSQL Backed</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Sessions stored securely in PostgreSQL. Short or long format — your choice, always retrievable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Decorative WhatsApp chat preview -->
+    <section class="py-16 px-5">
+      <div class="max-w-md mx-auto" data-anim="zoom-in">
+        <p class="text-xs font-semibold tracking-[0.25em] mb-6 text-center" style="color:var(--green);">// WHAT YOU'LL RECEIVE</p>
+        <div class="rounded-2xl overflow-hidden" style="background:var(--bg-secondary);border:1px solid var(--border);">
+          <div class="flex items-center gap-3 px-5 py-4" style="background:var(--bg-panel);border-bottom:1px solid var(--border);">
+            <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-9 h-9 rounded-full object-cover" onerror="this.src='';">
+            <div>
+              <p class="text-sm font-semibold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</p>
+              <p class="text-xs" style="color:var(--green);">online</p>
+            </div>
+          </div>
+          <div class="p-5 space-y-4" style="background-image:url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2300a884\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+            <div class="chat-bubble max-w-xs">
+              <p class="text-xs" style="color:var(--text-secondary);">🔗 Your Session ID</p>
+              <p class="font-mono text-xs mt-1 break-all" style="color:var(--green-light);">GURU~AbCd1234...encrypted_session_data...</p>
+              <div class="chat-time">✓✓ 12:34 PM</div>
+            </div>
+            <div class="flex justify-end">
+              <div class="chat-bubble-out max-w-xs">
+                <p class="text-xs" style="color:var(--text-primary);">Thanks! Session received ✅</p>
+                <div class="chat-time">12:34 PM ✓✓</div>
+              </div>
+            </div>
+            <div class="chat-bubble max-w-xs">
+              <p class="text-xs" style="color:var(--text-secondary);">✨ Powered by ULTRA GURU MD</p>
+              <div class="chat-time">✓✓ 12:34 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Community -->
+    <section class="py-16 px-5">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// COMMUNITY</p>
+        <h2 class="text-3xl font-extrabold mb-6" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Join the GuruTech Community</h2>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-anim="fade-up" data-delay="2">
+          <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="btn btn-green flex-1 sm:flex-none justify-center">
+            <span class="icon-anim"><i class="fab fa-whatsapp"></i></span> Join WA Group
+          </a>
+          <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="btn btn-dark flex-1 sm:flex-none justify-center" style="border-color:var(--border-green);color:var(--green-light);">
+            <span class="icon-anim"><i class="fas fa-bullhorn"></i></span> Follow Channel
+          </a>
+          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="btn btn-outline flex-1 sm:flex-none justify-center">
+            <span class="icon-anim"><i class="fab fa-github"></i></span> Star on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Footer -->
+    <footer class="py-12 px-5" style="background:var(--bg-secondary);">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row gap-8 mb-8">
+          <div class="flex-1">
+            <div class="flex items-center gap-2.5 mb-3">
+              <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-7 h-7 rounded-lg object-cover" onerror="this.style.display='none'">
+              <span class="text-sm font-bold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</span>
+            </div>
+            <p class="text-xs leading-relaxed mb-4 max-w-xs" style="color:var(--text-secondary);">WhatsApp session generator powered by BLACK-PANTHER & ULTRA-GURU. Built by GuruTech Lab.</p>
+            <div class="flex gap-2">
+              <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="social-icon" title="BLACK-PANTHER"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="social-icon" title="ULTRA-GURU"><i class="fab fa-github"></i></a>
+              <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--text-secondary);">Session</p>
+            <div class="space-y-2">
+              <a href="/pair" class="footer-link"><i class="fas fa-link text-xs" style="color:var(--green);"></i> Pair Code</a>
+              <a href="/qr" class="footer-link"><i class="fas fa-qrcode text-xs" style="color:var(--green);"></i> QR Code</a>
+              <a href="/health" class="footer-link"><i class="fas fa-heart-pulse text-xs" style="color:var(--green);"></i> Health Check</a>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--text-secondary);">Community</p>
+            <div class="space-y-2">
+              <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="footer-link"><i class="fab fa-whatsapp text-xs" style="color:var(--green);"></i> WA Group</a>
+              <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="footer-link"><i class="fas fa-bullhorn text-xs" style="color:var(--green);"></i> WA Channel</a>
+              <a href="https://github.com/GuruhTech" target="_blank" class="footer-link"><i class="fab fa-github text-xs" style="color:var(--green);"></i> GuruTech GitHub</a>
+            </div>
+          </div>
+        </div>
+        <div class="pt-6" style="border-top:1px solid var(--border);">
+          <p class="text-xs text-center" style="color:var(--text-secondary);">&copy; <span id="yr"></span> PANTHER X ULTRA PAIR &mdash; Built by <a href="https://github.com/GuruhTech" target="_blank" style="color:var(--green);text-decoration:none;">GuruTech Lab</a></p>
+        </div>
+      </div>
+    </footer>
   </main>
 
-
-
-  <!-- FOOTER -->
-
-  <footer>
-
-    © <span id="year"></span>
-    <strong>LUKA-AI</strong>
-
-    — Powered by LUKA iT
-
-  </footer>
-
-
-
   <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-    document
-      .getElementById('year')
-      .textContent =
-      new Date().getFullYear();
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const menuIcon = document.getElementById('menuIcon');
 
+    function openSidebar() { sidebar.style.transform='translateX(0)'; overlay.style.opacity='1'; overlay.style.pointerEvents='auto'; menuIcon.className='fas fa-times'; document.body.style.overflow='hidden'; }
+    function closeSidebar() { sidebar.style.transform='translateX(-100%)'; overlay.style.opacity='0'; overlay.style.pointerEvents='none'; menuIcon.className='fas fa-bars'; document.body.style.overflow=''; }
+    menuBtn.addEventListener('click', () => { sidebar.style.transform==='translateX(0)' ? closeSidebar() : openSidebar(); });
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
 
-    const sidebar =
-      document.getElementById('sidebar');
-
-    const overlay =
-      document.getElementById('overlay');
-
-    const menuBtn =
-      document.getElementById('menuBtn');
-
-    const closeBtn =
-      document.getElementById('closeBtn');
-
-
-    function openSidebar() {
-
-      sidebar.classList.add('open');
-
-      overlay.classList.add('show');
-
-      document.body.style.overflow = 'hidden';
-
-    }
-
-
-    function closeSidebar() {
-
-      sidebar.classList.remove('open');
-
-      overlay.classList.remove('show');
-
-      document.body.style.overflow = '';
-
-    }
-
-
-    menuBtn.addEventListener(
-      'click',
-      openSidebar
-    );
-
-
-    closeBtn.addEventListener(
-      'click',
-      closeSidebar
-    );
-
-
-    overlay.addEventListener(
-      'click',
-      closeSidebar
-    );
-
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view'));
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
   </script>
-
 </body>
 </html>
