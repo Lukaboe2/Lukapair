@@ -1,648 +1,485 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>PANTHER X ULTRA PAIR | WhatsApp Session Studio</title>
-  <meta name="description" content="PANTHER X ULTRA PAIR — Generate your WhatsApp session with pair code or QR code. Fast, secure, dark-mode WhatsApp experience.">
-  <meta name="theme-color" content="#00a884">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <title>LUKA-AI | PRO TECH DASHBOARD</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />  
+  <style>  
     :root {
-      --bg-primary:   #111b21;
-      --bg-secondary: #1f2c34;
-      --bg-panel:     #2a3942;
-      --bg-input:     #2a3942;
-      --green:        #00a884;
-      --green-light:  #25d366;
-      --green-dark:   #008069;
-      --text-primary: #e9edef;
-      --text-secondary: #8696a0;
-      --border:       rgba(134,150,160,0.15);
-      --border-green: rgba(0,168,132,0.35);
-      --teal:         #02b0a0;
-    }
+  --neon-primary: #bb00ff;
+  --neon-secondary: #8000ff;
+  --neon-accent: #ff00ff;
+  --cyber-blue: #b300ff;
+  --cyber-purple: #6a00ff;
+  --dark-bg: #0f0514;
+  --dark-surface: rgba(24, 10, 35, 0.85);
+  --glass-border: rgba(187, 0, 255, 0.25);
+  --text-primary: #ffffff;
+  --text-secondary: #c9b3e6;
+  --grid-color: rgba(187, 0, 255, 0.1);
+    }  * {  
+  margin: 0;  
+  padding: 0;  
+  box-sizing: border-box;  
+}  
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: var(--bg-panel) var(--bg-secondary);
-    }
-    body::-webkit-scrollbar { width: 5px; }
-    body::-webkit-scrollbar-track { background: var(--bg-secondary); }
-    body::-webkit-scrollbar-thumb { background: var(--bg-panel); border-radius: 4px; }
+body {  
+  min-height: 100vh;  
+  font-family: 'Segoe UI', system-ui, sans-serif;  
+  background:
+  radial-gradient(ellipse at 20% 30%, rgba(128, 0, 255, 0.2) 0%, transparent 40%),
+  radial-gradient(ellipse at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 40%),
+  linear-gradient(135deg, #090010 0%, #140020 50%, #0d0018 100%);  
+  color: var(--text-primary);  
+  overflow-x: hidden;  
+  position: relative;  
+}  
 
-    /* Subtle pattern bg */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300a884' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
-    }
+/* Cyber Grid Background */  
+.cyber-grid {  
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  width: 100vw;  
+  height: 100vh;  
+  background-image:   
+    linear-gradient(var(--grid-color) 1px, transparent 1px),  
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);  
+  background-size: 50px 50px;  
+  mask-image: radial-gradient(circle at center, black 30%, transparent 70%);  
+  z-index: 0;  
+  animation: gridMove 20s linear infinite;  
+}  
 
-    /* Blobs */
-    .blob { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
-    @keyframes floaty { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,-25px) scale(1.06);} }
+@keyframes gridMove {  
+  0% { transform: translate(0, 0); }  
+  100% { transform: translate(50px, 50px); }  
+}  
 
-    /* Nav */
-    .nav-bar {
-      background: rgba(17,27,33,0.92);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    }
-    .nav-link {
-      color: var(--text-secondary); font-size: 0.875rem; font-weight: 500;
-      text-decoration: none; display: flex; align-items: center; gap: 6px;
-      transition: color 0.18s; position: relative; padding-bottom: 2px;
-    }
-    .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--green); border-radius:2px; transition:width 0.22s; }
-    .nav-link:hover { color: var(--green-light); }
-    .nav-link:hover::after { width: 100%; }
+/* Floating Particles */  
+.floating-elements {  
+  position: fixed;  
+  width: 100%;  
+  height: 100%;  
+  z-index: 1;  
+  pointer-events: none;  
+}  
 
-    /* Sidebar */
-    .sidebar-link {
-      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
-      border-radius: 10px; color: var(--text-secondary); text-decoration: none;
-      font-size: 0.875rem; font-weight: 500;
-      transition: background 0.18s, color 0.18s, transform 0.18s;
-      border: 1px solid transparent;
-    }
-    .sidebar-link:hover { background: rgba(0,168,132,0.1); border-color: var(--border-green); color: var(--green-light); transform: translateX(4px); }
-    .sidebar-link i { width: 18px; text-align: center; }
-    #sidebar { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-    #sidebarOverlay { transition: opacity 0.3s ease; }
+.float-element {  
+  position: absolute;  
+  background: var(--neon-primary);  
+  border-radius: 50%;  
+  opacity: 0.1;  
+  filter: blur(20px);  
+  animation: float 15s infinite ease-in-out;  
+}  
 
-    /* Buttons */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px 28px; border-radius: 999px; font-weight: 600; font-size: 0.875rem;
-      font-family: 'Inter', sans-serif; text-decoration: none; cursor: pointer; border: none;
-      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
-    }
-    .btn:active { transform: scale(0.97) !important; }
-    .btn-green {
-      background: var(--green); color: #fff;
-      box-shadow: 0 4px 20px rgba(0,168,132,0.35);
-    }
-    .btn-green:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,168,132,0.5); filter: brightness(1.05); }
-    .btn-outline {
-      background: transparent; border: 1.5px solid var(--border);
-      color: var(--text-secondary);
-    }
-    .btn-outline:hover { transform: translateY(-3px); border-color: var(--green); color: var(--green-light); background: rgba(0,168,132,0.06); }
-    .btn-dark {
-      background: var(--bg-panel); color: var(--text-secondary); border: 1px solid var(--border);
-    }
-    .btn-dark:hover { transform: translateY(-3px); border-color: var(--green); color: var(--green-light); }
+@keyframes float {  
+  0%, 100% { transform: translate(0, 0) scale(1); }  
+  50% { transform: translate(100px, -50px) scale(1.2); }  
+}  
 
-    .icon-anim { display: inline-flex; align-items: center; justify-content: center; transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1); }
-    .btn:hover .icon-anim { transform: scale(1.2) rotate(-8deg); }
+/* Main Container */  
+.dashboard {  
+  position: relative;  
+  z-index: 10;  
+  max-width: 500px;  
+  margin: 4% auto;  
+  padding: 40px 35px;  
+  background: var(--dark-surface);  
+  border-radius: 24px;  
+  border: 1px solid var(--glass-border);  
+  backdrop-filter: blur(25px) saturate(180%);  
+  box-shadow:   
+    0 10px 40px rgba(0, 0, 0, 0.5),  
+    0 0 0 1px rgba(255, 255, 255, 0.05),  
+    0 0 50px rgba(0, 255, 157, 0.15),  
+    inset 0 0 20px rgba(255, 255, 255, 0.03);  
+  transform-style: preserve-3d;  
+  perspective: 1000px;  
+  animation: dashboardEntrance 1.2s cubic-bezier(0.23, 1, 0.32, 1);  
+}  
 
-    /* Cards */
-    .wa-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
-      position: relative; overflow: hidden;
-    }
-    .wa-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--green), var(--teal));
-      opacity: 0; transition: opacity 0.28s;
-    }
-    .wa-card:hover { transform: translateY(-6px); border-color: var(--border-green); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-    .wa-card:hover::before { opacity: 1; }
-    .card-icon {
-      width: 48px; height: 48px; border-radius: 14px;
-      background: rgba(0,168,132,0.12); border: 1px solid var(--border-green);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .wa-card:hover .card-icon { transform: scale(1.12) rotate(-6deg); }
-    .card-icon i { color: var(--green); font-size: 1.1rem; }
+@keyframes dashboardEntrance {  
+  0% {  
+    opacity: 0;  
+    transform: translateY(60px) rotateX(-10deg) scale(0.9);  
+  }  
+  100% {  
+    opacity: 1;  
+    transform: translateY(0) rotateX(0) scale(1);  
+  }  
+}  
 
-    /* Status badge */
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,168,132,0.1); border: 1px solid var(--border-green);
-      border-radius: 999px; padding: 6px 16px;
-      font-size: 0.72rem; font-weight: 600; color: var(--green-light);
-      letter-spacing: 0.06em;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+/* Logo Area */  
+.logo-container {  
+  position: relative;  
+  width: 140px;  
+  height: 140px;  
+  margin: 0 auto 30px;  
+}  
 
-    /* Step items */
-    .step-item {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 16px; border-radius: 14px;
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .step-item:hover { border-color: var(--border-green); background: rgba(0,168,132,0.05); }
-    .step-num {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--green); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
-      box-shadow: 0 0 12px rgba(0,168,132,0.4);
-    }
+.logo-outer-ring {  
+  position: absolute;  
+  width: 100%;  
+  height: 100%;  
+  border-radius: 50%;  
+  border: 3px solid transparent;  
+  border-top-color: var(--neon-primary);  
+  border-right-color: var(--neon-secondary);  
+  animation: spin 8s linear infinite;  
+}  
 
-    /* Chat bubble decorative */
-    .chat-bubble {
-      background: var(--bg-panel); border-radius: 0 12px 12px 12px;
-      padding: 10px 14px; position: relative;
-      border: 1px solid var(--border);
-      font-size: 0.875rem; color: var(--text-primary);
-    }
-    .chat-bubble-out {
-      background: rgba(0,168,132,0.12); border-radius: 12px 0 12px 12px;
-      padding: 10px 14px; position: relative;
-      border: 1px solid var(--border-green);
-      font-size: 0.875rem; color: var(--text-primary);
-    }
-    .chat-time { font-size: 0.65rem; color: var(--text-secondary); text-align: right; margin-top: 4px; }
+.logo-inner-ring {  
+  position: absolute;  
+  width: 90%;  
+  height: 90%;  
+  top: 5%;  
+  left: 5%;  
+  border-radius: 50%;  
+  border: 2px solid transparent;  
+  border-bottom-color: var(--neon-accent);  
+  border-left-color: var(--cyber-blue);  
+  animation: spinReverse 6s linear infinite;  
+}  
 
-    /* Stat */
-    .stat-card {
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px; text-align: center;
-      transition: border-color 0.2s;
-    }
-    .stat-card:hover { border-color: var(--border-green); }
+.logo-image {  
+  position: absolute;  
+  width: 75%;  
+  height: 75%;  
+  top: 12.5%;  
+  left: 12.5%;  
+  border-radius: 50%;  
+  background: url('https://files.catbox.moe/1l02sd.png') center/cover no-repeat;  
+  border: 2px solid rgba(255, 255, 255, 0.1);  
+  box-shadow:   
+    0 0 30px rgba(0, 255, 157, 0.3),  
+    0 0 60px rgba(0, 128, 255, 0.2),  
+    inset 0 0 20px rgba(0, 0, 0, 0.5);  
+  overflow: hidden;  
+}  
 
-    /* Social icon */
-    .social-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); font-size: 0.9rem; text-decoration: none;
-      transition: background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
-    }
-    .social-icon:hover { background: rgba(0,168,132,0.15); color: var(--green-light); border-color: var(--border-green); transform: translateY(-3px); }
+.logo-image::after {  
+  content: '';  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  width: 100%;  
+  height: 100%;  
+  background: linear-gradient(135deg,   
+    transparent 30%,   
+    rgba(0, 255, 157, 0.1) 50%,   
+    transparent 70%);  
+  animation: shine 3s infinite;  
+}  
 
-    /* Marquee */
-    .marquee-wrap { background: var(--green-dark); overflow: hidden; white-space: nowrap; }
-    .marquee-track { display: inline-flex; animation: marquee 30s linear infinite; }
-    .marquee-track span { display: inline-flex; align-items: center; gap: 12px; padding: 10px 24px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.85); }
-    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+@keyframes spin {  
+  100% { transform: rotate(360deg); }  
+}  
 
-    /* Divider */
-    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+@keyframes spinReverse {  
+  100% { transform: rotate(-360deg); }  
+}  
 
-    /* Footer link */
-    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: color 0.18s; }
-    .footer-link:hover { color: var(--green-light); }
+@keyframes shine {  
+  0%, 100% { transform: translateX(-100%); }  
+  50% { transform: translateX(100%); }  
+}  
 
-    /* Animations */
-    [data-anim] { will-change: transform, opacity; transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
-    [data-anim="fade-up"] { opacity: 0; transform: translateY(30px); }
-    [data-anim="zoom-in"] { opacity: 0; transform: scale(0.88); }
-    [data-anim="slide-left"] { opacity: 0; transform: translateX(-24px); }
-    [data-anim="slide-right"] { opacity: 0; transform: translateX(24px); }
-    [data-anim].in-view { opacity: 1; transform: none; }
-    [data-delay="1"] { transition-delay: 0.08s; }
-    [data-delay="2"] { transition-delay: 0.16s; }
-    [data-delay="3"] { transition-delay: 0.24s; }
-    [data-delay="4"] { transition-delay: 0.32s; }
-    [data-delay="5"] { transition-delay: 0.4s; }
-  </style>
-</head>
-<body>
-  <!-- Blobs -->
-  <div class="blob" style="width:500px;height:500px;top:-150px;left:-150px;background:rgba(0,168,132,0.12);animation:floaty 18s ease-in-out infinite;"></div>
-  <div class="blob" style="width:400px;height:400px;bottom:0;right:-100px;background:rgba(0,128,105,0.1);animation:floaty 22s ease-in-out 6s infinite;"></div>
+/* Title */  
+.title-container {  
+  margin-bottom: 40px;  
+  position: relative;  
+}  
 
-  <!-- Nav -->
-  <nav class="nav-bar sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-5 h-15 py-3 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3 no-underline group">
-        <div class="flex items-center gap-2">
-          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-9 h-9 rounded-xl object-cover" style="box-shadow:0 0 12px rgba(0,168,132,0.4);" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;width:36px;height:36px;border-radius:12px;background:var(--green);align-items:center;justify-content:center;">
-            <i class="fas fa-paw" style="color:#fff;font-size:0.85rem;"></i>
-          </div>
-          <img src="https://github.com/GuruhTech.png" alt="Ultra Guru" class="w-9 h-9 rounded-xl object-cover -ml-2" style="border:2px solid var(--bg-primary);box-shadow:0 0 12px rgba(0,168,132,0.3);" onerror="this.style.display='none'">
-        </div>
-        <div class="flex flex-col leading-none">
-          <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
-          <span class="text-[9px] font-semibold tracking-[0.2em]" style="color:var(--green)">SESSION STUDIO</span>
-        </div>
-      </a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Black Panther</a>
-        <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Ultra Guru</a>
-        <a href="/pair" class="nav-link"><i class="fas fa-link text-xs"></i> Pair Code</a>
-        <a href="/qr" class="nav-link"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
-        <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="nav-link"><i class="fab fa-whatsapp text-xs"></i> Channel</a>
-      </div>
-      <div class="flex items-center gap-3">
-        <a href="/pair" class="hidden md:inline-flex btn btn-green py-2.5 px-5 text-xs">
-          <span class="icon-anim"><i class="fas fa-link"></i></span> Get Session
-        </a>
-        <button id="menuBtn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl outline-none focus:outline-none" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);">
-          <i class="fas fa-bars" id="menuIcon"></i>
-        </button>
-      </div>
-    </div>
-  </nav>
+.main-title {  
+  font-size: 2.8rem;  
+  font-weight: 900;  
+  background: linear-gradient(90deg,   
+    var(--neon-primary),   
+    var(--cyber-blue),   
+    var(--neon-accent)  
+  );  
+  -webkit-background-clip: text;  
+  background-clip: text;  
+  color: transparent;  
+  text-shadow: 0 0 30px rgba(0, 255, 157, 0.5);  
+  letter-spacing: 1px;  
+  margin-bottom: 8px;  
+  animation: titleGlow 4s ease-in-out infinite;  
+}  
 
-  <!-- Sidebar overlay -->
-  <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none"></div>
-  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full" style="background:var(--bg-secondary);border-right:1px solid var(--border);">
-    <div class="flex items-center justify-between px-5 mb-6">
-      <div class="flex items-center gap-2">
-        <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-8 h-8 rounded-lg object-cover" onerror="this.style.display='none'">
-        <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
-      </div>
-      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg" style="background:var(--bg-panel);color:var(--text-secondary);">
-        <i class="fas fa-times text-sm"></i>
-      </button>
-    </div>
-    <div class="px-3 flex-1 space-y-1">
-      <a href="/" class="sidebar-link" style="background:rgba(0,168,132,0.1);border-color:var(--border-green);color:var(--green-light);"><i class="fas fa-house"></i> Home</a>
-      <a href="/pair" class="sidebar-link"><i class="fas fa-link"></i> Pair Code</a>
-      <a href="/qr" class="sidebar-link"><i class="fas fa-qrcode"></i> QR Code</a>
-      <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Black Panther Repo</a>
-      <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Ultra Guru Repo</a>
-      <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
-      <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="sidebar-link"><i class="fas fa-users"></i> WA Group</a>
-    </div>
-    <div class="px-5 pt-4" style="border-top:1px solid var(--border);">
-      <p style="color:var(--text-secondary);font-size:0.75rem;">⚡ Powered by GuruTech Lab</p>
-    </div>
-  </aside>
+.subtitle {  
+  font-size: 1rem;  
+  color: var(--text-secondary);  
+  letter-spacing: 3px;  
+  text-transform: uppercase;  
+  font-weight: 300;  
+  position: relative;  
+  display: inline-block;  
+}  
 
-  <!-- Main -->
-  <main class="relative z-10">
+.subtitle::after {  
+  content: '';  
+  position: absolute;  
+  bottom: -5px;  
+  left: 0;  
+  width: 100%;  
+  height: 1px;  
+  background: linear-gradient(90deg,   
+    transparent,   
+    var(--neon-primary),   
+    transparent  
+  );  
+}  
 
-    <!-- Hero -->
-    <section class="min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-16">
-      <div class="max-w-3xl mx-auto w-full">
+@keyframes titleGlow {  
+  0%, 100% { filter: brightness(1); }  
+  50% { filter: brightness(1.2); }  
+}  
 
-        <!-- Status -->
-        <div class="flex justify-center mb-7" data-anim="zoom-in">
-          <span class="status-badge">SESSION SERVER ONLINE</span>
-        </div>
+/* Buttons Grid */  
+.buttons-grid {  
+  display: grid;  
+  grid-template-columns: repeat(2, 1fr);  
+  gap: 18px;  
+  margin-bottom: 35px;  
+}  
 
-        <!-- Hero Logo (both repos) -->
-        <div class="flex justify-center mb-8" data-anim="zoom-in" data-delay="1">
-          <div class="relative inline-flex items-end gap-3">
-            <!-- BLACK-PANTHER logo -->
-            <div class="relative">
-              <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg"
-                alt="BLACK-PANTHER"
-                class="w-24 h-24 rounded-2xl object-cover"
-                style="box-shadow:0 8px 32px rgba(0,168,132,0.35);border:2px solid var(--border-green);"
-                onerror="this.src='';this.style.display='none';this.nextElementSibling.style.display='flex'">
-              <div style="display:none;width:96px;height:96px;border-radius:16px;background:linear-gradient(135deg,var(--green-dark),var(--green));align-items:center;justify-content:center;font-size:2rem;color:#fff;">🐾</div>
-              <div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--bg-primary);border:2px solid var(--border-green);">
-                <i class="fab fa-github" style="color:var(--green);font-size:0.75rem;"></i>
-              </div>
-            </div>
+.tech-button {  
+  position: relative;  
+  padding: 20px 15px;  
+  background: rgba(20, 22, 35, 0.7);  
+  border-radius: 16px;  
+  border: 1px solid rgba(0, 255, 157, 0.1);  
+  color: var(--text-primary);  
+  text-decoration: none;  
+  font-weight: 600;  
+  font-size: 0.95rem;  
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+  gap: 12px;  
+  overflow: hidden;  
+  backdrop-filter: blur(10px);  
+}  
 
-            <!-- WhatsApp centre icon -->
-            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-2" style="background:var(--green);box-shadow:0 0 30px rgba(37,211,102,0.4);z-index:2;">
-              <i class="fab fa-whatsapp" style="color:#fff;font-size:1.8rem;"></i>
-            </div>
+.tech-button::before {  
+  content: '';  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  width: 100%;  
+  height: 100%;  
+  background: linear-gradient(135deg,   
+    transparent 0%,   
+    rgba(0, 255, 157, 0.05) 50%,   
+    transparent 100%);  
+  transform: translateX(-100%);  
+  transition: transform 0.6s;  
+}  
 
-            <!-- ULTRA-GURU logo -->
-            <div class="relative">
-              <img src="https://github.com/GuruhTech.png"
-                alt="ULTRA-GURU"
-                class="w-24 h-24 rounded-2xl object-cover"
-                style="box-shadow:0 8px 32px rgba(0,168,132,0.35);border:2px solid var(--border-green);"
-                onerror="this.src='';this.style.display='none';this.nextElementSibling.style.display='flex'">
-              <div style="display:none;width:96px;height:96px;border-radius:16px;background:linear-gradient(135deg,#1a3c2e,var(--green));align-items:center;justify-content:center;font-size:2rem;color:#fff;">⚡</div>
-              <div class="absolute -bottom-2 -left-2 w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--bg-primary);border:2px solid var(--border-green);">
-                <i class="fab fa-github" style="color:var(--green);font-size:0.75rem;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+.tech-button:hover::before {  
+  transform: translateX(100%);  
+}  
 
-        <p class="text-xs font-semibold tracking-[0.3em] mb-2" style="color:var(--green);" data-anim="fade-up" data-delay="2">BLACK-PANTHER × ULTRA-GURU</p>
-        <h1 class="text-5xl sm:text-6xl font-extrabold leading-tight mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="2">
-          PANTHER X<br><span style="color:var(--green);">ULTRA PAIR</span>
-        </h1>
-        <p class="text-base sm:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color:var(--text-secondary);" data-anim="fade-up" data-delay="3">
-          Generate your WhatsApp session in seconds. Pair code or QR — encrypted, instant, and always online.
-        </p>
+.tech-button:hover {  
+  transform: translateY(-5px) scale(1.03);  
+  border-color: var(--neon-primary);  
+  box-shadow:   
+    0 10px 25px rgba(0, 255, 157, 0.3),  
+    0 0 30px rgba(0, 128, 255, 0.2),  
+    inset 0 0 15px rgba(255, 255, 255, 0.05);  
+}  
 
-        <div class="flex flex-row items-center justify-center gap-3 flex-wrap" data-anim="fade-up" data-delay="4">
-          <a href="/pair" class="btn btn-green">
-            <span class="icon-anim"><i class="fas fa-link"></i></span> Pair Code
-          </a>
-          <a href="/qr" class="btn btn-dark">
-            <span class="icon-anim"><i class="fas fa-qrcode"></i></span> QR Code
-          </a>
-          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="btn btn-outline">
-            <span class="icon-anim"><i class="fab fa-github"></i></span> GitHub
-          </a>
-        </div>
-      </div>
+.button-icon {  
+  font-size: 1.8rem;  
+  background: linear-gradient(135deg, var(--neon-primary), var(--cyber-blue));  
+  -webkit-background-clip: text;  
+  background-clip: text;  
+  color: transparent;  
+  filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.5));  
+}  
 
-      <!-- Stat row -->
-      <div class="mt-14 w-full max-w-2xl mx-auto grid grid-cols-3 gap-4" data-anim="fade-up" data-delay="5">
-        <div class="stat-card">
-          <p class="text-2xl font-extrabold" style="color:var(--green);">2</p>
-          <p class="text-xs mt-1" style="color:var(--text-secondary);">Login Methods</p>
-        </div>
-        <div class="stat-card">
-          <p class="text-2xl font-extrabold" style="color:var(--green-light);">100%</p>
-          <p class="text-xs mt-1" style="color:var(--text-secondary);">Open Source</p>
-        </div>
-        <div class="stat-card">
-          <p class="text-2xl font-extrabold" style="color:var(--green);">24/7</p>
-          <p class="text-xs mt-1" style="color:var(--text-secondary);">Available</p>
-        </div>
-      </div>
-    </section>
+.button-label {  
+  font-size: 0.9rem;  
+  color: var(--text-secondary);  
+}  
 
-    <!-- Marquee -->
-    <div class="marquee-wrap" style="transform:rotate(-0.8deg);margin:-2px 0;">
-      <div class="marquee-track">
-        <span><i class="fab fa-whatsapp"></i> FAST PAIRING &nbsp;•&nbsp; <i class="fas fa-shield-halved"></i> ENCRYPTED &nbsp;•&nbsp; <i class="fas fa-bolt"></i> INSTANT SESSION &nbsp;•&nbsp; <i class="fas fa-code"></i> OPEN SOURCE &nbsp;•&nbsp; <i class="fab fa-whatsapp"></i> PANTHER X ULTRA PAIR</span>
-        <span><i class="fab fa-whatsapp"></i> FAST PAIRING &nbsp;•&nbsp; <i class="fas fa-shield-halved"></i> ENCRYPTED &nbsp;•&nbsp; <i class="fas fa-bolt"></i> INSTANT SESSION &nbsp;•&nbsp; <i class="fas fa-code"></i> OPEN SOURCE &nbsp;•&nbsp; <i class="fab fa-whatsapp"></i> PANTHER X ULTRA PAIR</span>
-      </div>
-    </div>
+/* Status Bar */  
+.status-bar {  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+  padding: 15px 20px;  
+  background: rgba(10, 12, 20, 0.8);  
+  border-radius: 12px;  
+  margin-top: 25px;  
+  border: 1px solid rgba(0, 247, 255, 0.1);  
+}  
 
-    <div class="divider"></div>
+.status-item {  
+  display: flex;  
+  align-items: center;  
+  gap: 10px;  
+}  
 
-    <!-- How to Link -->
-    <section class="py-20 px-5">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-14">
-          <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// HOW TO LINK</p>
-          <h2 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Link Your WhatsApp</h2>
-          <p class="text-sm max-w-md mx-auto" style="color:var(--text-secondary);" data-anim="fade-up" data-delay="2">Two ways to connect — pick the one that suits you.</p>
-        </div>
+.status-dot {  
+  width: 10px;  
+  height: 10px;  
+  border-radius: 50%;  
+  background: var(--neon-primary);  
+  box-shadow: 0 0 10px var(--neon-primary);  
+  animation: pulse 2s infinite;  
+}  
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Method 1: Pair Code -->
-          <div data-anim="slide-left" data-delay="1">
-            <div class="flex items-center gap-3 mb-5">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--green);box-shadow:0 0 14px rgba(0,168,132,0.4);">
-                <i class="fas fa-link" style="color:#fff;font-size:0.85rem;"></i>
-              </div>
-              <h3 class="text-lg font-bold" style="color:var(--text-primary);">Method 1 — Pair Code</h3>
-            </div>
-            <div class="space-y-3">
-              <div class="step-item">
-                <div class="step-num">1</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Open WhatsApp</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">On your phone, open WhatsApp and go to Settings</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">2</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Tap Linked Devices</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Go to <strong style="color:var(--green)">Settings → Linked Devices → Link a Device</strong></p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">3</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Enter Phone Number Here</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Click Pair Code below, enter your number (with country code)</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">4</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Enter the 8-Digit Code</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Type the code shown here into WhatsApp's "Enter Code" field</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">5</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Receive Your Session</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Your session ID will be sent to you via WhatsApp message</p>
-                </div>
-              </div>
-            </div>
-            <a href="/pair" class="btn btn-green mt-5 w-full justify-center">
-              <span class="icon-anim"><i class="fas fa-link"></i></span> Get Pair Code
-            </a>
-          </div>
+.status-text {  
+  font-size: 0.85rem;  
+  color: var(--text-secondary);  
+}  
 
-          <!-- Method 2: QR Code -->
-          <div data-anim="slide-right" data-delay="1">
-            <div class="flex items-center gap-3 mb-5">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--bg-panel);border:1px solid var(--border-green);">
-                <i class="fas fa-qrcode" style="color:var(--green);font-size:0.85rem;"></i>
-              </div>
-              <h3 class="text-lg font-bold" style="color:var(--text-primary);">Method 2 — QR Code</h3>
-            </div>
-            <div class="space-y-3">
-              <div class="step-item">
-                <div class="step-num">1</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Open WhatsApp</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">On your phone, open WhatsApp and go to Settings</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">2</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Tap Linked Devices</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Go to <strong style="color:var(--green)">Settings → Linked Devices → Link a Device</strong></p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">3</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Generate QR Here</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Click QR Code below to generate your scan code</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">4</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Scan the QR Code</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Point your phone camera at the QR code to scan it</p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-num">5</div>
-                <div>
-                  <p class="font-semibold text-sm" style="color:var(--text-primary);">Receive Your Session</p>
-                  <p class="text-xs mt-0.5" style="color:var(--text-secondary);">Your session ID will be sent to you via WhatsApp message</p>
-                </div>
-              </div>
-            </div>
-            <a href="/qr" class="btn btn-dark mt-5 w-full justify-center" style="border-color:var(--border-green);color:var(--green-light);">
-              <span class="icon-anim"><i class="fas fa-qrcode"></i></span> Generate QR Code
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+@keyframes pulse {  
+  0%, 100% { opacity: 1; }  
+  50% { opacity: 0.5; }  
+}  
 
-    <div class="divider"></div>
+/* Footer */  
+.footer {  
+  text-align: center;  
+  margin-top: 30px;  
+  color: var(--text-secondary);  
+  font-size: 0.85rem;  
+  letter-spacing: 1px;  
+  position: relative;  
+}  
 
-    <!-- Features -->
-    <section class="py-20 px-5">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-14">
-          <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// FEATURES</p>
-          <h2 class="text-3xl sm:text-4xl font-extrabold mb-3" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Built for Reliability</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <a href="/pair" class="wa-card p-7 no-underline" data-anim="fade-up" data-delay="1">
-            <div class="card-icon"><i class="fas fa-link"></i></div>
-            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">Pair Code Login</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Connect instantly with an 8-digit code. No QR scan needed — just your phone number and the code.</p>
-          </a>
-          <a href="/qr" class="wa-card p-7 no-underline" data-anim="fade-up" data-delay="2">
-            <div class="card-icon"><i class="fas fa-qrcode"></i></div>
-            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">QR Code Login</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Classic QR scan for seamless WhatsApp linking. Open your camera and connect in seconds.</p>
-          </a>
-          <div class="wa-card p-7 cursor-default" data-anim="fade-up" data-delay="3">
-            <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
-            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">End-to-End Encrypted</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Gzip-compressed session handling. Your credentials stay secure with industry-standard encryption.</p>
-          </div>
-          <div class="wa-card p-7 cursor-default" data-anim="fade-up" data-delay="4">
-            <div class="card-icon"><i class="fas fa-database"></i></div>
-            <h3 class="font-bold mb-2" style="color:var(--text-primary);font-size:1.05rem;">PostgreSQL Backed</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-secondary);">Sessions stored securely in PostgreSQL. Short or long format — your choice, always retrievable.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+.footer::before {  
+  content: '';  
+  position: absolute;  
+  top: -15px;  
+  left: 50%;  
+  transform: translateX(-50%);  
+  width: 150px;  
+  height: 1px;  
+  background: linear-gradient(90deg,   
+    transparent,   
+    var(--neon-primary),   
+    transparent  
+  );  
+}  
 
-    <div class="divider"></div>
+.copyright {  
+  color: var(--neon-primary);  
+  font-weight: 600;  
+}  
 
-    <!-- Decorative WhatsApp chat preview -->
-    <section class="py-16 px-5">
-      <div class="max-w-md mx-auto" data-anim="zoom-in">
-        <p class="text-xs font-semibold tracking-[0.25em] mb-6 text-center" style="color:var(--green);">// WHAT YOU'LL RECEIVE</p>
-        <div class="rounded-2xl overflow-hidden" style="background:var(--bg-secondary);border:1px solid var(--border);">
-          <div class="flex items-center gap-3 px-5 py-4" style="background:var(--bg-panel);border-bottom:1px solid var(--border);">
-            <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-9 h-9 rounded-full object-cover" onerror="this.src='';">
-            <div>
-              <p class="text-sm font-semibold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</p>
-              <p class="text-xs" style="color:var(--green);">online</p>
-            </div>
-          </div>
-          <div class="p-5 space-y-4" style="background-image:url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2300a884\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
-            <div class="chat-bubble max-w-xs">
-              <p class="text-xs" style="color:var(--text-secondary);">🔗 Your Session ID</p>
-              <p class="font-mono text-xs mt-1 break-all" style="color:var(--green-light);">GURU~AbCd1234...encrypted_session_data...</p>
-              <div class="chat-time">✓✓ 12:34 PM</div>
-            </div>
-            <div class="flex justify-end">
-              <div class="chat-bubble-out max-w-xs">
-                <p class="text-xs" style="color:var(--text-primary);">Thanks! Session received ✅</p>
-                <div class="chat-time">12:34 PM ✓✓</div>
-              </div>
-            </div>
-            <div class="chat-bubble max-w-xs">
-              <p class="text-xs" style="color:var(--text-secondary);">✨ Powered by ULTRA GURU MD</p>
-              <div class="chat-time">✓✓ 12:34 PM</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+/* Responsive */  
+@media (max-width: 550px) {  
+  .dashboard {  
+    margin: 10% 20px;  
+    padding: 30px 25px;  
+  }  
+    
+  .buttons-grid {  
+    grid-template-columns: 1fr;  
+  }  
+    
+  .main-title {  
+    font-size: 2.2rem;  
+  }  
+}
 
-    <div class="divider"></div>
+  </style>  
+</head>  
+<body>  
+  <div class="cyber-grid"></div>    <div class="floating-elements" id="floatingElements"></div>    <div class="dashboard">  
+    <div class="logo-container">  
+      <div class="logo-outer-ring"></div>  
+      <div class="logo-inner-ring"></div>  
+      <div class="logo-image"></div>  
+    </div>  <div class="title-container">  
+  <h1 class="main-title">LUKA-AI</h1>  
+  <div class="subtitle">LUKA TECH DASHBOARD</div>  
+</div>  
 
-    <!-- Community -->
-    <section class="py-16 px-5">
-      <div class="max-w-3xl mx-auto text-center">
-        <p class="text-xs font-semibold tracking-[0.25em] mb-3" style="color:var(--green);" data-anim="fade-up">// COMMUNITY</p>
-        <h2 class="text-3xl font-extrabold mb-6" style="color:var(--text-primary);" data-anim="fade-up" data-delay="1">Join the GuruTech Community</h2>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-anim="fade-up" data-delay="2">
-          <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="btn btn-green flex-1 sm:flex-none justify-center">
-            <span class="icon-anim"><i class="fab fa-whatsapp"></i></span> Join WA Group
-          </a>
-          <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="btn btn-dark flex-1 sm:flex-none justify-center" style="border-color:var(--border-green);color:var(--green-light);">
-            <span class="icon-anim"><i class="fas fa-bullhorn"></i></span> Follow Channel
-          </a>
-          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="btn btn-outline flex-1 sm:flex-none justify-center">
-            <span class="icon-anim"><i class="fab fa-github"></i></span> Star on GitHub
-          </a>
-        </div>
-      </div>
-    </section>
+<div class="buttons-grid">  
+  <a href="/qr" class="tech-button" target="_blank">  
+    <i class="fas fa-qrcode button-icon"></i>  
+    <span>QR CODE</span>  
+    <div class="button-label">Secure Login</div>  
+  </a>  
+    
+  <a href="/pair" class="tech-button" target="_blank">  
+    <i class="fas fa-link button-icon"></i>  
+    <span>PAIRING CODE</span>  
+    <div class="button-label">Device Sync</div>  
+  </a>  
+  
+    
+  </div>  
+<div class="status-bar">  
+  <div class="status-item">  
+    <div class="status-dot"></div>  
+    <div class="status-text">System Online</div>  
+  </div>  
+  <div class="status-item">  
+    <div class="status-text">v3.1.0 PRO</div>  
+  </div>  
+  <div class="status-item">  
+    <div class="status-text">24/7 Active</div>  
+  </div>  
+</div>  
 
-    <div class="divider"></div>
+<div class="footer">  
+  <div class="copyright">&copy; <span id="currentYear">2026</span> LUKA TECH</div>  
+  <div>Advanced WhatsApp Bot Framework</div>  
+</div>
 
-    <!-- Footer -->
-    <footer class="py-12 px-5" style="background:var(--bg-secondary);">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col sm:flex-row gap-8 mb-8">
-          <div class="flex-1">
-            <div class="flex items-center gap-2.5 mb-3">
-              <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-7 h-7 rounded-lg object-cover" onerror="this.style.display='none'">
-              <span class="text-sm font-bold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</span>
-            </div>
-            <p class="text-xs leading-relaxed mb-4 max-w-xs" style="color:var(--text-secondary);">WhatsApp session generator powered by BLACK-PANTHER & ULTRA-GURU. Built by GuruTech Lab.</p>
-            <div class="flex gap-2">
-              <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="social-icon" title="BLACK-PANTHER"><i class="fab fa-github"></i></a>
-              <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="social-icon" title="ULTRA-GURU"><i class="fab fa-github"></i></a>
-              <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-            </div>
-          </div>
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--text-secondary);">Session</p>
-            <div class="space-y-2">
-              <a href="/pair" class="footer-link"><i class="fas fa-link text-xs" style="color:var(--green);"></i> Pair Code</a>
-              <a href="/qr" class="footer-link"><i class="fas fa-qrcode text-xs" style="color:var(--green);"></i> QR Code</a>
-              <a href="/health" class="footer-link"><i class="fas fa-heart-pulse text-xs" style="color:var(--green);"></i> Health Check</a>
-            </div>
-          </div>
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--text-secondary);">Community</p>
-            <div class="space-y-2">
-              <a href="https://chat.whatsapp.com/Cp6waPAdT3hLVcbdfBeV61?s=cl&p=a&mlu=4&amv=0" target="_blank" class="footer-link"><i class="fab fa-whatsapp text-xs" style="color:var(--green);"></i> WA Group</a>
-              <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="footer-link"><i class="fas fa-bullhorn text-xs" style="color:var(--green);"></i> WA Channel</a>
-              <a href="https://github.com/GuruhTech" target="_blank" class="footer-link"><i class="fab fa-github text-xs" style="color:var(--green);"></i> GuruTech GitHub</a>
-            </div>
-          </div>
-        </div>
-        <div class="pt-6" style="border-top:1px solid var(--border);">
-          <p class="text-xs text-center" style="color:var(--text-secondary);">&copy; <span id="yr"></span> PANTHER X ULTRA PAIR &mdash; Built by <a href="https://github.com/GuruhTech" target="_blank" style="color:var(--green);text-decoration:none;">GuruTech Lab</a></p>
-        </div>
-      </div>
-    </footer>
-  </main>
-
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
-
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuBtn = document.getElementById('menuBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const menuIcon = document.getElementById('menuIcon');
-
-    function openSidebar() { sidebar.style.transform='translateX(0)'; overlay.style.opacity='1'; overlay.style.pointerEvents='auto'; menuIcon.className='fas fa-times'; document.body.style.overflow='hidden'; }
-    function closeSidebar() { sidebar.style.transform='translateX(-100%)'; overlay.style.opacity='0'; overlay.style.pointerEvents='none'; menuIcon.className='fas fa-bars'; document.body.style.overflow=''; }
-    menuBtn.addEventListener('click', () => { sidebar.style.transform==='translateX(0)' ? closeSidebar() : openSidebar(); });
-    closeBtn.addEventListener('click', closeSidebar);
-    overlay.addEventListener('click', closeSidebar);
-
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view'));
-    }, { threshold: 0.1 });
-    document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
-  </script>
-</body>
+  </div>    <script>  
+    // Set current year  
+    document.getElementById('currentYear').textContent = new Date().getFullYear();  
+  
+    // Create floating elements  
+    const floatingContainer = document.getElementById('floatingElements');  
+    for (let i = 0; i < 15; i++) {  
+      const element = document.createElement('div');  
+      element.className = 'float-element';  
+      const size = Math.random() * 100 + 50;  
+      const x = Math.random() * 100;  
+      const y = Math.random() * 100;  
+      const color = i % 3 === 0 ? 'var(--neon-primary)' :   
+                   i % 3 === 1 ? 'var(--neon-secondary)' :   
+                   'var(--neon-accent)';  
+        
+      element.style.width = `${size}px`;  
+      element.style.height = `${size}px`;  
+      element.style.left = `${x}%`;  
+      element.style.top = `${y}%`;  
+      element.style.background = color;  
+      element.style.animationDelay = `${Math.random() * 5}s`;  
+      element.style.animationDuration = `${15 + Math.random() * 10}s`;  
+        
+      floatingContainer.appendChild(element);  
+    }  
+  
+    // Add interactive hover effect to dashboard  
+    const dashboard = document.querySelector('.dashboard');  
+    document.addEventListener('mousemove', (e) => {  
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;  
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;  
+        
+      dashboard.style.transform = `  
+        perspective(1000px)  
+        rotateY(${x}deg)  
+        rotateX(${-y}deg)  
+        translateY(${y / 2}px)  
+      `;  
+    });  
+  
+    // Reset transform on mouse leave  
+    document.addEventListener('mouseleave', () => {  
+      dashboard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';  
+    });  
+  </script>  </body>  
 </html>
