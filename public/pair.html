@@ -3,1154 +3,488 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>LUKA-AI | Ultra Pair</title>
-  <meta name="description" content="Link your WhatsApp account to LUKA-AI using a pair code.">
-  <meta name="theme-color" content="#1d9f8d">
-
+  <title>PANTHER X ULTRA PAIR | Pair Code Login</title>
+  <meta name="theme-color" content="#00a884">
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #10191d;
-      --panel: #26333c;
-      --line: #3a4a55;
-      --muted: #98a5af;
-      --text: #eef2f3;
-      --teal: #1aa18e;
-      --teal2: #29b9a5;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      background: var(--bg);
+      --bg-primary:   #111b21;
+      --bg-secondary: #1f2c34;
+      --bg-panel:     #2a3942;
+      --green:        #00a884;
+      --green-light:  #25d366;
+      --green-dark:   #008069;
+      --text-primary: #e9edef;
+      --text-secondary: #8696a0;
+      --border:       rgba(134,150,160,0.15);
+      --border-green: rgba(0,168,132,0.35);
     }
 
     body {
-      font-family: Inter, sans-serif;
-      background:
-        radial-gradient(circle at 50% -20%, #18353a 0%, transparent 38%),
-        linear-gradient(180deg, #111a1e 0%, #0d161a 100%);
-      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-panel) var(--bg-secondary);
     }
+    body::-webkit-scrollbar { width: 5px; }
+    body::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    body::-webkit-scrollbar-thumb { background: var(--bg-panel); border-radius: 4px; }
 
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .25;
-      background-image:
-        linear-gradient(rgba(41,185,165,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(41,185,165,.025) 1px, transparent 1px);
-      background-size: 42px 42px;
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300a884' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
     }
 
-    /* NAVBAR */
+    .blob { position: fixed; border-radius: 50%; filter: blur(110px); pointer-events: none; z-index: 0; }
+    @keyframes floaty { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(25px,-20px) scale(1.05);} }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: 86px;
-      background: rgba(26,38,46,.96);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      display: flex;
-      align-items: center;
-    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
 
-    .top-inner {
-      width: min(1120px, 100%);
-      margin: auto;
-      padding: 0 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .nav-bar { background: rgba(17,27,33,0.92); border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .nav-link { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.18s; position: relative; padding-bottom: 2px; }
+    .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--green); border-radius:2px; transition:width 0.22s; }
+    .nav-link:hover { color: var(--green-light); }
+    .nav-link:hover::after { width: 100%; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: #fff;
-    }
+    .sidebar-link { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:background 0.18s,color 0.18s,transform 0.18s; border:1px solid transparent; }
+    .sidebar-link:hover { background:rgba(0,168,132,0.1); border-color:var(--border-green); color:var(--green-light); transform:translateX(4px); }
+    .sidebar-link i { width:18px; text-align:center; }
+    #sidebar { transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+    #sidebarOverlay { transition:opacity 0.3s ease; }
 
-    .brand img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:12px; font-weight:600; font-size:0.875rem; font-family:'Inter',sans-serif; cursor:pointer; border:none; text-decoration:none; transition:transform 0.18s,box-shadow 0.18s; }
+    .btn:active { transform:scale(0.97) !important; }
+    .btn-primary { background:var(--green); color:#fff; box-shadow:0 4px 20px rgba(0,168,132,0.3); }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,168,132,0.45); filter:brightness(1.05); }
+    .btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+    .btn-ghost { background:var(--bg-panel); border:1px solid var(--border-green); color:var(--green-light); }
+    .btn-ghost:hover { transform:translateY(-2px); background:rgba(0,168,132,0.15); }
 
-    .brand-title {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: .5px;
-    }
+    .icon-anim { display:inline-flex; align-items:center; justify-content:center; transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn:hover .icon-anim { transform:scale(1.2) rotate(-8deg); }
 
-    .brand-sub {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 4px;
-      color: #4bb8aa;
-      margin-top: 5px;
-    }
+    .social-icon { width:34px; height:34px; border-radius:8px; background:var(--bg-panel); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--text-secondary); font-size:0.85rem; text-decoration:none; transition:background 0.2s,color 0.2s,transform 0.2s,border-color 0.2s; }
+    .social-icon:hover { background:rgba(0,168,132,0.15); color:var(--green-light); border-color:var(--border-green); transform:translateY(-3px); }
 
-    .menu-btn {
-      width: 58px;
-      height: 58px;
-      border-radius: 20px;
-      background: #2a3943;
-      border: 1px solid #40515c;
-      color: #aebbc2;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    /* MAIN */
-
-    .shell {
-      width: min(760px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 36px 0 46px;
-    }
-
-    .hero {
-      text-align: center;
-      margin: 0 auto 26px;
-    }
-
-    .hero h1 {
-      font-size: 27px;
-      letter-spacing: 2px;
-      font-weight: 800;
-    }
-
-    .hero p {
-      margin-top: 9px;
-      color: #9aa7ae;
-      font-size: 14px;
-    }
+    .divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); }
 
     .card {
-      background: linear-gradient(145deg, #26333c, #223039);
-      border: 1px solid #344550;
-      border-radius: 30px;
-      padding: 42px;
-      box-shadow:
-        0 25px 60px rgba(0,0,0,.26),
-        inset 0 1px 0 rgba(255,255,255,.025);
-    }
-
-    label {
-      display: block;
-      color: #aab4bb;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    /* INPUT */
-
-    .input-wrap {
-      position: relative;
-    }
-
-    .input-wrap i {
-      position: absolute;
-      left: 23px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #36ad9d;
-      font-size: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
     }
 
     .input-field {
-      width: 100%;
-      height: 74px;
-      border-radius: 18px;
-      border: 1px solid #42525d;
-      background: #2e3c46;
-      color: #fff;
-      padding: 0 20px 0 60px;
-      font-size: 20px;
-      letter-spacing: 1px;
-      outline: none;
-      transition: .2s;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      color: var(--text-primary); border-radius: 10px;
+      font-size: 0.875rem; font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+      padding: 12px 12px 12px 42px;
+    }
+    .input-field::placeholder { color: var(--text-secondary); }
+    .input-field:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,168,132,0.15); }
+
+    @keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-6px);} 40%,80%{transform:translateX(6px);} }
+    .shake { animation: shake 0.4s ease; }
+
+    .spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,0.25); border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg);} }
+
+    .code-display {
+      font-size: 2.2rem; font-weight: 800; letter-spacing: 10px;
+      color: var(--green-light);
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    .input-field::placeholder {
-      color: #9ba5ad;
-    }
-
-    .input-field:focus {
-      border-color: #2aa995;
-      box-shadow: 0 0 0 4px rgba(26,161,142,.12);
-    }
-
-    /* SESSION */
-
-    .section {
-      margin-top: 30px;
-    }
-
-    .session-option {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      text-align: left;
-      border: 1px dashed #465660;
-      background: transparent;
-      border-radius: 20px;
-      padding: 17px 22px;
-      margin-top: 12px;
-      color: #aab4bb;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .session-option.active {
-      border: 2px solid #2aa995;
-      background: rgba(25,151,136,.08);
-      box-shadow: 0 0 24px rgba(26,161,142,.08);
-    }
-
-    .session-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 15px;
-      background: #31414b;
-      border: 1px solid #45555f;
-      display: grid;
-      place-items: center;
-      color: #aab6bc;
-      font-size: 20px;
-      flex: none;
-    }
-
-    .active .session-icon {
-      background: #249e8e;
-      color: #dffaf5;
-      border-color: #249e8e;
-    }
-
-    .session-copy {
-      flex: 1;
-    }
-
-    .session-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #d8dee1;
-    }
-
-    .session-desc {
-      font-size: 14px;
-      color: #96a3aa;
-      margin-top: 5px;
-    }
-
-    .optional {
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      border-radius: 6px;
-      padding: 3px 8px;
-      background: #35434c;
-      color: #a9b2b8;
-      margin-left: 6px;
-    }
-
-    .radio {
-      width: 26px;
-      height: 26px;
-      border: 3px solid #50616c;
-      border-radius: 50%;
-      position: relative;
-    }
-
-    .active .radio {
-      border-color: #29b9a5;
-    }
-
-    .active .radio::after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #d8fff8;
-      position: absolute;
-      inset: 5px;
-    }
-
-    /* BUTTON */
-
-    .pair-btn {
-      width: 100%;
-      height: 70px;
-      border: 0;
-      border-radius: 19px;
-      background: linear-gradient(135deg, #21a996, #18957f);
-      color: #eaf7f5;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      font-size: 20px;
-      margin-top: 30px;
-      cursor: pointer;
-      box-shadow: 0 15px 30px rgba(26,161,142,.16);
-      transition: .2s;
-    }
-
-    .pair-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
-    }
-
-    .pair-btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 8px;
-      animation: spin .7s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* HOW TO */
-
-    .how {
-      margin-top: 38px;
-      border: 1px solid #31545a;
-      border-radius: 22px;
-      padding: 25px;
-      background: rgba(25,63,65,.16);
-    }
-
-    .how-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #54b7aa;
-      margin-bottom: 20px;
-    }
-
-    .how-title i {
-      margin-right: 10px;
-    }
-
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      background: rgba(36,69,72,.48);
-      border: 1px solid rgba(54,125,119,.35);
-      border-radius: 15px;
-      padding: 18px;
-      margin-top: 12px;
-      color: #aeb8be;
-      line-height: 1.55;
-    }
-
-    .step-num {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #1d9f8d;
-      color: #d9faf4;
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-      flex: none;
-    }
-
-    .step b {
-      color: #d7dfe2;
-    }
-
-    .step .accent {
-      color: #42b9aa;
-      font-weight: 700;
-    }
-
-    /* QR */
-
-    .qr-row {
-      margin-top: 30px;
-      padding-top: 25px;
-      border-top: 1px solid #3a4952;
-      text-align: center;
-      color: #a6afb5;
-    }
-
-    .qr-row a {
-      color: #4bb8aa;
-      text-decoration: none;
-      font-weight: 700;
-      margin-left: 8px;
-    }
-
-    /* RESULT */
-
-    .result-box {
-      display: none;
-      text-align: center;
-    }
-
-    .success {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      background: rgba(31,174,144,.15);
-      color: #4be0be;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 14px;
-      font-size: 22px;
-    }
-
-    .code {
-      margin: 25px 0;
-      background: #1e2a31;
-      border: 1px solid #38515a;
-      border-radius: 18px;
-      padding: 22px;
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: 6px;
-      color: #57d8c4;
-    }
-
-    .result-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .small-btn {
-      border: 1px solid #3f5960;
-      background: #2b3b43;
-      color: #dce5e7;
-      border-radius: 12px;
-      padding: 12px 18px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .small-btn.primary {
-      background: #1d9f8d;
-      border-color: #1d9f8d;
-    }
-
-    .error {
-      color: #ff8d8d;
-      font-size: 13px;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* FEATURES */
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 30px;
-    }
-
-    .feature {
-      background: #26333c;
-      border: 1px solid #344550;
-      border-radius: 20px;
-      padding: 22px;
-      text-align: center;
-      color: #aeb8bd;
-    }
-
-    .feature i {
-      display: block;
-      color: #28b4a1;
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .feature span {
-      font-size: 13px;
-    }
-
-    /* SIDEBAR */
-
-    .sidebar {
-      position: fixed;
-      z-index: 70;
-      top: 0;
-      right: 0;
-      width: min(330px, 88vw);
-      height: 100vh;
-      background: #17242b;
-      border-left: 1px solid #364751;
-      padding: 28px;
-      transform: translateX(105%);
-      transition: .25s;
-    }
-
-    .sidebar.open {
-      transform: translateX(0);
-    }
-
-    .side-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
-      background: rgba(0,0,0,.55);
-      display: none;
-    }
-
-    .side-overlay.show {
-      display: block;
-    }
-
-    .side-link {
-      display: block;
-      color: #aeb9be;
-      text-decoration: none;
-      padding: 14px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    /* MOBILE */
-
-    @media(max-width: 600px) {
-      .topbar {
-        height: 86px;
-      }
-
-      .top-inner {
-        padding: 0 18px;
-      }
-
-      .brand-title {
-        font-size: 17px;
-      }
-
-      .card {
-        padding: 28px 18px;
-        border-radius: 26px;
-      }
-
-      .shell {
-        width: min(100% - 20px, 760px);
-        padding-top: 24px;
-      }
-
-      .hero {
-        display: none;
-      }
-
-      .input-field {
-        height: 72px;
-        font-size: 18px;
-      }
-
-      .session-option {
-        padding: 14px;
-      }
-
-      .session-title {
-        font-size: 16px;
-      }
-
-      .session-desc {
-        font-size: 13px;
-      }
-
-      .pair-btn {
-        font-size: 18px;
-      }
-
-      .how {
-        padding: 18px;
-      }
-
-      .step {
-        padding: 15px;
-        font-size: 14px;
-      }
-
-      .features {
-        gap: 8px;
-      }
-
-      .feature {
-        padding: 15px 8px;
-        border-radius: 16px;
-      }
-
-      .brand img {
-        width: 46px;
-        height: 46px;
-      }
-
-      .menu-btn {
-        width: 56px;
-        height: 56px;
-      }
-    }
+    .copy-btn { transition:transform 0.18s,background 0.18s,border-color 0.18s; background:rgba(0,168,132,0.1); border:1px solid var(--border-green); border-radius:10px; color:var(--green-light); padding:8px 18px; font-size:0.8rem; font-weight:600; font-family:'Inter',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; }
+    .copy-btn:hover { background:rgba(0,168,132,0.2); transform:translateY(-2px); }
+    .copy-btn.copied { background:rgba(37,211,102,0.1); border-color:rgba(37,211,102,0.35); color:var(--green-light); }
+
+    .new-btn { transition:transform 0.18s,background 0.18s; background:transparent; border:1px solid var(--border); border-radius:10px; color:var(--text-secondary); padding:8px 18px; font-size:0.8rem; font-weight:600; font-family:'Inter',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; }
+    .new-btn:hover { background:var(--bg-panel); transform:translateY(-2px); color:var(--text-primary); }
+
+    .type-btn-active { background:var(--green) !important; color:#fff !important; box-shadow:0 0 12px rgba(0,168,132,0.35); }
+
+    /* Step guide */
+    .guide-step { display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:10px; background:rgba(0,168,132,0.05); border:1px solid rgba(0,168,132,0.12); }
+    .guide-num { width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; flex-shrink:0; }
+
+    [data-anim] { will-change:transform,opacity; transition:opacity 0.65s cubic-bezier(0.4,0,0.2,1),transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+    [data-anim="fade-up"] { opacity:0; transform:translateY(28px); }
+    [data-anim="zoom-in"] { opacity:0; transform:scale(0.9); }
+    [data-anim].in-view { opacity:1; transform:none; }
+    [data-delay="1"] { transition-delay:0.1s; }
+    [data-delay="2"] { transition-delay:0.2s; }
   </style>
 </head>
-
 <body>
+  <div class="blob" style="width:380px;height:380px;top:-100px;left:-80px;background:rgba(0,168,132,0.1);animation:floaty 16s ease-in-out infinite;"></div>
+  <div class="blob" style="width:300px;height:300px;bottom:10%;right:-60px;background:rgba(0,128,105,0.07);animation:floaty 20s ease-in-out 5s infinite;"></div>
 
-  <!-- NAVBAR -->
-
-  <header class="topbar">
-    <div class="top-inner">
-
-      <a class="brand" href="/">
-        <img src="https://files.catbox.moe/1l02sd.png" alt="LUKA">
-
-        <div>
-          <div class="brand-title">LUKA-AI ULTRA PAIR</div>
-          <div class="brand-sub">PAIR CODE</div>
+  <nav class="nav-bar sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3 no-underline">
+        <div class="flex items-center gap-1.5">
+          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-8 h-8 rounded-xl object-cover" style="box-shadow:0 0 10px rgba(0,168,132,0.35);" onerror="this.style.display='none'">
+          <img src="https://github.com/GuruhTech.png" alt="Guru" class="w-8 h-8 rounded-xl object-cover -ml-1.5" style="border:1.5px solid var(--bg-primary);" onerror="this.style.display='none'">
+        </div>
+        <div class="flex flex-col leading-none">
+          <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
+          <span class="text-[9px] font-semibold tracking-[0.2em]" style="color:var(--green)">PAIR CODE</span>
         </div>
       </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Black Panther</a>
+        <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Ultra Guru</a>
+        <a href="/pair" class="nav-link" style="color:var(--green-light);"><i class="fas fa-link text-xs"></i> Pair Code</a>
+        <a href="/qr" class="nav-link"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/qr" class="hidden md:inline-flex btn btn-ghost py-2 px-4 text-xs">
+          <span class="icon-anim"><i class="fas fa-qrcode"></i></span> Try QR Instead
+        </a>
+        <button id="menuBtn" class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl outline-none focus:outline-none" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);">
+          <i class="fas fa-bars" id="menuIcon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-      <button class="menu-btn" id="menuBtn">
-        <i class="fa-solid fa-bars"></i>
+  <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none"></div>
+  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-2xl" style="background:var(--bg-secondary);border-right:1px solid var(--border);">
+    <div class="flex items-center justify-between px-5 mb-6">
+      <div class="flex items-center gap-2">
+        <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-7 h-7 rounded-lg object-cover" onerror="this.style.display='none'">
+        <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA</span>
+      </div>
+      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg" style="background:var(--bg-panel);color:var(--text-secondary);">
+        <i class="fas fa-times text-sm"></i>
       </button>
-
     </div>
-  </header>
-
-
-  <!-- SIDEBAR -->
-
-  <div class="side-overlay" id="overlay"></div>
-
-  <aside class="sidebar" id="sidebar">
-
-    <button class="menu-btn" id="closeBtn">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-
-    <div style="margin-top:24px">
-
-      <a class="side-link" href="/">
-        <i class="fa-solid fa-house"></i> Home
-      </a>
-
-      <a class="side-link" href="/pair">
-        <i class="fa-solid fa-link"></i> Pair Code
-      </a>
-
-      <a class="side-link" href="/qr">
-        <i class="fa-solid fa-qrcode"></i> QR Code
-      </a>
-
-      <a class="side-link" href="https://github.com/lucvoice/LUKA-AI">
-        <i class="fa-brands fa-github"></i> Source Code
-      </a>
-
-      <a class="side-link" href="https://t.me/lucvoice">
-        <i class="fa-brands fa-telegram"></i> Support
-      </a>
-
+    <div class="px-3 flex-1 space-y-1">
+      <a href="/" class="sidebar-link"><i class="fas fa-house"></i> Home</a>
+      <a href="/pair" class="sidebar-link" style="background:rgba(0,168,132,0.1);border-color:var(--border-green);color:var(--green-light);"><i class="fas fa-link"></i> Pair Code</a>
+      <a href="/qr" class="sidebar-link"><i class="fas fa-qrcode"></i> QR Code</a>
+      <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Black Panther</a>
+      <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Ultra Guru</a>
+      <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
     </div>
-
+    <div class="px-5 pt-4" style="border-top:1px solid var(--border);">
+      <p style="color:var(--text-secondary);font-size:0.75rem;">⚡ Powered by GuruTech Lab</p>
+    </div>
   </aside>
 
+  <main class="relative z-10">
+    <section class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
+      <div class="w-full max-w-md">
 
-  <!-- MAIN -->
-
-  <main class="shell">
-
-    <div class="hero">
-      <h1>LUKA-AI ULTRA PAIR</h1>
-      <p>Enter your number with country code — no + sign</p>
-    </div>
-
-
-    <section class="card">
-
-      <!-- FORM -->
-
-      <div id="formSection">
-
-        <label for="phoneNumber">Phone Number</label>
-
-        <div class="input-wrap">
-
-          <i class="fa-solid fa-mobile-screen-button"></i>
-
-          <input
-            id="phoneNumber"
-            class="input-field"
-            inputmode="numeric"
-            placeholder="e.g. 2557xxxxxxxx"
-          >
-
+        <div class="text-center mb-8" data-anim="fade-up">
+          <div class="flex justify-center mb-5">
+            <div class="relative">
+              <div class="flex items-center gap-2">
+                <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg"
+                  alt="BLACK-PANTHER"
+                  class="w-16 h-16 rounded-2xl object-cover"
+                  style="box-shadow:0 0 20px rgba(0,168,132,0.4);border:2px solid var(--border-green);"
+                  onerror="this.style.display='none'">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:var(--green);box-shadow:0 0 20px rgba(37,211,102,0.35);">
+                  <i class="fas fa-link" style="color:#fff;font-size:1.2rem;"></i>
+                </div>
+                <img src="https://github.com/GuruhTech.png"
+                  alt="ULTRA-GURU"
+                  class="w-16 h-16 rounded-2xl object-cover"
+                  style="box-shadow:0 0 20px rgba(0,168,132,0.4);border:2px solid var(--border-green);"
+                  onerror="this.style.display='none'">
+              </div>
+            </div>
+          </div>
+          <p class="text-xs font-semibold tracking-[0.2em] mb-1" style="color:var(--green);">// PAIR CODE LOGIN</p>
+          <h1 class="text-2xl font-bold mb-1" style="color:var(--text-primary);">Connect Your WhatsApp</h1>
+          <p class="text-sm" style="color:var(--text-secondary);">Enter your number with country code — no + sign</p>
         </div>
 
-        <p class="error" id="phoneError"></p>
+        <div class="card p-7" data-anim="zoom-in" data-delay="1">
+          <div id="formSection">
+            <div class="mb-5">
+              <label for="phoneNumber" class="block text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--text-secondary);">Phone Number</label>
+              <div class="relative">
+                <i class="fas fa-mobile-alt absolute left-3.5 top-1/2 -translate-y-1/2 text-xs" style="color:var(--green);"></i>
+                <input id="phoneNumber" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 2547xxxxxxxx" class="input-field">
+              </div>
+              <p id="phoneError" class="text-xs mt-2 hidden flex items-center gap-1.5" style="color:#f87171;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="phoneErrorText"></span>
+              </p>
+            </div>
 
+            <div class="mb-5">
+              <label class="block text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--text-secondary);">Session Type</label>
 
-        <!-- SESSION TYPE -->
+              <!-- Long — default primary choice -->
+              <div id="typeLong" onclick="selectType('long')" class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all duration-200" style="background:rgba(0,168,132,0.13);border:1.5px solid var(--green);margin-bottom:8px;">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--green);">
+                    <i class="fas fa-file-code text-white text-xs"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold" style="color:var(--text-primary);">Long Session</p>
+                    <p class="text-xs" style="color:var(--text-secondary);">Full session string — recommended</p>
+                  </div>
+                </div>
+                <div id="longRadio" class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0" style="border-color:var(--green);background:var(--green);">
+                  <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                </div>
+              </div>
 
-        <div class="section">
+              <!-- Short — optional -->
+              <div id="typeShort" onclick="selectType('short')" class="flex items-center justify-between px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200" style="background:transparent;border:1px dashed rgba(134,150,160,0.25);">
+                <div class="flex items-center gap-3">
+                  <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--bg-panel);border:1px solid var(--border);">
+                    <i class="fas fa-database text-xs" style="color:var(--text-secondary);"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium" style="color:var(--text-secondary);">Short Session <span class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded" style="background:var(--bg-panel);color:var(--text-secondary);font-size:0.6rem;letter-spacing:0.05em;">OPTIONAL</span></p>
+                  </div>
+                </div>
+                <div id="shortRadio" class="w-4 h-4 rounded-full border-2 flex-shrink-0" style="border-color:rgba(134,150,160,0.3);"></div>
+              </div>
+            </div>
 
-          <label>Session Type</label>
-
-
-          <button
-            type="button"
-            class="session-option active"
-            id="typeLong"
-          >
-
-            <span class="session-icon">
-              <i class="fa-solid fa-file-code"></i>
-            </span>
-
-            <span class="session-copy">
-
-              <span class="session-title">
-                Long Session
+            <button id="submitBtn" class="btn btn-primary w-full py-3 text-sm">
+              <span id="btnContent" class="flex items-center gap-2">
+                <span class="icon-anim"><i class="fab fa-whatsapp"></i></span>
+                <span>GET PAIR CODE</span>
               </span>
-
-              <span class="session-desc">
-                Full session string — recommended
+              <span id="btnLoading" class="hidden flex items-center gap-2">
+                <span class="spinner"></span>
+                <span>Connecting...</span>
               </span>
+            </button>
 
-            </span>
+            <p id="generalError" class="text-xs text-center mt-3 hidden" style="color:#f87171;"></p>
 
-            <span class="radio"></span>
+            <!-- How to link guide -->
+            <div class="mt-6 rounded-xl p-4" style="background:rgba(0,168,132,0.05);border:1px solid rgba(0,168,132,0.15);">
+              <p class="text-xs font-semibold mb-3 flex items-center gap-2" style="color:var(--green);">
+                <i class="fas fa-circle-info"></i> How to link with pair code
+              </p>
+              <div class="space-y-2">
+                <div class="guide-step">
+                  <div class="guide-num">1</div>
+                  <p class="text-xs" style="color:var(--text-secondary);">Enter your WhatsApp number above</p>
+                </div>
+                <div class="guide-step">
+                  <div class="guide-num">2</div>
+                  <p class="text-xs" style="color:var(--text-secondary);">Click <strong style="color:var(--text-primary);">GET PAIR CODE</strong> and wait for the code</p>
+                </div>
+                <div class="guide-step">
+                  <div class="guide-num">3</div>
+                  <p class="text-xs" style="color:var(--text-secondary);">Open WhatsApp → <strong style="color:var(--green);">Settings → Linked Devices → Link a Device</strong></p>
+                </div>
+                <div class="guide-step">
+                  <div class="guide-num">4</div>
+                  <p class="text-xs" style="color:var(--text-secondary);">Tap <strong style="color:var(--text-primary);">"Link with phone number instead"</strong> and enter the 8-digit code</p>
+                </div>
+                <div class="guide-step">
+                  <div class="guide-num">5</div>
+                  <p class="text-xs" style="color:var(--text-secondary);">Your session ID will be sent via WhatsApp ✅</p>
+                </div>
+              </div>
+            </div>
 
-          </button>
+            <div class="mt-5 pt-4 flex items-center justify-center gap-3" style="border-top:1px solid var(--border);">
+              <span class="text-xs" style="color:var(--text-secondary);">Prefer QR?</span>
+              <a href="/qr" class="text-xs font-medium no-underline flex items-center gap-1" style="color:var(--green);">
+                <i class="fas fa-qrcode text-xs"></i> Scan QR instead
+              </a>
+            </div>
+          </div>
 
+          <div id="resultSection" class="hidden">
+            <div id="fallbackBanner" class="hidden mb-4 rounded-xl p-3.5 flex items-start gap-3" style="background:rgba(255,200,0,0.06);border:1px solid rgba(255,200,0,0.2);">
+              <i class="fas fa-info-circle mt-0.5 text-sm flex-shrink-0" style="color:#fcd34d;"></i>
+              <p class="text-xs leading-relaxed" style="color:#fcd34d;">Session store not configured — switched to <strong>Long session</strong>.</p>
+            </div>
+            <div class="text-center mb-6">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3" style="background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);">
+                <i class="fab fa-whatsapp text-xl" style="color:var(--green-light);"></i>
+              </div>
+              <p class="font-semibold text-sm mb-1" style="color:var(--text-primary);">Your Pair Code is Ready</p>
+              <p class="text-xs" style="color:var(--text-secondary);">WhatsApp → Linked Devices → Link a Device → Enter code</p>
+            </div>
 
-          <button
-            type="button"
-            class="session-option"
-            id="typeShort"
-          >
+            <div class="relative rounded-2xl p-5 text-center mb-5" style="background:rgba(0,168,132,0.07);border:1px solid var(--border-green);">
+              <p id="pairCode" class="code-display"></p>
+              <p class="text-xs mt-2" style="color:var(--text-secondary);">Enter this 8-digit code in WhatsApp</p>
+            </div>
 
-            <span class="session-icon">
-              <i class="fa-solid fa-database"></i>
-            </span>
+            <div class="flex gap-3 justify-center">
+              <button id="copyBtn" class="copy-btn">
+                <i class="fas fa-copy text-xs"></i>
+                <span id="copyText">Copy Code</span>
+              </button>
+              <button id="newCodeBtn" class="new-btn">
+                <i class="fas fa-redo text-xs"></i> New Code
+              </button>
+            </div>
 
-            <span class="session-copy">
-
-              <span class="session-title">
-                Short Session
-                <span class="optional">OPTIONAL</span>
-              </span>
-
-            </span>
-
-            <span class="radio"></span>
-
-          </button>
-
+            <div class="mt-5 pt-5 text-center" style="border-top:1px solid var(--border);">
+              <a href="/" class="text-xs no-underline flex items-center justify-center gap-1.5" style="color:var(--text-secondary);">
+                <i class="fas fa-arrow-left text-xs"></i> Back to Home
+              </a>
+            </div>
+          </div>
         </div>
 
-
-        <!-- BUTTON -->
-
-        <button class="pair-btn" id="submitBtn">
-
-          <span id="btnText">
-            <i class="fa-brands fa-whatsapp"></i>
-            &nbsp; GET PAIR CODE
-          </span>
-
-          <span id="loading" style="display:none">
-            <span class="spinner"></span>
-            Fetching code...
-          </span>
-
-        </button>
-
-        <p class="error" id="generalError"></p>
-
-
-        <!-- INSTRUCTIONS -->
-
-        <div class="how">
-
-          <div class="how-title">
-            <i class="fa-solid fa-circle-info"></i>
-            How to link with pair code
+        <!-- Mini stats -->
+        <div class="mt-6 grid grid-cols-3 gap-3" data-anim="fade-up" data-delay="2">
+          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
+            <i class="fas fa-shield-halved text-sm mb-1.5 block" style="color:var(--green);"></i>
+            <p class="text-xs" style="color:var(--text-secondary);">Encrypted</p>
           </div>
-
-
-          <div class="step">
-            <span class="step-num">1</span>
-            <div>Enter your WhatsApp number above</div>
+          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
+            <i class="fas fa-bolt text-sm mb-1.5 block" style="color:var(--green-light);"></i>
+            <p class="text-xs" style="color:var(--text-secondary);">Instant</p>
           </div>
-
-
-          <div class="step">
-            <span class="step-num">2</span>
-
-            <div>
-              Click <b>GET PAIR CODE</b>
-              and wait for the code
-            </div>
-
+          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
+            <i class="fas fa-mobile-screen text-sm mb-1.5 block" style="color:var(--green);"></i>
+            <p class="text-xs" style="color:var(--text-secondary);">Secure</p>
           </div>
-
-
-          <div class="step">
-
-            <span class="step-num">3</span>
-
-            <div>
-              Open WhatsApp →
-              <span class="accent">
-                Settings → Linked Devices → Link a Device
-              </span>
-            </div>
-
-          </div>
-
-
-          <div class="step">
-
-            <span class="step-num">4</span>
-
-            <div>
-              Tap <b>"Link with phone number instead"</b>
-              and enter the 8-digit code
-            </div>
-
-          </div>
-
-
-          <div class="step">
-
-            <span class="step-num">5</span>
-
-            <div>
-              Your session ID will be sent via WhatsApp
-              <span style="color:#4be0be">✔</span>
-            </div>
-
-          </div>
-
         </div>
-
-
-        <!-- QR -->
-
-        <div class="qr-row">
-
-          Prefer QR?
-
-          <a href="/qr">
-            <i class="fa-solid fa-qrcode"></i>
-            Scan QR instead
-          </a>
-
-        </div>
-
       </div>
-
-
-      <!-- RESULT -->
-
-      <div class="result-box" id="resultSection">
-
-        <div class="success">
-          <i class="fa-solid fa-check"></i>
-        </div>
-
-        <h2>Your Pair Code</h2>
-
-        <p style="color:#9ca8ae;margin-top:8px;font-size:14px">
-          Enter this code in WhatsApp → Linked Devices
-        </p>
-
-        <div class="code" id="pairCode"></div>
-
-        <div class="result-actions">
-
-          <button class="small-btn primary" id="copyBtn">
-            <i class="fa-regular fa-copy"></i>
-            Copy Code
-          </button>
-
-          <button class="small-btn" id="newCodeBtn">
-            <i class="fa-solid fa-rotate"></i>
-            New Code
-          </button>
-
-        </div>
-
-      </div>
-
     </section>
 
-
-    <!-- FEATURES -->
-
-    <div class="features">
-
-      <div class="feature">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span>Secure</span>
+    <div class="divider"></div>
+    <footer class="py-8 px-5" style="background:var(--bg-secondary);">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-6 h-6 rounded-lg object-cover" onerror="this.style.display='none'">
+          <span class="text-xs font-bold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</span>
+        </div>
+        <p class="text-xs text-center mono" style="color:var(--text-secondary);">&copy; <span id="yr"></span> PANTHER X ULTRA PAIR &mdash; <a href="https://github.com/GuruhTech" target="_blank" style="color:var(--green);text-decoration:none;">GuruTech Lab</a></p>
+        <div class="flex gap-2">
+          <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+          <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+        </div>
       </div>
-
-      <div class="feature">
-        <i class="fa-solid fa-bolt"></i>
-        <span>Fast</span>
-      </div>
-
-      <div class="feature">
-        <i class="fa-solid fa-mobile-screen"></i>
-        <span>Mobile Ready</span>
-      </div>
-
-    </div>
-
+    </footer>
   </main>
 
-
   <script>
-
-    /* SIDEBAR */
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+    const overlay = document.getElementById('sidebarOverlay');
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const menuIcon = document.getElementById('menuIcon');
+    function openSidebar() { sidebar.style.transform='translateX(0)'; overlay.style.opacity='1'; overlay.style.pointerEvents='auto'; menuIcon.className='fas fa-times'; document.body.style.overflow='hidden'; }
+    function closeSidebar() { sidebar.style.transform='translateX(-100%)'; overlay.style.opacity='0'; overlay.style.pointerEvents='none'; menuIcon.className='fas fa-bars'; document.body.style.overflow=''; }
+    menuBtn.addEventListener('click', () => { sidebar.style.transform==='translateX(0)' ? closeSidebar() : openSidebar(); });
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
 
-    document.getElementById('menuBtn').onclick = () => {
-
-      sidebar.classList.add('open');
-      overlay.classList.add('show');
-
-    };
-
-    function closeSide() {
-
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-
-    }
-
-    document.getElementById('closeBtn').onclick = closeSide;
-
-    overlay.onclick = closeSide;
-
-
-    /* SESSION TYPE */
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view')); }, { threshold: 0.1 });
+    document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
 
     let selectedType = 'long';
-
-    const longBtn = document.getElementById('typeLong');
-    const shortBtn = document.getElementById('typeShort');
-
-    function choose(type) {
-
+    function selectType(type) {
       selectedType = type;
-
-      longBtn.classList.toggle(
-        'active',
-        type === 'long'
-      );
-
-      shortBtn.classList.toggle(
-        'active',
-        type === 'short'
-      );
-
+      const longCard  = document.getElementById('typeLong');
+      const shortCard = document.getElementById('typeShort');
+      const longRadio  = document.getElementById('longRadio');
+      const shortRadio = document.getElementById('shortRadio');
+      if (type === 'long') {
+        longCard.style.background = 'rgba(0,168,132,0.13)';
+        longCard.style.border     = '1.5px solid var(--green)';
+        longRadio.style.background    = 'var(--green)';
+        longRadio.style.borderColor   = 'var(--green)';
+        longRadio.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
+        shortCard.style.background = 'transparent';
+        shortCard.style.border     = '1px dashed rgba(134,150,160,0.25)';
+        shortRadio.style.background  = 'transparent';
+        shortRadio.style.borderColor = 'rgba(134,150,160,0.3)';
+        shortRadio.innerHTML = '';
+      } else {
+        shortCard.style.background = 'rgba(0,168,132,0.08)';
+        shortCard.style.border     = '1.5px solid var(--green)';
+        shortRadio.style.background  = 'var(--green)';
+        shortRadio.style.borderColor = 'var(--green)';
+        shortRadio.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
+        longCard.style.background = 'transparent';
+        longCard.style.border     = '1px dashed rgba(134,150,160,0.25)';
+        longRadio.style.background   = 'transparent';
+        longRadio.style.borderColor  = 'rgba(134,150,160,0.3)';
+        longRadio.innerHTML = '';
+      }
     }
 
-    longBtn.onclick = () => choose('long');
+    const phoneInput = document.getElementById('phoneNumber');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnContent = document.getElementById('btnContent');
+    const btnLoading = document.getElementById('btnLoading');
+    const phoneError = document.getElementById('phoneError');
+    const phoneErrTxt = document.getElementById('phoneErrorText');
+    const generalError = document.getElementById('generalError');
+    const formSection = document.getElementById('formSection');
+    const resultSection = document.getElementById('resultSection');
+    const pairCode = document.getElementById('pairCode');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyText = document.getElementById('copyText');
+    const newCodeBtn = document.getElementById('newCodeBtn');
 
-    shortBtn.onclick = () => choose('short');
+    phoneInput.addEventListener('input', () => { phoneInput.value = phoneInput.value.replace(/\D/g, ''); phoneError.classList.add('hidden'); generalError.classList.add('hidden'); });
+    phoneInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
 
+    function showPhoneError(msg) {
+      phoneErrTxt.textContent = msg; phoneError.classList.remove('hidden');
+      phoneInput.classList.add('shake'); setTimeout(() => phoneInput.classList.remove('shake'), 450);
+    }
 
-    /* PAIR CODE */
-
-    const phoneInput =
-      document.getElementById('phoneNumber');
-
-    const submitBtn =
-      document.getElementById('submitBtn');
-
-    const btnText =
-      document.getElementById('btnText');
-
-    const loading =
-      document.getElementById('loading');
-
-    const phoneError =
-      document.getElementById('phoneError');
-
-    const generalError =
-      document.getElementById('generalError');
-
-    const formSection =
-      document.getElementById('formSection');
-
-    const resultSection =
-      document.getElementById('resultSection');
-
-    const pairCode =
-      document.getElementById('pairCode');
-
-
-    phoneInput.oninput = () => {
-
-      phoneInput.value =
-        phoneInput.value.replace(/\D/g, '');
-
-    };
-
-
-    submitBtn.onclick = async () => {
-
-      const num =
-        phoneInput.value.trim();
-
-      phoneError.style.display = 'none';
-
-      generalError.style.display = 'none';
-
-
-      if (
-        !num ||
-        num.length < 10 ||
-        num.length > 15
-      ) {
-
-        phoneError.textContent =
-          'Enter a valid number (10–15 digits, no + sign)';
-
-        phoneError.style.display = 'block';
-
-        return;
-
-      }
-
-
-      submitBtn.disabled = true;
-
-      btnText.style.display = 'none';
-
-      loading.style.display = 'inline';
-
-
+    submitBtn.addEventListener('click', async () => {
+      const num = phoneInput.value.trim();
+      if (!num || num.length < 10 || num.length > 15) { showPhoneError('Enter a valid number (10–15 digits, no + sign)'); return; }
+      phoneError.classList.add('hidden'); generalError.classList.add('hidden');
+      btnContent.classList.add('hidden'); btnLoading.classList.remove('hidden'); submitBtn.disabled = true;
       try {
-
-        const res = await fetch(
-
-          `/code?number=${encodeURIComponent(num)}&type=${selectedType}`
-
-        );
-
-        const data =
-          await res.json();
-
-        const code =
-          data.code || '';
-
-
-        if (
-          !res.ok ||
-          !code ||
-          code.toLowerCase().includes('error') ||
-          code.toLowerCase().includes('unavailable')
-        ) {
-
-          throw new Error(
-            code ||
-            'Service unavailable. Please try again.'
-          );
-
-        }
-
-
+        const res = await fetch(`/code?number=${encodeURIComponent(num)}&type=${selectedType}`);
+        const data = await res.json();
+        const code = data.code || '';
+        if (!code) { generalError.textContent = data.message || 'Failed to get code. Try again.'; generalError.classList.remove('hidden'); return; }
         pairCode.textContent = code;
-
-        formSection.style.display = 'none';
-
-        resultSection.style.display = 'block';
-
-
-      } catch (err) {
-
-        generalError.textContent =
-          err.message ||
-          'Failed to get code. Please try again.';
-
-        generalError.style.display = 'block';
-
-
+        if (data.fallback) document.getElementById('fallbackBanner').classList.remove('hidden');
+        formSection.classList.add('hidden'); resultSection.classList.remove('hidden');
+      } catch (e) {
+        generalError.textContent = 'Connection error. Please try again.'; generalError.classList.remove('hidden');
       } finally {
-
-        submitBtn.disabled = false;
-
-        btnText.style.display = 'inline';
-
-        loading.style.display = 'none';
-
+        btnContent.classList.remove('hidden'); btnLoading.classList.add('hidden'); submitBtn.disabled = false;
       }
+    });
 
-    };
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(pairCode.textContent).then(() => {
+        copyText.textContent = 'Copied!'; copyBtn.classList.add('copied');
+        setTimeout(() => { copyText.textContent = 'Copy Code'; copyBtn.classList.remove('copied'); }, 2000);
+      });
+    });
 
-
-    /* COPY CODE */
-
-    document.getElementById('copyBtn').onclick = () => {
-
-      navigator.clipboard.writeText(
-        pairCode.textContent
-      );
-
-    };
-
-
-    /* NEW CODE */
-
-    document.getElementById('newCodeBtn').onclick = () => {
-
-      resultSection.style.display = 'none';
-
-      formSection.style.display = 'block';
-
-      phoneInput.value = '';
-
-      phoneInput.focus();
-
-    };
-
+    newCodeBtn.addEventListener('click', () => {
+      resultSection.classList.add('hidden'); formSection.classList.remove('hidden');
+      document.getElementById('fallbackBanner').classList.add('hidden');
+    });
   </script>
-
 </body>
-    </html>
+              </html>
