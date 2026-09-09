@@ -2,6 +2,8 @@ const {
     giftedId,
     removeFile
 } = require('../gift');
+const { SESSION_PREFIX, GC_JID, BOT_REPO, WA_CHANNEL, MSG_FOOTER } = require('../config');
+const { isConfigured, saveSession } = require('../gift/sessionStore');
 const QRCode = require('qrcode');
 const express = require('express');
 const zlib = require('zlib');
@@ -15,17 +17,14 @@ const {
     useMultiFileAuthState,
     Browsers,
     delay,
-    downloadContentFromMessage, 
-    generateWAMessageFromContent, 
-    normalizeMessageContent,
     fetchLatestBaileysVersion
 } = require("@whiskeysockets/baileys");
 
 const sessionDir = path.join(__dirname, "session");
 
-
-router.get('/', async (req, res) => {
+router.get('/session', async (req, res) => {
     const id = giftedId();
+    const sessionType = (req.query.type || 'short').toLowerCase();
     let responseSent = false;
     let sessionCleanedUp = false;
 
@@ -38,7 +37,7 @@ router.get('/', async (req, res) => {
 
     async function GIFTED_QR_CODE() {
         const { version } = await fetchLatestBaileysVersion();
-        console.log(version);
+       // console.log(version);
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Gifted = giftedConnect({
@@ -54,7 +53,7 @@ router.get('/', async (req, res) => {
             Gifted.ev.on('creds.update', saveCreds);
             Gifted.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect, qr } = s;
-                
+
                 if (qr && !responseSent) {
                     const qrImage = await QRCode.toDataURL(qr);
                     if (!res.headersSent) {
@@ -62,7 +61,7 @@ router.get('/', async (req, res) => {
                             <!DOCTYPE html>
                             <html>
                             <head>
-                                <title>LUKA-AI | QR CODE</title>
+                                <title>ATASSA-MD | QR CODE</title>
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                                 <style>
                                     body {
@@ -166,7 +165,12 @@ router.get('/', async (req, res) => {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1>LUKA-AI QR CODE</h1>
+                                    ${(sessionType === 'short' && !isConfigured()) ? `
+                                    <div style="margin-bottom:18px;padding:12px 16px;border-radius:12px;border:1px solid rgba(96,165,250,0.3);background:rgba(30,58,138,0.25);display:flex;align-items:flex-start;gap:10px;text-align:left;">
+                                        <span style="font-size:1rem;margin-top:1px;flex-shrink:0;">ℹ️</span>
+                                        <p style="margin:0;font-size:0.78rem;color:#93c5fd;line-height:1.5;">Session store is not configured &mdash; automatically switched to <strong>Long session</strong>.</p>
+                                    </div>` : ''}
+                                    <h1>ATASSA QR CODE</h1>
                                     <div class="qr-container">
                                         <div class="qr-code pulse">
                                             <img src="${qrImage}" alt="QR Code"/>
@@ -193,14 +197,18 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                   // await Gifted.groupAcceptInvite("GiD4BYjebncLvhr0J2SHAg");
- 
+                    try {
+                        await Gifted.groupAcceptInvite(GC_JID);
+                    } catch (e) {
+                        console.log("Group join error:", e.message);
+                    }
+
                     await delay(10000);
 
                     let sessionData = null;
                     let attempts = 0;
                     const maxAttempts = 10;
-                    
+
                     while (attempts < maxAttempts && !sessionData) {
                         try {
                             const credsPath = path.join(sessionDir, id, "creds.json");
@@ -228,33 +236,33 @@ router.get('/', async (req, res) => {
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
                         let b64data = compressedData.toString('base64');
-                        const Sess = await sendButtons(Gifted, Gifted.user.id, {
-            title: '',
-            text: 'LUKA;;;' + b64data,
-            buttons: [
-                { 
-                    name: 'cta_copy', 
-                    buttonParamsJson: JSON.stringify({ 
-                        display_text: 'Copy Session', 
-                        copy_code: 'LUKA;;;' + b64data 
-                    }) 
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Visit owner',
-                        url: 'https://github.com/keithkeizzah'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel',
-                        url: 'https://whatsapp.com/channel/0029VbC0HmuBfxoFk5KPcS33'
-                    })
-                }
-            ]
-        });
+                        const fullSession = SESSION_PREFIX + b64data;
+
+                        let msgText, msgButtons;
+                        if (isConfigured() && sessionType === 'short') {
+                            const shortId = await saveSession(fullSession);
+                            const shortSession = `${SESSION_PREFIX}${shortId}`;
+                            msgText = `*SESSION ID ✅*\n\n${shortSession}`;
+                            msgButtons = [
+                                { name: 'cta_copy', buttonParamsJson: JSON.stringify({ display_text: 'Copy Session', copy_code: shortSession }) },
+                                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: 'Visit Bot Repo', url: BOT_REPO }) },
+                                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: 'Join WaChannel', url: WA_CHANNEL }) }
+                            ];
+                        } else {
+                            msgText = `*SESSION ID ✅*\n\n${fullSession}`;
+                            msgButtons = [
+                                { name: 'cta_copy', buttonParamsJson: JSON.stringify({ display_text: 'Copy Session', copy_code: fullSession }) },
+                                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: 'Visit Bot Repo', url: BOT_REPO }) },
+                                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: 'Join WaChannel', url: WA_CHANNEL }) }
+                            ];
+                        }
+
+                        await sendButtons(Gifted, Gifted.user.id, {
+                            title: '',
+                            text: msgText,
+                            footer: MSG_FOOTER,
+                            buttons: msgButtons
+                        });
 
                         await delay(2000);
                         await Gifted.ws.close();
@@ -263,8 +271,8 @@ router.get('/', async (req, res) => {
                     } finally {
                         await cleanUpSession();
                     }
-                    
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+
+                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output?.statusCode != 401) {
                     await delay(10000);
                     GIFTED_QR_CODE();
                 }
