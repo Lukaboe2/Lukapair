@@ -10,7 +10,7 @@
         content="LUKA-AI WhatsApp Bot - Powerful, fast and reliable WhatsApp automation platform.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -26,7 +26,7 @@
 
     :root {
       --bg: #eef1f5;
-      --white: #ffffff;
+      --surface: #eef1f5;
       --text: #252933;
       --muted: #7d8591;
 
@@ -35,6 +35,30 @@
 
       --shadow-dark: #d2d6dc;
       --shadow-light: #ffffff;
+
+      --green: #22c55e;
+    }
+
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    body.dark {
+      --bg: #20242b;
+      --surface: #20242b;
+
+      --text: #f1f3f6;
+      --muted: #9299a6;
+
+      --purple: #9b6cff;
+      --purple-dark: #b18cff;
+
+      --shadow-dark: #15181d;
+      --shadow-light: #2b3038;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -43,11 +67,19 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+
+      transition:
+        background .35s ease,
+        color .35s ease;
     }
 
     a {
       text-decoration: none;
       color: inherit;
+    }
+
+    button {
+      font-family: inherit;
     }
 
     /* =========================
@@ -57,9 +89,13 @@
     header {
       width: 100%;
       padding: 20px 7%;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      position: relative;
+      z-index: 100;
     }
 
     .logo {
@@ -71,12 +107,15 @@
     .logo img {
       width: 48px;
       height: 48px;
+
       border-radius: 15px;
       object-fit: cover;
 
       box-shadow:
         6px 6px 12px var(--shadow-dark),
         -6px -6px 12px var(--shadow-light);
+
+      transition: .35s;
     }
 
     .logo h2 {
@@ -86,10 +125,13 @@
 
     .logo span {
       display: block;
+
       font-size: 9px;
       color: var(--muted);
+
       font-weight: 700;
       letter-spacing: 1px;
+
       margin-top: 2px;
     }
 
@@ -101,10 +143,13 @@
 
     .nav a {
       padding: 11px 17px;
+
       border-radius: 13px;
+
       font-size: 11px;
       font-weight: 700;
-      color: #686f7b;
+
+      color: var(--muted);
 
       transition: .25s;
 
@@ -117,14 +162,61 @@
       color: var(--purple);
     }
 
+    /* =========================
+       DARK MODE BUTTON
+    ========================== */
+
+    .theme-btn {
+      width: 44px;
+      height: 44px;
+
+      border: 0;
+      border-radius: 14px;
+
+      background: var(--surface);
+
+      color: var(--purple);
+
+      font-size: 17px;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+
+      transition: .25s;
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .theme-btn:active {
+      transform: translateY(1px);
+
+      box-shadow:
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
+    }
+
     .menu {
       display: none;
+
       width: 43px;
       height: 43px;
+
       border: 0;
       border-radius: 13px;
-      background: var(--bg);
+
+      background: var(--surface);
+
       color: var(--purple);
+
       font-size: 19px;
 
       box-shadow:
@@ -138,6 +230,7 @@
 
     .hero {
       min-height: calc(100vh - 90px);
+
       padding: 40px 7% 70px;
 
       display: flex;
@@ -151,7 +244,9 @@
 
       display: grid;
       grid-template-columns: 1.1fr .9fr;
+
       align-items: center;
+
       gap: 70px;
     }
 
@@ -161,9 +256,11 @@
       gap: 8px;
 
       padding: 10px 16px;
+
       border-radius: 50px;
 
       color: var(--purple);
+
       font-size: 10px;
       font-weight: 800;
 
@@ -175,17 +272,24 @@
     .badge-dot {
       width: 7px;
       height: 7px;
+
       border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 7px rgba(34,197,94,.5);
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 7px rgba(34,197,94,.5);
     }
 
     .hero h1 {
       margin-top: 22px;
 
       font-size: clamp(42px, 6vw, 72px);
+
       line-height: 1;
+
       letter-spacing: -3px;
+
       font-weight: 800;
     }
 
@@ -199,7 +303,9 @@
       margin-top: 22px;
 
       color: var(--muted);
+
       font-size: 14px;
+
       line-height: 1.8;
     }
 
@@ -210,7 +316,9 @@
     .buttons {
       display: flex;
       flex-wrap: wrap;
+
       gap: 15px;
+
       margin-top: 30px;
     }
 
@@ -219,11 +327,13 @@
       height: 55px;
 
       border: 0;
+
       border-radius: 17px;
 
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
       gap: 9px;
 
       font-size: 11px;
@@ -235,7 +345,8 @@
     }
 
     .btn-primary {
-      background: var(--bg);
+      background: var(--surface);
+
       color: var(--purple);
 
       box-shadow:
@@ -245,6 +356,7 @@
 
     .btn-primary:hover {
       color: var(--purple-dark);
+
       transform: translateY(-2px);
     }
 
@@ -257,8 +369,9 @@
     }
 
     .btn-secondary {
-      background: var(--bg);
-      color: #707783;
+      background: var(--surface);
+
+      color: var(--muted);
 
       box-shadow:
         7px 7px 14px var(--shadow-dark),
@@ -275,6 +388,7 @@
 
     .visual {
       display: flex;
+
       justify-content: center;
       align-items: center;
     }
@@ -286,12 +400,17 @@
       border-radius: 50%;
 
       display: flex;
+
       justify-content: center;
       align-items: center;
+
+      background: var(--surface);
 
       box-shadow:
         22px 22px 45px var(--shadow-dark),
         -22px -22px 45px var(--shadow-light);
+
+      transition: .35s;
     }
 
     .logo-circle img {
@@ -299,11 +418,14 @@
       height: 225px;
 
       border-radius: 55px;
+
       object-fit: cover;
 
       box-shadow:
         12px 12px 25px var(--shadow-dark),
         -12px -12px 25px var(--shadow-light);
+
+      transition: .35s;
     }
 
     /* =========================
@@ -312,22 +434,35 @@
 
     .features {
       max-width: 1180px;
+
       margin: -5px auto 0;
 
       padding: 0 7% 50px;
 
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 20px;
     }
 
     .feature {
       padding: 25px;
+
       border-radius: 22px;
+
+      background: var(--surface);
 
       box-shadow:
         10px 10px 22px var(--shadow-dark),
         -10px -10px 22px var(--shadow-light);
+
+      transition: .3s;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
     }
 
     .feature-icon {
@@ -335,12 +470,14 @@
       height: 45px;
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
       border-radius: 14px;
 
       color: var(--purple);
+
       font-size: 18px;
 
       box-shadow:
@@ -350,14 +487,19 @@
 
     .feature h3 {
       margin-top: 17px;
+
       font-size: 14px;
+
       font-weight: 800;
     }
 
     .feature p {
       margin-top: 8px;
+
       color: var(--muted);
+
       font-size: 10px;
+
       line-height: 1.6;
     }
 
@@ -370,8 +512,10 @@
 
       text-align: center;
 
-      color: #9299a4;
+      color: var(--muted);
+
       font-size: 10px;
+
       font-weight: 600;
     }
 
@@ -384,6 +528,7 @@
     ========================== */
 
     @keyframes show {
+
       from {
         opacity: 0;
         transform: translateY(20px);
@@ -393,6 +538,7 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
 
     .hero-content {
@@ -431,7 +577,9 @@
 
       .hero-container {
         grid-template-columns: 1fr;
+
         text-align: center;
+
         gap: 55px;
       }
 
@@ -461,6 +609,7 @@
       .features {
         padding-left: 6%;
         padding-right: 6%;
+
         grid-template-columns: 1fr;
       }
 
@@ -479,6 +628,7 @@
 
       .hero h1 {
         font-size: 43px;
+
         letter-spacing: -2px;
       }
 
@@ -502,6 +652,7 @@
       .logo-circle img {
         width: 145px;
         height: 145px;
+
         border-radius: 38px;
       }
 
@@ -521,15 +672,21 @@
     <a href="/" class="logo">
 
       <img
-        src="https://i.imgur.com/IgtuuGb.png"
+        src="https://files.catbox.moe/1l02sd.png"
         alt="LUKA-AI">
 
       <div>
+
         <h2>LUKA-AI</h2>
-        <span>WHATSAPP BOT</span>
+
+        <span>
+          WHATSAPP BOT
+        </span>
+
       </div>
 
     </a>
+
 
     <nav class="nav">
 
@@ -546,15 +703,35 @@
       </a>
 
       <a
-        href="https://github.com/Lucvoice/LUKA-AI"
+        href="https://github.com/Mayrabrand/MAYRA-AI"
         target="_blank">
+
         GITHUB
+
       </a>
 
     </nav>
 
-    <button class="menu" onclick="toggleMenu()">
+
+    <!-- DARK MODE -->
+
+    <button
+      class="theme-btn"
+      id="themeBtn"
+      onclick="toggleTheme()"
+      aria-label="Toggle dark mode">
+
+      🌙
+
+    </button>
+
+
+    <button
+      class="menu"
+      onclick="toggleMenu()">
+
       ☰
+
     </button>
 
   </header>
@@ -578,9 +755,11 @@
 
         </div>
 
+
         <h1>
           Meet <span>LUKA-AI</span>
         </h1>
+
 
         <p class="hero-description">
 
@@ -594,13 +773,18 @@
 
         <div class="buttons">
 
-          <a href="/pair" class="btn btn-primary">
+          <a
+            href="/pair"
+            class="btn btn-primary">
 
             🔗 GET PAIR CODE
 
           </a>
 
-          <a href="/qr" class="btn btn-secondary">
+
+          <a
+            href="/qr"
+            class="btn btn-secondary">
 
             ▦ QR CODE
 
@@ -618,7 +802,7 @@
         <div class="logo-circle">
 
           <img
-            src="https://i.imgur.com/IgtuuGb.png"
+            src="https://files.catbox.moe/7b5bxf.png"
             alt="LUKA-AI Logo">
 
         </div>
@@ -699,7 +883,11 @@
   <footer>
 
     © 2026
-    <strong>LUKA-AI</strong>
+
+    <strong>
+      LUKA-AI
+    </strong>
+
     — WhatsApp Automation Platform
 
   </footer>
@@ -707,9 +895,82 @@
 
   <script>
 
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    const themeBtn =
+      document.getElementById("themeBtn");
+
+
+    function setTheme(mode) {
+
+      if (mode === "dark") {
+
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀️";
+
+        localStorage.setItem(
+          "luka-theme",
+          "dark"
+        );
+
+      } else {
+
+        document.body.classList.remove("dark");
+
+        themeBtn.textContent = "🌙";
+
+        localStorage.setItem(
+          "luka-theme",
+          "light"
+        );
+
+      }
+
+    }
+
+
+    function toggleTheme() {
+
+      const isDark =
+        document.body.classList.contains("dark");
+
+      setTheme(
+        isDark ? "light" : "dark"
+      );
+
+    }
+
+
+    /* =========================
+       LOAD SAVED THEME
+    ========================== */
+
+    const savedTheme =
+      localStorage.getItem("luka-theme");
+
+
+    if (savedTheme === "dark") {
+
+      setTheme("dark");
+
+    } else {
+
+      setTheme("light");
+
+    }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
     function toggleMenu() {
 
-      const nav = document.querySelector(".nav");
+      const nav =
+        document.querySelector(".nav");
 
       if (nav.style.display === "flex") {
 
@@ -720,15 +981,22 @@
         nav.style.display = "flex";
 
         nav.style.position = "absolute";
+
         nav.style.top = "78px";
+
         nav.style.right = "5%";
+
         nav.style.flexDirection = "column";
+
         nav.style.padding = "15px";
+
         nav.style.borderRadius = "18px";
-        nav.style.background = "#eef1f5";
+
+        nav.style.background =
+          "var(--surface)";
 
         nav.style.boxShadow =
-          "10px 10px 22px #d2d6dc, -10px -10px 22px #ffffff";
+          "10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light)";
 
       }
 
