@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
   <title>LUKA-AI PAIR | Pair Code Login</title>
-  <meta name="theme-color" content="#08100c">
+  <meta name="theme-color" content="#f1f3f6">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -15,6 +16,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
+
     *,*::before,*::after{
       box-sizing:border-box;
       margin:0;
@@ -22,22 +24,21 @@
     }
 
     :root{
-      --bg-primary:#08100c;
-      --bg-secondary:#0e1712;
-      --bg-panel:#15221a;
+      --bg:#eef1f5;
+      --surface:#eef1f5;
+      --white:#ffffff;
 
-      --green:#22c55e;
-      --green-light:#4ade80;
-      --green-dark:#16a34a;
+      --primary:#7c3aed;
+      --primary-light:#a855f7;
+      --primary-dark:#6d28d9;
 
-      --text-primary:#ecfdf3;
-      --text-secondary:#8fa99a;
+      --text:#252331;
+      --muted:#858593;
 
-      --border:rgba(74,222,128,.10);
-      --border-green:rgba(34,197,94,.30);
+      --shadow-dark:rgba(163,169,180,.55);
+      --shadow-light:rgba(255,255,255,.95);
 
-      --shadow-dark:rgba(0,0,0,.62);
-      --shadow-light:rgba(255,255,255,.025);
+      --border:rgba(255,255,255,.65);
     }
 
     html{
@@ -46,138 +47,160 @@
 
     body{
       font-family:'Inter',sans-serif;
-      background:
-        radial-gradient(circle at 10% 5%,rgba(34,197,94,.07),transparent 30%),
-        radial-gradient(circle at 90% 90%,rgba(22,163,74,.05),transparent 30%),
-        var(--bg-primary);
-      color:var(--text-primary);
+      background:var(--bg);
+      color:var(--text);
       min-height:100vh;
       overflow-x:hidden;
       scrollbar-width:thin;
-      scrollbar-color:var(--bg-panel) var(--bg-primary);
+      scrollbar-color:#cdd1d8 var(--bg);
     }
 
     body::-webkit-scrollbar{
-      width:5px;
+      width:6px;
     }
 
     body::-webkit-scrollbar-track{
-      background:var(--bg-primary);
+      background:var(--bg);
     }
 
     body::-webkit-scrollbar-thumb{
-      background:var(--bg-panel);
+      background:#cdd1d8;
       border-radius:10px;
-    }
-
-    body::before{
-      content:'';
-      position:fixed;
-      inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events:none;
-      z-index:0;
-    }
-
-    .blob{
-      position:fixed;
-      border-radius:50%;
-      filter:blur(120px);
-      pointer-events:none;
-      z-index:0;
-      opacity:.7;
-    }
-
-    @keyframes floaty{
-      0%,100%{
-        transform:translate(0,0) scale(1);
-      }
-      50%{
-        transform:translate(25px,-20px) scale(1.05);
-      }
     }
 
     .mono{
       font-family:'JetBrains Mono',monospace;
     }
 
-    /* =========================
-       SOFT UI NAVBAR
-    ========================= */
+    /* ================= SOFT UI ================= */
+
+    .soft{
+      background:var(--surface);
+      box-shadow:
+        9px 9px 18px var(--shadow-dark),
+        -9px -9px 18px var(--shadow-light);
+    }
+
+    .soft-inset{
+      background:var(--surface);
+      box-shadow:
+        inset 6px 6px 12px rgba(163,169,180,.45),
+        inset -6px -6px 12px rgba(255,255,255,.95);
+    }
+
+    .soft-small{
+      background:var(--surface);
+      box-shadow:
+        4px 4px 9px rgba(163,169,180,.45),
+        -4px -4px 9px rgba(255,255,255,.95);
+    }
+
+    .soft-primary{
+      background:var(--primary);
+      color:white;
+      box-shadow:
+        7px 7px 15px rgba(108,40,217,.28),
+        -5px -5px 12px rgba(255,255,255,.8);
+    }
+
+    /* ================= BACKGROUND ================= */
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-2;
+      background:
+        radial-gradient(
+          circle at 15% 15%,
+          rgba(168,85,247,.08),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 85% 80%,
+          rgba(124,58,237,.06),
+          transparent 30%
+        );
+    }
+
+    .bg-shape{
+      position:fixed;
+      border-radius:50%;
+      pointer-events:none;
+      z-index:-1;
+      filter:blur(1px);
+      opacity:.45;
+    }
+
+    /* ================= NAVBAR ================= */
 
     .nav-bar{
-      background:var(--bg-primary);
-      border-bottom:1px solid rgba(255,255,255,.025);
+      background:rgba(238,241,245,.9);
+      border-bottom:1px solid rgba(255,255,255,.75);
+      backdrop-filter:blur(15px);
+      -webkit-backdrop-filter:blur(15px);
+
       box-shadow:
-        0 8px 25px rgba(0,0,0,.35),
-        0 -1px 0 rgba(255,255,255,.015) inset;
+        0 5px 18px rgba(163,169,180,.2);
     }
 
     .nav-link{
-      color:var(--text-secondary);
+      color:var(--muted);
       font-size:.875rem;
-      font-weight:500;
+      font-weight:600;
       text-decoration:none;
+
       display:flex;
       align-items:center;
       gap:6px;
-      transition:color .18s,transform .18s;
-      position:relative;
-      padding-bottom:2px;
-    }
 
-    .nav-link::after{
-      content:'';
-      position:absolute;
-      bottom:-4px;
-      left:0;
-      width:0;
-      height:2px;
-      background:var(--green);
-      border-radius:2px;
-      transition:width .22s;
-      box-shadow:0 0 8px rgba(34,197,94,.6);
+      transition:.2s;
     }
 
     .nav-link:hover{
-      color:var(--green-light);
+      color:var(--primary);
       transform:translateY(-1px);
     }
 
-    .nav-link:hover::after{
-      width:100%;
+    /* ================= SIDEBAR ================= */
+
+    #sidebar{
+      transition:
+        transform .3s cubic-bezier(.4,0,.2,1);
     }
 
-    /* =========================
-       SIDEBAR
-    ========================= */
+    #sidebarOverlay{
+      transition:opacity .3s ease;
+    }
 
     .sidebar-link{
       display:flex;
       align-items:center;
       gap:12px;
-      padding:11px 14px;
-      border-radius:14px;
-      color:var(--text-secondary);
+
+      padding:12px 14px;
+      margin-bottom:7px;
+
+      border-radius:13px;
+
+      color:var(--muted);
       text-decoration:none;
+
       font-size:.875rem;
-      font-weight:500;
-      transition:
-        background .18s,
-        color .18s,
-        transform .18s,
-        box-shadow .18s;
-      border:1px solid transparent;
+      font-weight:600;
+
+      transition:.2s;
     }
 
     .sidebar-link:hover{
-      background:var(--bg-panel);
-      border-color:var(--border-green);
-      color:var(--green-light);
-      transform:translateX(4px);
+      color:var(--primary);
+
+      transform:translateX(3px);
+
       box-shadow:
-        5px 5px 12px rgba(0,0,0,.4),
-        -3px -3px 8px rgba(255,255,255,.018);
+        inset 4px 4px 8px rgba(163,169,180,.28),
+        inset -4px -4px 8px rgba(255,255,255,.9);
     }
 
     .sidebar-link i{
@@ -185,366 +208,382 @@
       text-align:center;
     }
 
-    #sidebar{
-      transition:transform .3s cubic-bezier(.4,0,.2,1);
+    .sidebar-active{
+      color:var(--primary)!important;
+
       box-shadow:
-        18px 0 40px rgba(0,0,0,.5),
-        -3px 0 10px rgba(255,255,255,.015);
+        inset 5px 5px 10px rgba(163,169,180,.32),
+        inset -5px -5px 10px rgba(255,255,255,.95);
     }
 
-    #sidebarOverlay{
-      transition:opacity .3s ease;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================= */
+    /* ================= BUTTONS ================= */
 
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:8px;
+
       padding:12px 24px;
-      border-radius:14px;
-      font-weight:600;
+
+      border-radius:13px;
+
+      font-weight:700;
       font-size:.875rem;
       font-family:'Inter',sans-serif;
+
       cursor:pointer;
       border:none;
       text-decoration:none;
+
       transition:
         transform .18s,
-        box-shadow .18s,
-        background .18s;
+        box-shadow .18s;
     }
 
     .btn:active{
       transform:scale(.97)!important;
-      box-shadow:
-        inset 5px 5px 10px rgba(0,0,0,.35),
-        inset -3px -3px 7px rgba(255,255,255,.05)!important;
     }
 
     .btn-primary{
-      background:linear-gradient(145deg,#25d366,#16a34a);
-      color:#fff;
+      background:var(--primary);
+      color:white;
+
       box-shadow:
-        8px 8px 18px rgba(0,0,0,.48),
-        -5px -5px 12px rgba(255,255,255,.025),
-        0 0 18px rgba(34,197,94,.12);
+        7px 7px 15px rgba(124,58,237,.28),
+        -5px -5px 12px rgba(255,255,255,.95);
     }
 
     .btn-primary:hover{
-      transform:translateY(-3px);
+      transform:translateY(-2px);
+
       box-shadow:
-        10px 12px 24px rgba(0,0,0,.55),
-        -5px -5px 12px rgba(255,255,255,.03),
-        0 0 28px rgba(34,197,94,.25);
-      filter:brightness(1.08);
+        10px 10px 20px rgba(124,58,237,.3),
+        -7px -7px 15px rgba(255,255,255,1);
     }
 
     .btn-primary:disabled{
-      opacity:.5;
+      opacity:.55;
       cursor:not-allowed;
       transform:none!important;
-      box-shadow:none!important;
     }
 
     .btn-ghost{
-      background:var(--bg-panel);
-      border:1px solid var(--border-green);
-      color:var(--green-light);
+      background:var(--surface);
+      color:var(--primary);
+
       box-shadow:
-        6px 6px 14px rgba(0,0,0,.42),
-        -4px -4px 10px rgba(255,255,255,.02);
+        5px 5px 11px rgba(163,169,180,.45),
+        -5px -5px 11px rgba(255,255,255,.95);
     }
 
     .btn-ghost:hover{
       transform:translateY(-2px);
-      background:#19291f;
-      box-shadow:
-        8px 8px 17px rgba(0,0,0,.48),
-        -4px -4px 10px rgba(255,255,255,.025);
     }
 
     .icon-anim{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+
+      transition:
+        transform .28s cubic-bezier(.34,1.56,.64,1);
     }
 
     .btn:hover .icon-anim{
-      transform:scale(1.2) rotate(-8deg);
+      transform:scale(1.15) rotate(-7deg);
     }
 
-    /* =========================
-       SOFT SOCIAL BUTTON
-    ========================= */
+    /* ================= SOCIAL ================= */
 
     .social-icon{
       width:36px;
       height:36px;
-      border-radius:12px;
-      background:var(--bg-panel);
-      border:1px solid var(--border);
+
+      border-radius:11px;
+
       display:flex;
       align-items:center;
       justify-content:center;
-      color:var(--text-secondary);
-      font-size:.85rem;
+
+      color:var(--muted);
       text-decoration:none;
-      transition:
-        background .2s,
-        color .2s,
-        transform .2s,
-        border-color .2s,
-        box-shadow .2s;
+
+      transition:.2s;
+
       box-shadow:
-        5px 5px 12px rgba(0,0,0,.42),
-        -3px -3px 8px rgba(255,255,255,.018);
+        4px 4px 9px rgba(163,169,180,.4),
+        -4px -4px 9px rgba(255,255,255,.95);
     }
 
     .social-icon:hover{
-      background:#1a2a20;
-      color:var(--green-light);
-      border-color:var(--border-green);
+      color:var(--primary);
       transform:translateY(-3px);
-      box-shadow:
-        7px 8px 15px rgba(0,0,0,.48),
-        -3px -3px 8px rgba(255,255,255,.025);
     }
 
-    .divider{
-      height:1px;
-      background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(74,222,128,.13),
-        transparent
-      );
-    }
+    /* ================= MAIN CARD ================= */
 
-    /* =========================
-       MAIN CARD - NEUMORPHISM
-    ========================= */
+    .main-card{
+      background:var(--surface);
 
-    .card{
-      background:var(--bg-secondary);
-      border:1px solid rgba(74,222,128,.07);
-      border-radius:24px;
+      border-radius:25px;
 
       box-shadow:
-        20px 20px 45px rgba(0,0,0,.58),
-        -10px -10px 25px rgba(255,255,255,.018),
-        inset 1px 1px 0 rgba(255,255,255,.012);
-
-      position:relative;
+        13px 13px 28px rgba(163,169,180,.48),
+        -13px -13px 28px rgba(255,255,255,.98);
     }
 
-    .card::before{
-      content:'';
-      position:absolute;
-      inset:1px;
-      border-radius:23px;
-      pointer-events:none;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.018),
-        inset 0 -1px 0 rgba(0,0,0,.3);
-    }
-
-    /* =========================
-       INPUT - INSET SOFT UI
-    ========================= */
+    /* ================= INPUT ================= */
 
     .input-field{
-      background:#101a14;
-      border:1px solid rgba(74,222,128,.08);
-      color:var(--text-primary);
-      border-radius:14px;
+      background:var(--surface);
+
+      border:none;
+
+      color:var(--text);
+
+      border-radius:13px;
+
       font-size:.875rem;
       font-family:'Inter',sans-serif;
-      transition:
-        border-color .2s,
-        box-shadow .2s,
-        background .2s;
+
       width:100%;
-      padding:13px 12px 13px 42px;
+
+      padding:13px 13px 13px 43px;
 
       box-shadow:
-        inset 6px 6px 12px rgba(0,0,0,.48),
-        inset -4px -4px 9px rgba(255,255,255,.018);
+        inset 5px 5px 10px rgba(163,169,180,.4),
+        inset -5px -5px 10px rgba(255,255,255,.95);
+
+      transition:.2s;
     }
 
     .input-field::placeholder{
-      color:#718579;
+      color:#9a9aa5;
     }
 
     .input-field:focus{
       outline:none;
-      border-color:rgba(34,197,94,.55);
-      background:#0e1812;
+
       box-shadow:
-        inset 6px 6px 12px rgba(0,0,0,.5),
-        inset -4px -4px 9px rgba(255,255,255,.018),
-        0 0 0 3px rgba(34,197,94,.08),
-        0 0 20px rgba(34,197,94,.08);
+        inset 5px 5px 10px rgba(163,169,180,.35),
+        inset -5px -5px 10px rgba(255,255,255,.95),
+        0 0 0 2px rgba(124,58,237,.12);
     }
 
+    /* ================= SESSION ================= */
+
+    .session-option{
+      transition:.2s;
+      cursor:pointer;
+    }
+
+    .session-option:hover{
+      transform:translateY(-1px);
+    }
+
+    .session-selected{
+      background:var(--surface)!important;
+
+      box-shadow:
+        inset 5px 5px 10px rgba(163,169,180,.4),
+        inset -5px -5px 10px rgba(255,255,255,.95),
+        0 0 0 1px rgba(124,58,237,.15);
+    }
+
+    .session-icon{
+      box-shadow:
+        4px 4px 8px rgba(163,169,180,.4),
+        -4px -4px 8px rgba(255,255,255,.95);
+    }
+
+    /* ================= GUIDE ================= */
+
+    .guide-box{
+      background:var(--surface);
+
+      box-shadow:
+        inset 5px 5px 10px rgba(163,169,180,.3),
+        inset -5px -5px 10px rgba(255,255,255,.95);
+    }
+
+    .guide-step{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+
+      padding:11px;
+
+      border-radius:12px;
+
+      transition:.18s;
+    }
+
+    .guide-step:hover{
+      box-shadow:
+        4px 4px 9px rgba(163,169,180,.3),
+        -4px -4px 9px rgba(255,255,255,.95);
+    }
+
+    .guide-num{
+      width:25px;
+      height:25px;
+
+      border-radius:50%;
+
+      background:var(--primary);
+      color:white;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:.7rem;
+      font-weight:800;
+
+      flex-shrink:0;
+
+      box-shadow:
+        3px 3px 7px rgba(124,58,237,.28),
+        -3px -3px 7px rgba(255,255,255,.95);
+    }
+
+    /* ================= RESULT ================= */
+
+    .result-code-box{
+      background:var(--surface);
+
+      border-radius:18px;
+
+      padding:22px 15px;
+
+      text-align:center;
+
+      box-shadow:
+        inset 7px 7px 14px rgba(163,169,180,.4),
+        inset -7px -7px 14px rgba(255,255,255,.95);
+    }
+
+    .code-display{
+      font-size:2.2rem;
+
+      font-weight:800;
+
+      letter-spacing:9px;
+
+      color:var(--primary);
+
+      font-family:'JetBrains Mono',monospace;
+
+      text-shadow:
+        1px 1px 0 white;
+    }
+
+    .copy-btn,
+    .new-btn{
+
+      transition:.2s;
+
+      border:none;
+
+      border-radius:11px;
+
+      padding:9px 18px;
+
+      font-size:.8rem;
+
+      font-weight:700;
+
+      font-family:'Inter',sans-serif;
+
+      cursor:pointer;
+
+      display:flex;
+      align-items:center;
+      gap:6px;
+
+      background:var(--surface);
+    }
+
+    .copy-btn{
+
+      color:var(--primary);
+
+      box-shadow:
+        4px 4px 9px rgba(163,169,180,.4),
+        -4px -4px 9px rgba(255,255,255,.95);
+    }
+
+    .new-btn{
+
+      color:var(--muted);
+
+      box-shadow:
+        4px 4px 9px rgba(163,169,180,.4),
+        -4px -4px 9px rgba(255,255,255,.95);
+    }
+
+    .copy-btn:hover,
+    .new-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .copy-btn:active,
+    .new-btn:active{
+      box-shadow:
+        inset 4px 4px 8px rgba(163,169,180,.35),
+        inset -4px -4px 8px rgba(255,255,255,.95);
+    }
+
+    .copy-btn.copied{
+      color:#16a34a;
+    }
+
+    /* ================= SPINNER ================= */
+
+    .spinner{
+      width:16px;
+      height:16px;
+
+      border:2px solid rgba(255,255,255,.35);
+      border-top-color:#fff;
+
+      border-radius:50%;
+
+      animation:spin .7s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    /* ================= SHAKE ================= */
+
     @keyframes shake{
-      0%,100%{transform:translateX(0)}
-      20%,60%{transform:translateX(-6px)}
-      40%,80%{transform:translateX(6px)}
+      0%,100%{
+        transform:translateX(0);
+      }
+
+      20%,60%{
+        transform:translateX(-6px);
+      }
+
+      40%,80%{
+        transform:translateX(6px);
+      }
     }
 
     .shake{
       animation:shake .4s ease;
     }
 
-    .spinner{
-      width:16px;
-      height:16px;
-      border:2px solid rgba(255,255,255,.22);
-      border-top-color:#fff;
-      border-radius:50%;
-      animation:spin .7s linear infinite;
-    }
-
-    @keyframes spin{
-      to{transform:rotate(360deg)}
-    }
-
-    /* =========================
-       PAIR CODE
-    ========================= */
-
-    .code-display{
-      font-size:2.2rem;
-      font-weight:800;
-      letter-spacing:10px;
-      color:var(--green-light);
-      font-family:'JetBrains Mono',monospace;
-      text-shadow:
-        0 0 12px rgba(74,222,128,.28),
-        0 0 28px rgba(34,197,94,.12);
-    }
-
-    .copy-btn{
-      transition:
-        transform .18s,
-        background .18s,
-        border-color .18s,
-        box-shadow .18s;
-
-      background:var(--bg-panel);
-      border:1px solid var(--border-green);
-      border-radius:12px;
-      color:var(--green-light);
-      padding:9px 18px;
-      font-size:.8rem;
-      font-weight:600;
-      font-family:'Inter',sans-serif;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:6px;
-
-      box-shadow:
-        5px 5px 12px rgba(0,0,0,.45),
-        -3px -3px 8px rgba(255,255,255,.018);
-    }
-
-    .copy-btn:hover{
-      background:#1a2a20;
-      transform:translateY(-2px);
-      box-shadow:
-        7px 8px 15px rgba(0,0,0,.5),
-        -3px -3px 8px rgba(255,255,255,.02);
-    }
-
-    .copy-btn.copied{
-      background:#153c25;
-      border-color:rgba(74,222,128,.45);
-      color:var(--green-light);
-      box-shadow:
-        inset 4px 4px 8px rgba(0,0,0,.28),
-        inset -3px -3px 7px rgba(255,255,255,.025);
-    }
-
-    .new-btn{
-      transition:
-        transform .18s,
-        background .18s,
-        box-shadow .18s;
-
-      background:var(--bg-panel);
-      border:1px solid var(--border);
-      border-radius:12px;
-      color:var(--text-secondary);
-      padding:9px 18px;
-      font-size:.8rem;
-      font-weight:600;
-      font-family:'Inter',sans-serif;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:6px;
-
-      box-shadow:
-        5px 5px 12px rgba(0,0,0,.42),
-        -3px -3px 8px rgba(255,255,255,.018);
-    }
-
-    .new-btn:hover{
-      background:#1a2920;
-      transform:translateY(-2px);
-      color:var(--text-primary);
-    }
-
-    /* =========================
-       GUIDE
-    ========================= */
-
-    .guide-step{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      padding:12px;
-      border-radius:13px;
-      background:#111c15;
-      border:1px solid rgba(74,222,128,.06);
-
-      box-shadow:
-        inset 4px 4px 9px rgba(0,0,0,.35),
-        inset -3px -3px 7px rgba(255,255,255,.012);
-    }
-
-    .guide-num{
-      width:24px;
-      height:24px;
-      border-radius:50%;
-      background:linear-gradient(145deg,#25d366,#16a34a);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:.7rem;
-      font-weight:700;
-      flex-shrink:0;
-
-      box-shadow:
-        4px 4px 9px rgba(0,0,0,.4),
-        -2px -2px 6px rgba(255,255,255,.02),
-        0 0 10px rgba(34,197,94,.12);
-    }
-
-    /* =========================
-       ANIMATIONS
-    ========================= */
+    /* ================= ANIMATION ================= */
 
     [data-anim]{
       will-change:transform,opacity;
+
       transition:
         opacity .65s cubic-bezier(.4,0,.2,1),
         transform .65s cubic-bezier(.4,0,.2,1);
@@ -552,12 +591,12 @@
 
     [data-anim="fade-up"]{
       opacity:0;
-      transform:translateY(28px);
+      transform:translateY(25px);
     }
 
     [data-anim="zoom-in"]{
       opacity:0;
-      transform:scale(.9);
+      transform:scale(.94);
     }
 
     [data-anim].in-view{
@@ -573,77 +612,130 @@
       transition-delay:.2s;
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    /* ================= DIVIDER ================= */
 
-    @media(max-width:640px){
+    .divider{
+      height:1px;
 
-      .card{
-        border-radius:20px;
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(163,169,180,.35),
+          transparent
+        );
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media(max-width:800px){
+
+      .nav-bar{
         box-shadow:
-          14px 16px 32px rgba(0,0,0,.58),
-          -7px -7px 17px rgba(255,255,255,.018);
+          0 5px 16px rgba(163,169,180,.2);
+      }
+
+      .main-card{
+        border-radius:21px;
       }
 
       .code-display{
-        font-size:1.75rem;
-        letter-spacing:7px;
+        font-size:1.85rem;
+        letter-spacing:6px;
       }
 
-      .btn{
-        border-radius:13px;
-      }
-
-      .input-field{
-        border-radius:13px;
-      }
     }
+
+    @media(max-width:420px){
+
+      .code-display{
+        font-size:1.55rem;
+        letter-spacing:4px;
+      }
+
+    }
+
   </style>
 </head>
 
 <body>
 
-  <!-- DARK GREEN SOFT LIGHT -->
-  <div class="blob"
-    style="width:380px;height:380px;top:-100px;left:-80px;background:rgba(34,197,94,.10);animation:floaty 16s ease-in-out infinite;">
+  <!-- Background Decorations -->
+
+  <div class="bg-shape"
+    style="
+      width:220px;
+      height:220px;
+      top:80px;
+      left:-90px;
+      background:rgba(124,58,237,.06);
+      box-shadow:
+        20px 20px 40px rgba(163,169,180,.25),
+        -20px -20px 40px rgba(255,255,255,.7);
+    ">
   </div>
 
-  <div class="blob"
-    style="width:300px;height:300px;bottom:10%;right:-60px;background:rgba(22,163,74,.08);animation:floaty 20s ease-in-out 5s infinite;">
+  <div class="bg-shape"
+    style="
+      width:180px;
+      height:180px;
+      bottom:80px;
+      right:-70px;
+      background:rgba(168,85,247,.05);
+      box-shadow:
+        20px 20px 40px rgba(163,169,180,.25),
+        -20px -20px 40px rgba(255,255,255,.7);
+    ">
   </div>
 
-  <!-- NAVBAR -->
+
+  <!-- ================= NAVBAR ================= -->
+
   <nav class="nav-bar sticky top-0 z-50">
 
     <div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
 
-      <a href="/" class="flex items-center gap-3 no-underline">
+      <a href="/"
+        class="flex items-center gap-3 no-underline">
 
-        <img src="https://files.catbox.moe/1l02sd.png"
+        <img
+          src="https://files.catbox.moe/1l02sd.png"
           alt="LUKA-AI"
-          class="w-8 h-8 rounded-xl object-cover"
-          style="box-shadow:0 0 16px rgba(34,197,94,.25);">
+          class="w-9 h-9 rounded-xl object-cover"
+          style="
+            box-shadow:
+              5px 5px 10px rgba(163,169,180,.4),
+              -5px -5px 10px rgba(255,255,255,.95);
+          "
+        >
 
         <div class="flex flex-col leading-none">
 
-          <span class="text-sm font-bold"
-            style="color:var(--text-primary)">
+          <span
+            class="text-sm font-bold"
+            style="color:var(--text);">
+
             LUKA-AI PAIR
+
           </span>
 
-          <span class="text-[9px] font-semibold tracking-[0.2em]"
-            style="color:var(--green)">
+          <span
+            class="text-[9px] font-bold tracking-[0.2em]"
+            style="color:var(--primary);">
+
             PAIR CODE
+
           </span>
 
         </div>
 
       </a>
 
-      <div class="hidden md:flex items-center gap-6">
 
-        <a href="https://github.com/Mayrabrand/MAYRA-AI"
+      <div class="hidden md:flex items-center gap-7">
+
+        <a
+          href="https://github.com/Mayrabrand/MAYRA-AI"
           target="_blank"
           class="nav-link">
 
@@ -652,16 +744,18 @@
 
         </a>
 
-        <a href="/pair"
+        <a
+          href="/pair"
           class="nav-link"
-          style="color:var(--green-light);">
+          style="color:var(--primary);">
 
           <i class="fas fa-link text-xs"></i>
           Pair Code
 
         </a>
 
-        <a href="/qr"
+        <a
+          href="/qr"
           class="nav-link">
 
           <i class="fas fa-qrcode text-xs"></i>
@@ -671,9 +765,11 @@
 
       </div>
 
+
       <div class="flex items-center gap-3">
 
-        <a href="/qr"
+        <a
+          href="/qr"
           class="hidden md:inline-flex btn btn-ghost py-2 px-4 text-xs">
 
           <span class="icon-anim">
@@ -684,18 +780,24 @@
 
         </a>
 
-        <button id="menuBtn"
+
+        <button
+          id="menuBtn"
           class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl outline-none"
           style="
-            background:var(--bg-panel);
-            border:1px solid var(--border);
-            color:var(--text-secondary);
+            background:var(--surface);
+            color:var(--primary);
+            border:none;
+
             box-shadow:
-              5px 5px 12px rgba(0,0,0,.42),
-              -3px -3px 8px rgba(255,255,255,.018);
+              4px 4px 9px rgba(163,169,180,.45),
+              -4px -4px 9px rgba(255,255,255,.95);
           ">
 
-          <i class="fas fa-bars" id="menuIcon"></i>
+          <i
+            class="fas fa-bars"
+            id="menuIcon">
+          </i>
 
         </button>
 
@@ -705,43 +807,64 @@
 
   </nav>
 
-  <!-- SIDEBAR OVERLAY -->
-  <div id="sidebarOverlay"
-    class="fixed inset-0 z-40 bg-black/70 opacity-0 pointer-events-none">
+
+  <!-- ================= OVERLAY ================= -->
+
+  <div
+    id="sidebarOverlay"
+    class="fixed inset-0 z-40 bg-black/20 opacity-0 pointer-events-none">
   </div>
 
-  <!-- SIDEBAR -->
-  <aside id="sidebar"
-    class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-3xl"
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside
+    id="sidebar"
+    class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-[25px]"
     style="
-      background:var(--bg-secondary);
-      border-right:1px solid var(--border);
+      background:var(--surface);
+      box-shadow:
+        12px 0 28px rgba(163,169,180,.35),
+        -8px -8px 20px rgba(255,255,255,.8);
     ">
 
     <div class="flex items-center justify-between px-5 mb-6">
 
       <div class="flex items-center gap-2">
 
-        <img src="https://files.catbox.moe/7b5bxf.png"
+        <img
+          src="https://files.catbox.moe/7b5bxf.png"
           alt="LUKA-AI"
-          class="w-7 h-7 rounded-lg object-cover">
+          class="w-8 h-8 rounded-xl"
+          style="
+            box-shadow:
+              4px 4px 8px rgba(163,169,180,.4),
+              -4px -4px 8px rgba(255,255,255,.95);
+          "
+        >
 
-        <span class="text-sm font-bold"
-          style="color:var(--text-primary)">
+        <span
+          class="text-sm font-bold"
+          style="color:var(--text);">
+
           LUKA-AI
+
         </span>
 
       </div>
 
-      <button id="closeBtn"
-        class="w-8 h-8 flex items-center justify-center rounded-lg"
+
+      <button
+        id="closeBtn"
+        class="w-8 h-8 flex items-center justify-center rounded-xl"
         style="
-          background:var(--bg-panel);
-          color:var(--text-secondary);
-          border:1px solid var(--border);
+          background:var(--surface);
+          color:var(--muted);
+          border:none;
+
           box-shadow:
-            4px 4px 9px rgba(0,0,0,.4),
-            -2px -2px 6px rgba(255,255,255,.018);
+            4px 4px 8px rgba(163,169,180,.4),
+            -4px -4px 8px rgba(255,255,255,.95);
         ">
 
         <i class="fas fa-times text-sm"></i>
@@ -750,37 +873,41 @@
 
     </div>
 
+
     <div class="px-3 flex-1 space-y-1">
 
-      <a href="/" class="sidebar-link">
+      <a
+        href="/"
+        class="sidebar-link">
+
         <i class="fas fa-house"></i>
         Home
+
       </a>
 
-      <a href="/pair"
-        class="sidebar-link"
-        style="
-          background:#15291c;
-          border-color:var(--border-green);
-          color:var(--green-light);
-          box-shadow:
-            inset 4px 4px 8px rgba(0,0,0,.32),
-            inset -3px -3px 7px rgba(255,255,255,.018);
-        ">
+
+      <a
+        href="/pair"
+        class="sidebar-link sidebar-active">
 
         <i class="fas fa-link"></i>
         Pair Code
 
       </a>
 
-      <a href="/qr" class="sidebar-link">
+
+      <a
+        href="/qr"
+        class="sidebar-link">
 
         <i class="fas fa-qrcode"></i>
         QR Code
 
       </a>
 
-      <a href="https://github.com/Mayrabrand/MAYRA-AI"
+
+      <a
+        href="https://github.com/Mayrabrand/MAYRA-AI"
         target="_blank"
         class="sidebar-link">
 
@@ -789,7 +916,9 @@
 
       </a>
 
-      <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
+
+      <a
+        href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
         target="_blank"
         class="sidebar-link">
 
@@ -800,85 +929,130 @@
 
     </div>
 
-    <div class="px-5 pt-4"
-      style="border-top:1px solid var(--border);">
 
-      <p style="color:var(--text-secondary);font-size:.75rem;">
+    <div
+      class="px-5 pt-4"
+      style="
+        border-top:1px solid rgba(163,169,180,.2);
+      ">
+
+      <p
+        style="
+          color:var(--muted);
+          font-size:.75rem;
+        ">
+
         ⚡ Powered by LukaTech Lab
+
       </p>
 
     </div>
 
   </aside>
 
-  <!-- MAIN -->
+
+  <!-- ================= MAIN ================= -->
+
   <main class="relative z-10">
 
-    <section class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
+    <section
+      class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
 
       <div class="w-full max-w-md">
 
+
         <!-- HEADER -->
-        <div class="text-center mb-8"
+
+        <div
+          class="text-center mb-8"
           data-anim="fade-up">
 
           <div class="flex justify-center mb-5">
 
-            <div class="relative">
+            <div
+              class="relative p-2 rounded-[22px]"
+              style="
+                background:var(--surface);
 
-              <img src="https://files.catbox.moe/7b5bxf.png"
+                box-shadow:
+                  8px 8px 17px rgba(163,169,180,.48),
+                  -8px -8px 17px rgba(255,255,255,.98);
+              ">
+
+              <img
+                src="https://files.catbox.moe/7b5bxf.png"
                 alt="LUKA-AI"
-                class="w-20 h-20 rounded-2xl object-cover"
-                style="
-                  box-shadow:
-                    12px 12px 24px rgba(0,0,0,.55),
-                    -7px -7px 16px rgba(255,255,255,.018),
-                    0 0 25px rgba(34,197,94,.18);
-                  border:2px solid rgba(34,197,94,.25);
-                ">
+                class="w-20 h-20 rounded-[17px] object-cover"
+              >
 
             </div>
 
           </div>
 
-          <p class="text-xs font-semibold tracking-[0.2em] mb-1"
-            style="color:var(--green);">
+
+          <p
+            class="text-xs font-bold tracking-[0.2em] mb-1"
+            style="color:var(--primary);">
+
             // PAIR CODE LOGIN
+
           </p>
 
-          <h1 class="text-2xl font-bold mb-1"
-            style="color:var(--text-primary);">
+
+          <h1
+            class="text-2xl font-bold mb-1"
+            style="color:var(--text);">
+
             Connect Your WhatsApp
+
           </h1>
 
-          <p class="text-sm"
-            style="color:var(--text-secondary);">
+
+          <p
+            class="text-sm"
+            style="color:var(--muted);">
+
             Enter your number with country code — no + sign
+
           </p>
 
         </div>
 
-        <!-- CARD -->
-        <div class="card p-7"
+
+        <!-- ================= CARD ================= -->
+
+        <div
+          class="main-card p-7"
           data-anim="zoom-in"
           data-delay="1">
 
+
+          <!-- FORM -->
+
           <div id="formSection">
 
+
             <!-- PHONE -->
+
             <div class="mb-5">
 
-              <label for="phoneNumber"
-                class="block text-xs font-semibold uppercase tracking-widest mb-2"
-                style="color:var(--text-secondary);">
+              <label
+                for="phoneNumber"
+                class="block text-xs font-bold uppercase tracking-widest mb-2"
+                style="color:var(--muted);">
+
                 Phone Number
+
               </label>
+
 
               <div class="relative">
 
-                <i class="fas fa-mobile-alt absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"
-                  style="color:var(--green);">
+                <i
+                  class="fas fa-mobile-alt absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"
+                  style="color:var(--primary);">
                 </i>
+
 
                 <input
                   id="phoneNumber"
@@ -886,13 +1060,16 @@
                   inputmode="numeric"
                   pattern="[0-9]*"
                   placeholder="e.g. 2557xxxxxxxx"
-                  class="input-field">
+                  class="input-field"
+                >
 
               </div>
 
-              <p id="phoneError"
+
+              <p
+                id="phoneError"
                 class="text-xs mt-2 hidden flex items-center gap-1.5"
-                style="color:#f87171;">
+                style="color:#ef4444;">
 
                 <i class="fas fa-exclamation-triangle"></i>
 
@@ -902,112 +1079,116 @@
 
             </div>
 
+
             <!-- SESSION TYPE -->
+
             <div class="mb-5">
 
               <label
-                class="block text-xs font-semibold uppercase tracking-widest mb-2"
-                style="color:var(--text-secondary);">
+                class="block text-xs font-bold uppercase tracking-widest mb-2"
+                style="color:var(--muted);">
+
                 Session Type
+
               </label>
 
+
               <!-- LONG -->
-              <div id="typeLong"
+
+              <div
+                id="typeLong"
                 onclick="selectType('long')"
-                class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all duration-200"
-                style="
-                  background:#14291b;
-                  border:1.5px solid var(--green);
-                  margin-bottom:8px;
-                  box-shadow:
-                    inset 5px 5px 10px rgba(0,0,0,.32),
-                    inset -4px -4px 8px rgba(255,255,255,.018),
-                    0 0 12px rgba(34,197,94,.05);
-                ">
+                class="session-option session-selected flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer"
+                style="margin-bottom:10px;">
 
                 <div class="flex items-center gap-3">
 
-                  <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  <div
+                    class="session-icon w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                     style="
-                      background:linear-gradient(145deg,#25d366,#16a34a);
-                      box-shadow:
-                        4px 4px 9px rgba(0,0,0,.4),
-                        -2px -2px 6px rgba(255,255,255,.02);
+                      color:white;
+                      background:var(--primary);
                     ">
 
-                    <i class="fas fa-file-code text-white text-xs"></i>
+                    <i class="fas fa-file-code text-xs"></i>
 
                   </div>
 
+
                   <div>
 
-                    <p class="text-sm font-semibold"
-                      style="color:var(--text-primary);">
+                    <p
+                      class="text-sm font-semibold"
+                      style="color:var(--text);">
+
                       Long Session
+
                     </p>
 
-                    <p class="text-xs"
-                      style="color:var(--text-secondary);">
+                    <p
+                      class="text-xs"
+                      style="color:var(--muted);">
+
                       Full session string — recommended
+
                     </p>
 
                   </div>
 
                 </div>
 
-                <div id="longRadio"
+
+                <div
+                  id="longRadio"
                   class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
                   style="
-                    border-color:var(--green);
-                    background:var(--green);
-                    box-shadow:0 0 8px rgba(34,197,94,.25);
+                    border-color:var(--primary);
+                    background:var(--primary);
                   ">
 
-                  <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                  <div
+                    class="w-1.5 h-1.5 rounded-full bg-white">
+                  </div>
 
                 </div>
 
               </div>
 
+
               <!-- SHORT -->
-              <div id="typeShort"
+
+              <div
+                id="typeShort"
                 onclick="selectType('short')"
-                class="flex items-center justify-between px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200"
-                style="
-                  background:transparent;
-                  border:1px dashed rgba(143,169,154,.25);
-                ">
+                class="session-option flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer">
 
                 <div class="flex items-center gap-3">
 
-                  <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style="
-                      background:var(--bg-panel);
-                      border:1px solid var(--border);
-                      box-shadow:
-                        inset 3px 3px 6px rgba(0,0,0,.35),
-                        inset -2px -2px 5px rgba(255,255,255,.015);
-                    ">
+                  <div
+                    class="session-icon w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0">
 
-                    <i class="fas fa-database text-xs"
-                      style="color:var(--text-secondary);">
+                    <i
+                      class="fas fa-database text-xs"
+                      style="color:var(--muted);">
                     </i>
 
                   </div>
 
+
                   <div>
 
-                    <p class="text-xs font-medium"
-                      style="color:var(--text-secondary);">
+                    <p
+                      class="text-xs font-medium"
+                      style="color:var(--muted);">
 
                       Short Session
 
-                      <span class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded"
+                      <span
+                        class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded"
                         style="
-                          background:var(--bg-panel);
-                          color:var(--text-secondary);
+                          background:#e2e5ea;
+                          color:#858593;
                           font-size:.6rem;
-                          letter-spacing:.05em;
                         ">
 
                         OPTIONAL
@@ -1020,58 +1201,71 @@
 
                 </div>
 
-                <div id="shortRadio"
+
+                <div
+                  id="shortRadio"
                   class="w-4 h-4 rounded-full border-2 flex-shrink-0"
-                  style="border-color:rgba(143,169,154,.3);">
+                  style="border-color:#c9ccd2;">
                 </div>
 
               </div>
 
             </div>
 
-            <!-- SUBMIT -->
-            <button id="submitBtn"
+
+            <!-- BUTTON -->
+
+            <button
+              id="submitBtn"
               class="btn btn-primary w-full py-3 text-sm">
 
-              <span id="btnContent"
+              <span
+                id="btnContent"
                 class="flex items-center gap-2">
 
                 <span class="icon-anim">
+
                   <i class="fab fa-whatsapp"></i>
+
                 </span>
 
-                <span>GET PAIR CODE</span>
+                <span>
+                  GET PAIR CODE
+                </span>
 
               </span>
 
-              <span id="btnLoading"
+
+              <span
+                id="btnLoading"
                 class="hidden flex items-center gap-2">
 
                 <span class="spinner"></span>
 
-                <span>Connecting...</span>
+                <span>
+                  Connecting...
+                </span>
 
               </span>
 
             </button>
 
-            <p id="generalError"
+
+            <p
+              id="generalError"
               class="text-xs text-center mt-3 hidden"
-              style="color:#f87171;">
+              style="color:#ef4444;">
             </p>
 
-            <!-- GUIDE -->
-            <div class="mt-6 rounded-2xl p-4"
-              style="
-                background:#101a14;
-                border:1px solid rgba(74,222,128,.07);
-                box-shadow:
-                  inset 5px 5px 12px rgba(0,0,0,.38),
-                  inset -4px -4px 9px rgba(255,255,255,.015);
-              ">
 
-              <p class="text-xs font-semibold mb-3 flex items-center gap-2"
-                style="color:var(--green);">
+            <!-- GUIDE -->
+
+            <div
+              class="guide-box mt-6 rounded-2xl p-4">
+
+              <p
+                class="text-xs font-bold mb-3 flex items-center gap-2"
+                style="color:var(--primary);">
 
                 <i class="fas fa-circle-info"></i>
 
@@ -1079,72 +1273,139 @@
 
               </p>
 
+
               <div class="space-y-2">
 
-                <div class="guide-step">
-                  <div class="guide-num">1</div>
-                  <p class="text-xs" style="color:var(--text-secondary);">
-                    Enter your WhatsApp number above
-                  </p>
-                </div>
 
                 <div class="guide-step">
-                  <div class="guide-num">2</div>
-                  <p class="text-xs" style="color:var(--text-secondary);">
+
+                  <div class="guide-num">
+                    1
+                  </div>
+
+                  <p
+                    class="text-xs"
+                    style="color:var(--muted);">
+
+                    Enter your WhatsApp number above
+
+                  </p>
+
+                </div>
+
+
+                <div class="guide-step">
+
+                  <div class="guide-num">
+                    2
+                  </div>
+
+                  <p
+                    class="text-xs"
+                    style="color:var(--muted);">
+
                     Click
-                    <strong style="color:var(--text-primary);">
+
+                    <strong style="color:var(--text);">
                       GET PAIR CODE
                     </strong>
+
                     and wait for the code
+
                   </p>
+
                 </div>
 
+
                 <div class="guide-step">
-                  <div class="guide-num">3</div>
-                  <p class="text-xs" style="color:var(--text-secondary);">
+
+                  <div class="guide-num">
+                    3
+                  </div>
+
+                  <p
+                    class="text-xs"
+                    style="color:var(--muted);">
+
                     Open WhatsApp →
-                    <strong style="color:var(--green);">
+
+                    <strong style="color:var(--primary);">
                       Settings → Linked Devices → Link a Device
                     </strong>
+
                   </p>
+
                 </div>
 
+
                 <div class="guide-step">
-                  <div class="guide-num">4</div>
-                  <p class="text-xs" style="color:var(--text-secondary);">
+
+                  <div class="guide-num">
+                    4
+                  </div>
+
+                  <p
+                    class="text-xs"
+                    style="color:var(--muted);">
+
                     Tap
-                    <strong style="color:var(--text-primary);">
+
+                    <strong style="color:var(--text);">
                       "Link with phone number instead"
                     </strong>
+
                     and enter the 8-digit code
+
                   </p>
+
                 </div>
 
+
                 <div class="guide-step">
-                  <div class="guide-num">5</div>
-                  <p class="text-xs" style="color:var(--text-secondary);">
+
+                  <div class="guide-num">
+                    5
+                  </div>
+
+                  <p
+                    class="text-xs"
+                    style="color:var(--muted);">
+
                     Your session ID will be sent via WhatsApp ✅
+
                   </p>
+
                 </div>
 
               </div>
 
             </div>
 
-            <!-- QR -->
-            <div class="mt-5 pt-4 flex items-center justify-center gap-3"
-              style="border-top:1px solid var(--border);">
 
-              <span class="text-xs"
-                style="color:var(--text-secondary);">
+            <!-- QR -->
+
+            <div
+              class="mt-5 pt-4 flex items-center justify-center gap-3"
+              style="
+                border-top:1px solid rgba(163,169,180,.2);
+              ">
+
+              <span
+                class="text-xs"
+                style="color:var(--muted);">
+
                 Prefer QR?
+
               </span>
 
-              <a href="/qr"
-                class="text-xs font-medium no-underline flex items-center gap-1"
-                style="color:var(--green);">
+
+              <a
+                href="/qr"
+                class="text-xs font-semibold no-underline flex items-center gap-1"
+                style="color:var(--primary);">
 
                 <i class="fas fa-qrcode text-xs"></i>
+
                 Scan QR instead
 
               </a>
@@ -1153,87 +1414,110 @@
 
           </div>
 
-          <!-- RESULT -->
-          <div id="resultSection" class="hidden">
 
-            <div id="fallbackBanner"
+          <!-- ================= RESULT ================= -->
+
+          <div
+            id="resultSection"
+            class="hidden">
+
+
+            <!-- FALLBACK -->
+
+            <div
+              id="fallbackBanner"
               class="hidden mb-4 rounded-xl p-3.5 flex items-start gap-3"
               style="
-                background:#17251b;
-                border:1px solid rgba(74,222,128,.16);
+                background:var(--surface);
+                color:#8b5cf6;
+
                 box-shadow:
-                  inset 4px 4px 8px rgba(0,0,0,.3),
-                  inset -3px -3px 6px rgba(255,255,255,.012);
+                  inset 4px 4px 8px rgba(163,169,180,.3),
+                  inset -4px -4px 8px rgba(255,255,255,.95);
               ">
 
-              <i class="fas fa-info-circle mt-0.5 text-sm flex-shrink-0"
-                style="color:var(--green-light);">
-              </i>
+              <i class="fas fa-info-circle mt-0.5 text-sm flex-shrink-0"></i>
 
-              <p class="text-xs leading-relaxed"
-                style="color:var(--green-light);">
+              <p class="text-xs leading-relaxed">
 
-                Session store not configured — switched to
-                <strong>Long session</strong>.
+                Session store not configured —
+                switched to
+                <strong>
+                  Long session
+                </strong>.
 
               </p>
 
             </div>
+
 
             <div class="text-center mb-6">
 
-              <div class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
+              <div
+                class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
                 style="
-                  background:#163520;
-                  border:1px solid rgba(34,197,94,.25);
+                  background:var(--surface);
+                  color:var(--primary);
+
                   box-shadow:
-                    7px 7px 14px rgba(0,0,0,.42),
-                    -4px -4px 9px rgba(255,255,255,.018),
-                    0 0 18px rgba(34,197,94,.08);
+                    5px 5px 10px rgba(163,169,180,.4),
+                    -5px -5px 10px rgba(255,255,255,.95);
                 ">
 
-                <i class="fab fa-whatsapp text-xl"
-                  style="color:var(--green-light);">
-                </i>
+                <i class="fab fa-whatsapp text-xl"></i>
 
               </div>
 
-              <p class="font-semibold text-sm mb-1"
-                style="color:var(--text-primary);">
+
+              <p
+                class="font-semibold text-sm mb-1"
+                style="color:var(--text);">
+
                 Your Pair Code is Ready
+
               </p>
 
-              <p class="text-xs"
-                style="color:var(--text-secondary);">
-                WhatsApp → Linked Devices → Link a Device → Enter code
+
+              <p
+                class="text-xs"
+                style="color:var(--muted);">
+
+                WhatsApp → Linked Devices →
+                Link a Device → Enter code
+
               </p>
 
             </div>
 
-            <!-- CODE BOX -->
-            <div class="relative rounded-2xl p-5 text-center mb-5"
-              style="
-                background:#0f1913;
-                border:1px solid var(--border-green);
-                box-shadow:
-                  inset 7px 7px 15px rgba(0,0,0,.48),
-                  inset -5px -5px 10px rgba(255,255,255,.015);
-              ">
 
-              <p id="pairCode"
+            <!-- CODE -->
+
+            <div class="result-code-box mb-5">
+
+              <p
+                id="pairCode"
                 class="code-display">
               </p>
 
-              <p class="text-xs mt-2"
-                style="color:var(--text-secondary);">
+
+              <p
+                class="text-xs mt-2"
+                style="color:var(--muted);">
+
                 Enter this 8-digit code in WhatsApp
+
               </p>
 
             </div>
 
+
+            <!-- ACTIONS -->
+
             <div class="flex gap-3 justify-center">
 
-              <button id="copyBtn" class="copy-btn">
+              <button
+                id="copyBtn"
+                class="copy-btn">
 
                 <i class="fas fa-copy text-xs"></i>
 
@@ -1243,7 +1527,10 @@
 
               </button>
 
-              <button id="newCodeBtn" class="new-btn">
+
+              <button
+                id="newCodeBtn"
+                class="new-btn">
 
                 <i class="fas fa-redo text-xs"></i>
 
@@ -1253,14 +1540,20 @@
 
             </div>
 
-            <div class="mt-5 pt-5 text-center"
-              style="border-top:1px solid var(--border);">
 
-              <a href="/"
+            <div
+              class="mt-5 pt-5 text-center"
+              style="
+                border-top:1px solid rgba(163,169,180,.2);
+              ">
+
+              <a
+                href="/"
                 class="text-xs no-underline flex items-center justify-center gap-1.5"
-                style="color:var(--text-secondary);">
+                style="color:var(--muted);">
 
                 <i class="fas fa-arrow-left text-xs"></i>
+
                 Back to Home
 
               </a>
@@ -1271,64 +1564,66 @@
 
         </div>
 
+
         <!-- FEATURES -->
-        <div class="mt-6 grid grid-cols-3 gap-3"
+
+        <div
+          class="mt-6 grid grid-cols-3 gap-3"
           data-anim="fade-up"
           data-delay="2">
 
-          <div class="text-center p-3 rounded-xl"
-            style="
-              background:var(--bg-secondary);
-              border:1px solid var(--border);
-              box-shadow:
-                7px 7px 14px rgba(0,0,0,.42),
-                -4px -4px 9px rgba(255,255,255,.018);
-            ">
+          <div
+            class="text-center p-3 rounded-xl soft-small">
 
-            <i class="fas fa-shield-halved text-sm mb-1.5 block"
-              style="color:var(--green);">
+            <i
+              class="fas fa-shield-halved text-sm mb-1.5 block"
+              style="color:var(--primary);">
             </i>
 
-            <p class="text-xs" style="color:var(--text-secondary);">
+            <p
+              class="text-xs"
+              style="color:var(--muted);">
+
               Encrypted
+
             </p>
 
           </div>
 
-          <div class="text-center p-3 rounded-xl"
-            style="
-              background:var(--bg-secondary);
-              border:1px solid var(--border);
-              box-shadow:
-                7px 7px 14px rgba(0,0,0,.42),
-                -4px -4px 9px rgba(255,255,255,.018);
-            ">
 
-            <i class="fas fa-bolt text-sm mb-1.5 block"
-              style="color:var(--green-light);">
+          <div
+            class="text-center p-3 rounded-xl soft-small">
+
+            <i
+              class="fas fa-bolt text-sm mb-1.5 block"
+              style="color:var(--primary);">
             </i>
 
-            <p class="text-xs" style="color:var(--text-secondary);">
+            <p
+              class="text-xs"
+              style="color:var(--muted);">
+
               Instant
+
             </p>
 
           </div>
 
-          <div class="text-center p-3 rounded-xl"
-            style="
-              background:var(--bg-secondary);
-              border:1px solid var(--border);
-              box-shadow:
-                7px 7px 14px rgba(0,0,0,.42),
-                -4px -4px 9px rgba(255,255,255,.018);
-            ">
 
-            <i class="fas fa-mobile-screen text-sm mb-1.5 block"
-              style="color:var(--green);">
+          <div
+            class="text-center p-3 rounded-xl soft-small">
+
+            <i
+              class="fas fa-mobile-screen text-sm mb-1.5 block"
+              style="color:var(--primary);">
             </i>
 
-            <p class="text-xs" style="color:var(--text-secondary);">
+            <p
+              class="text-xs"
+              style="color:var(--muted);">
+
               Secure
+
             </p>
 
           </div>
@@ -1339,36 +1634,60 @@
 
     </section>
 
+
     <div class="divider"></div>
 
-    <!-- FOOTER -->
-    <footer class="py-8 px-5"
-      style="background:var(--bg-secondary);">
 
-      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <!-- ================= FOOTER ================= -->
+
+    <footer
+      class="py-8 px-5"
+      style="background:var(--surface);">
+
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+
 
         <div class="flex items-center gap-2">
 
-          <img src="https://files.catbox.moe/7b5bxf.png"
-            class="w-6 h-6 rounded-lg object-cover">
+          <img
+            src="https://files.catbox.moe/7b5bxf.png"
+            class="w-7 h-7 rounded-xl object-cover"
+            style="
+              box-shadow:
+                4px 4px 8px rgba(163,169,180,.4),
+                -4px -4px 8px rgba(255,255,255,.95);
+            "
+          >
 
-          <span class="text-xs font-bold"
-            style="color:var(--text-primary);">
+          <span
+            class="text-xs font-bold"
+            style="color:var(--text);">
+
             LUKA-AI PAIR
+
           </span>
 
         </div>
 
-        <p class="text-xs text-center mono"
-          style="color:var(--text-secondary);">
+
+        <p
+          class="text-xs text-center mono"
+          style="color:var(--muted);">
 
           &copy;
+
           <span id="yr"></span>
+
           LUKA-AI PAIR &mdash;
 
-          <a href="https://github.com/Mayrabrand"
+          <a
+            href="https://github.com/Mayrabrand"
             target="_blank"
-            style="color:var(--green);text-decoration:none;">
+            style="
+              color:var(--primary);
+              text-decoration:none;
+            ">
 
             LukaTech Lab
 
@@ -1376,9 +1695,11 @@
 
         </p>
 
+
         <div class="flex gap-2">
 
-          <a href="https://github.com/Mayrabrand/MAYRA-AI"
+          <a
+            href="https://github.com/Mayrabrand/MAYRA-AI"
             target="_blank"
             class="social-icon">
 
@@ -1386,7 +1707,9 @@
 
           </a>
 
-          <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
+
+          <a
+            href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
             target="_blank"
             class="social-icon">
 
@@ -1402,10 +1725,16 @@
 
   </main>
 
+
+  <!-- ================= JAVASCRIPT ================= -->
+
   <script>
 
     document.getElementById('yr').textContent =
       new Date().getFullYear();
+
+
+    /* ================= SIDEBAR ================= */
 
     const sidebar =
       document.getElementById('sidebar');
@@ -1421,6 +1750,7 @@
 
     const menuIcon =
       document.getElementById('menuIcon');
+
 
     function openSidebar(){
 
@@ -1438,7 +1768,9 @@
 
       document.body.style.overflow =
         'hidden';
+
     }
+
 
     function closeSidebar(){
 
@@ -1456,29 +1788,46 @@
 
       document.body.style.overflow =
         '';
+
     }
+
 
     menuBtn.addEventListener(
       'click',
       () => {
 
-        sidebar.style.transform ===
-        'translateX(0)'
-          ? closeSidebar()
-          : openSidebar();
+        if(
+          sidebar.style.transform ===
+          'translateX(0px)' ||
+          sidebar.style.transform ===
+          'translateX(0)'
+        ){
+
+          closeSidebar();
+
+        }else{
+
+          openSidebar();
+
+        }
 
       }
     );
+
 
     closeBtn.addEventListener(
       'click',
       closeSidebar
     );
 
+
     overlay.addEventListener(
       'click',
       closeSidebar
     );
+
+
+    /* ================= ANIMATION ================= */
 
     const obs =
       new IntersectionObserver(
@@ -1486,112 +1835,120 @@
 
           entries.forEach(e => {
 
-            e.isIntersecting
-              ? e.target.classList.add('in-view')
-              : e.target.classList.remove('in-view');
+            if(e.isIntersecting){
+
+              e.target.classList.add(
+                'in-view'
+              );
+
+            }
 
           });
 
         },
-        {threshold:.1}
+        {
+          threshold:.1
+        }
       );
+
 
     document
       .querySelectorAll('[data-anim]')
-      .forEach(el => obs.observe(el));
+      .forEach(el =>
+        obs.observe(el)
+      );
+
+
+    /* ================= SESSION ================= */
 
     let selectedType =
       'long';
+
 
     function selectType(type){
 
       selectedType =
         type;
 
+
       const longCard =
-        document.getElementById('typeLong');
+        document.getElementById(
+          'typeLong'
+        );
 
       const shortCard =
-        document.getElementById('typeShort');
+        document.getElementById(
+          'typeShort'
+        );
+
 
       const longRadio =
-        document.getElementById('longRadio');
+        document.getElementById(
+          'longRadio'
+        );
 
       const shortRadio =
-        document.getElementById('shortRadio');
+        document.getElementById(
+          'shortRadio'
+        );
+
 
       if(type === 'long'){
 
-        longCard.style.background =
-          '#14291b';
+        longCard.classList.add(
+          'session-selected'
+        );
 
-        longCard.style.border =
-          '1.5px solid var(--green)';
+        shortCard.classList.remove(
+          'session-selected'
+        );
 
-        longCard.style.boxShadow =
-          'inset 5px 5px 10px rgba(0,0,0,.32), inset -4px -4px 8px rgba(255,255,255,.018), 0 0 12px rgba(34,197,94,.05)';
 
         longRadio.style.background =
-          'var(--green)';
+          'var(--primary)';
 
         longRadio.style.borderColor =
-          'var(--green)';
+          'var(--primary)';
 
         longRadio.innerHTML =
           '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
 
-        shortCard.style.background =
-          'transparent';
-
-        shortCard.style.border =
-          '1px dashed rgba(143,169,154,.25)';
-
-        shortCard.style.boxShadow =
-          'none';
 
         shortRadio.style.background =
           'transparent';
 
         shortRadio.style.borderColor =
-          'rgba(143,169,154,.3)';
+          '#c9ccd2';
 
         shortRadio.innerHTML =
           '';
 
       }else{
 
-        shortCard.style.background =
-          '#14291b';
+        shortCard.classList.add(
+          'session-selected'
+        );
 
-        shortCard.style.border =
-          '1.5px solid var(--green)';
+        longCard.classList.remove(
+          'session-selected'
+        );
 
-        shortCard.style.boxShadow =
-          'inset 5px 5px 10px rgba(0,0,0,.32), inset -4px -4px 8px rgba(255,255,255,.018), 0 0 12px rgba(34,197,94,.05)';
 
         shortRadio.style.background =
-          'var(--green)';
+          'var(--primary)';
 
         shortRadio.style.borderColor =
-          'var(--green)';
+          'var(--primary)';
 
         shortRadio.innerHTML =
           '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
 
-        longCard.style.background =
-          'transparent';
-
-        longCard.style.border =
-          '1px dashed rgba(143,169,154,.25)';
-
-        longCard.style.boxShadow =
-          'none';
 
         longRadio.style.background =
           'transparent';
 
         longRadio.style.borderColor =
-          'rgba(143,169,154,.3)';
+          '#c9ccd2';
 
         longRadio.innerHTML =
           '';
@@ -1600,85 +1957,136 @@
 
     }
 
+
+    /* ================= FORM ================= */
+
     const phoneInput =
-      document.getElementById('phoneNumber');
+      document.getElementById(
+        'phoneNumber'
+      );
 
     const submitBtn =
-      document.getElementById('submitBtn');
+      document.getElementById(
+        'submitBtn'
+      );
 
     const btnContent =
-      document.getElementById('btnContent');
+      document.getElementById(
+        'btnContent'
+      );
 
     const btnLoading =
-      document.getElementById('btnLoading');
+      document.getElementById(
+        'btnLoading'
+      );
 
     const phoneError =
-      document.getElementById('phoneError');
+      document.getElementById(
+        'phoneError'
+      );
 
     const phoneErrTxt =
-      document.getElementById('phoneErrorText');
+      document.getElementById(
+        'phoneErrorText'
+      );
 
     const generalError =
-      document.getElementById('generalError');
+      document.getElementById(
+        'generalError'
+      );
 
     const formSection =
-      document.getElementById('formSection');
+      document.getElementById(
+        'formSection'
+      );
 
     const resultSection =
-      document.getElementById('resultSection');
+      document.getElementById(
+        'resultSection'
+      );
 
     const pairCode =
-      document.getElementById('pairCode');
+      document.getElementById(
+        'pairCode'
+      );
 
     const copyBtn =
-      document.getElementById('copyBtn');
+      document.getElementById(
+        'copyBtn'
+      );
 
     const copyText =
-      document.getElementById('copyText');
+      document.getElementById(
+        'copyText'
+      );
 
     const newCodeBtn =
-      document.getElementById('newCodeBtn');
+      document.getElementById(
+        'newCodeBtn'
+      );
+
 
     phoneInput.addEventListener(
       'input',
       () => {
 
         phoneInput.value =
-          phoneInput.value.replace(/\D/g,'');
+          phoneInput.value.replace(
+            /\D/g,
+            ''
+          );
 
-        phoneError.classList.add('hidden');
+        phoneError.classList.add(
+          'hidden'
+        );
 
-        generalError.classList.add('hidden');
+        generalError.classList.add(
+          'hidden'
+        );
 
       }
     );
+
 
     phoneInput.addEventListener(
       'keydown',
       e => {
 
-        if(e.key === 'Enter')
+        if(e.key === 'Enter'){
+
           submitBtn.click();
+
+        }
 
       }
     );
+
 
     function showPhoneError(msg){
 
       phoneErrTxt.textContent =
         msg;
 
-      phoneError.classList.remove('hidden');
+      phoneError.classList.remove(
+        'hidden'
+      );
 
-      phoneInput.classList.add('shake');
+      phoneInput.classList.add(
+        'shake'
+      );
 
       setTimeout(
         () =>
-          phoneInput.classList.remove('shake'),
+          phoneInput.classList.remove(
+            'shake'
+          ),
         450
       );
 
     }
+
+
+    /* ================= GET CODE ================= */
 
     submitBtn.addEventListener(
       'click',
@@ -1686,6 +2094,7 @@
 
         const num =
           phoneInput.value.trim();
+
 
         if(
           !num ||
@@ -1701,16 +2110,28 @@
 
         }
 
-        phoneError.classList.add('hidden');
 
-        generalError.classList.add('hidden');
+        phoneError.classList.add(
+          'hidden'
+        );
 
-        btnContent.classList.add('hidden');
+        generalError.classList.add(
+          'hidden'
+        );
 
-        btnLoading.classList.remove('hidden');
+
+        btnContent.classList.add(
+          'hidden'
+        );
+
+        btnLoading.classList.remove(
+          'hidden'
+        );
+
 
         submitBtn.disabled =
           true;
+
 
         try{
 
@@ -1719,11 +2140,14 @@
               `/code?number=${encodeURIComponent(num)}&type=${selectedType}`
             );
 
+
           const data =
             await res.json();
 
+
           const code =
             data.code || '';
+
 
           if(!code){
 
@@ -1731,39 +2155,59 @@
               data.message ||
               'Failed to get code. Try again.';
 
-            generalError.classList.remove('hidden');
+            generalError.classList.remove(
+              'hidden'
+            );
 
             return;
 
           }
 
+
           pairCode.textContent =
             code;
+
 
           if(data.fallback){
 
             document
-              .getElementById('fallbackBanner')
-              .classList.remove('hidden');
+              .getElementById(
+                'fallbackBanner'
+              )
+              .classList.remove(
+                'hidden'
+              );
 
           }
 
-          formSection.classList.add('hidden');
 
-          resultSection.classList.remove('hidden');
+          formSection.classList.add(
+            'hidden'
+          );
+
+          resultSection.classList.remove(
+            'hidden'
+          );
+
 
         }catch(e){
 
           generalError.textContent =
             'Connection error. Please try again.';
 
-          generalError.classList.remove('hidden');
+          generalError.classList.remove(
+            'hidden'
+          );
 
         }finally{
 
-          btnContent.classList.remove('hidden');
+          btnContent.classList.remove(
+            'hidden'
+          );
 
-          btnLoading.classList.add('hidden');
+          btnLoading.classList.add(
+            'hidden'
+          );
 
           submitBtn.disabled =
             false;
@@ -1773,18 +2217,26 @@
       }
     );
 
+
+    /* ================= COPY ================= */
+
     copyBtn.addEventListener(
       'click',
       () => {
 
         navigator.clipboard
-          .writeText(pairCode.textContent)
+          .writeText(
+            pairCode.textContent
+          )
           .then(() => {
 
             copyText.textContent =
               'Copied!';
 
-            copyBtn.classList.add('copied');
+            copyBtn.classList.add(
+              'copied'
+            );
+
 
             setTimeout(
               () => {
@@ -1792,7 +2244,9 @@
                 copyText.textContent =
                   'Copy Code';
 
-                copyBtn.classList.remove('copied');
+                copyBtn.classList.remove(
+                  'copied'
+                );
 
               },
               2000
@@ -1803,17 +2257,28 @@
       }
     );
 
+
+    /* ================= NEW CODE ================= */
+
     newCodeBtn.addEventListener(
       'click',
       () => {
 
-        resultSection.classList.add('hidden');
+        resultSection.classList.add(
+          'hidden'
+        );
 
-        formSection.classList.remove('hidden');
+        formSection.classList.remove(
+          'hidden'
+        );
 
         document
-          .getElementById('fallbackBanner')
-          .classList.add('hidden');
+          .getElementById(
+            'fallbackBanner'
+          )
+          .classList.add(
+            'hidden'
+          );
 
       }
     );
@@ -1821,4 +2286,4 @@
   </script>
 
 </body>
-                </html>
+            </html>
