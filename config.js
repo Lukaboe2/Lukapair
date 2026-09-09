@@ -13,5 +13,5 @@ module.exports = {
     DATABASE_URL: process.env.DATABASE_URL || "",
     BOT_REPO: process.env.BOT_REPO || "https://github.com/Lucvoice/LUKA-AI",
     WA_CHANNEL: process.env.WA_CHANNEL || "https://whatsapp.com/channel/0029VbCpYtZLtOj5LDuj",
-    MSG_FOOTER: process.env.MSG_FOOTER || "> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ɢɪᶠᴛᴇᴅ ᴛᴇᴄʜ*",
+    MSG_FOOTER: process.env.MSG_FOOTER || "> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴜᴋᴀʙʀᴀɴᴅ*",
 };
