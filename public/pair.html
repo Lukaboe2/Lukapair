@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>LUKA-AI PAIR | Pair Code Login</title>
-  <meta name="theme-color" content="#f1f3f6">
+  <title>LUKA-AI | Pair Code Login</title>
+  <meta name="theme-color" content="#eef1f5">
+  <meta name="description" content="LUKA-AI WhatsApp Bot Pair Code Login">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet"
@@ -17,28 +20,39 @@
 
   <style>
 
-    *,*::before,*::after{
-      box-sizing:border-box;
+    *{
       margin:0;
       padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
     }
 
     :root{
       --bg:#eef1f5;
       --surface:#eef1f5;
-      --white:#ffffff;
+      --text:#252933;
+      --muted:#7d8591;
 
-      --primary:#7c3aed;
-      --primary-light:#a855f7;
-      --primary-dark:#6d28d9;
+      --purple:#7c3aed;
+      --purple-dark:#6424d8;
 
-      --text:#252331;
-      --muted:#858593;
+      --shadow-dark:#d2d6dc;
+      --shadow-light:#ffffff;
 
-      --shadow-dark:rgba(163,169,180,.55);
-      --shadow-light:rgba(255,255,255,.95);
+      --green:#22c55e;
+    }
 
-      --border:rgba(255,255,255,.65);
+    body.dark{
+      --bg:#20242b;
+      --surface:#20242b;
+      --text:#f1f3f6;
+      --muted:#9299a6;
+
+      --purple:#9b6cff;
+      --purple-dark:#b18cff;
+
+      --shadow-dark:#15181d;
+      --shadow-light:#2b3038;
     }
 
     html{
@@ -46,336 +60,350 @@
     }
 
     body{
-      font-family:'Inter',sans-serif;
+      font-family:"Inter",sans-serif;
       background:var(--bg);
       color:var(--text);
       min-height:100vh;
       overflow-x:hidden;
-      scrollbar-width:thin;
-      scrollbar-color:#cdd1d8 var(--bg);
+      transition:background .35s ease,color .35s ease;
     }
 
-    body::-webkit-scrollbar{
-      width:6px;
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
-    body::-webkit-scrollbar-track{
-      background:var(--bg);
-    }
-
-    body::-webkit-scrollbar-thumb{
-      background:#cdd1d8;
-      border-radius:10px;
-    }
-
-    .mono{
-      font-family:'JetBrains Mono',monospace;
-    }
-
-    /* ================= SOFT UI ================= */
-
-    .soft{
-      background:var(--surface);
-      box-shadow:
-        9px 9px 18px var(--shadow-dark),
-        -9px -9px 18px var(--shadow-light);
-    }
-
-    .soft-inset{
-      background:var(--surface);
-      box-shadow:
-        inset 6px 6px 12px rgba(163,169,180,.45),
-        inset -6px -6px 12px rgba(255,255,255,.95);
-    }
-
-    .soft-small{
-      background:var(--surface);
-      box-shadow:
-        4px 4px 9px rgba(163,169,180,.45),
-        -4px -4px 9px rgba(255,255,255,.95);
-    }
-
-    .soft-primary{
-      background:var(--primary);
-      color:white;
-      box-shadow:
-        7px 7px 15px rgba(108,40,217,.28),
-        -5px -5px 12px rgba(255,255,255,.8);
-    }
-
-    /* ================= BACKGROUND ================= */
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:-2;
-      background:
-        radial-gradient(
-          circle at 15% 15%,
-          rgba(168,85,247,.08),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 85% 80%,
-          rgba(124,58,237,.06),
-          transparent 30%
-        );
-    }
-
-    .bg-shape{
-      position:fixed;
-      border-radius:50%;
-      pointer-events:none;
-      z-index:-1;
-      filter:blur(1px);
-      opacity:.45;
+    button{
+      font-family:inherit;
     }
 
     /* ================= NAVBAR ================= */
 
-    .nav-bar{
-      background:rgba(238,241,245,.9);
-      border-bottom:1px solid rgba(255,255,255,.75);
-      backdrop-filter:blur(15px);
-      -webkit-backdrop-filter:blur(15px);
-
-      box-shadow:
-        0 5px 18px rgba(163,169,180,.2);
-    }
-
-    .nav-link{
-      color:var(--muted);
-      font-size:.875rem;
-      font-weight:600;
-      text-decoration:none;
+    header{
+      width:100%;
+      padding:20px 7%;
 
       display:flex;
       align-items:center;
-      gap:6px;
+      justify-content:space-between;
 
-      transition:.2s;
+      position:relative;
+      z-index:100;
     }
 
-    .nav-link:hover{
-      color:var(--primary);
-      transform:translateY(-1px);
-    }
-
-    /* ================= SIDEBAR ================= */
-
-    #sidebar{
-      transition:
-        transform .3s cubic-bezier(.4,0,.2,1);
-    }
-
-    #sidebarOverlay{
-      transition:opacity .3s ease;
-    }
-
-    .sidebar-link{
+    .logo{
       display:flex;
       align-items:center;
       gap:12px;
+    }
 
-      padding:12px 14px;
-      margin-bottom:7px;
+    .logo img{
+      width:48px;
+      height:48px;
 
+      border-radius:15px;
+      object-fit:cover;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+
+      transition:.35s;
+    }
+
+    .logo h2{
+      font-size:18px;
+      font-weight:800;
+    }
+
+    .logo span{
+      display:block;
+      font-size:9px;
+      color:var(--muted);
+      font-weight:700;
+      letter-spacing:1px;
+      margin-top:2px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .nav a{
+      padding:11px 17px;
       border-radius:13px;
+
+      font-size:11px;
+      font-weight:700;
 
       color:var(--muted);
-      text-decoration:none;
 
-      font-size:.875rem;
-      font-weight:600;
-
-      transition:.2s;
-    }
-
-    .sidebar-link:hover{
-      color:var(--primary);
-
-      transform:translateX(3px);
+      transition:.25s;
 
       box-shadow:
-        inset 4px 4px 8px rgba(163,169,180,.28),
-        inset -4px -4px 8px rgba(255,255,255,.9);
+        5px 5px 10px var(--shadow-dark),
+        -5px -5px 10px var(--shadow-light);
     }
 
-    .sidebar-link i{
-      width:18px;
-      text-align:center;
+    .nav a:hover{
+      color:var(--purple);
     }
 
-    .sidebar-active{
-      color:var(--primary)!important;
-
-      box-shadow:
-        inset 5px 5px 10px rgba(163,169,180,.32),
-        inset -5px -5px 10px rgba(255,255,255,.95);
+    .nav a.active{
+      color:var(--purple);
     }
 
-    /* ================= BUTTONS ================= */
+    /* ================= THEME BUTTON ================= */
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
+    .theme-btn{
+      width:44px;
+      height:44px;
 
-      padding:12px 24px;
+      border:0;
+      border-radius:14px;
 
-      border-radius:13px;
-
-      font-weight:700;
-      font-size:.875rem;
-      font-family:'Inter',sans-serif;
-
-      cursor:pointer;
-      border:none;
-      text-decoration:none;
-
-      transition:
-        transform .18s,
-        box-shadow .18s;
-    }
-
-    .btn:active{
-      transform:scale(.97)!important;
-    }
-
-    .btn-primary{
-      background:var(--primary);
-      color:white;
-
-      box-shadow:
-        7px 7px 15px rgba(124,58,237,.28),
-        -5px -5px 12px rgba(255,255,255,.95);
-    }
-
-    .btn-primary:hover{
-      transform:translateY(-2px);
-
-      box-shadow:
-        10px 10px 20px rgba(124,58,237,.3),
-        -7px -7px 15px rgba(255,255,255,1);
-    }
-
-    .btn-primary:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none!important;
-    }
-
-    .btn-ghost{
       background:var(--surface);
-      color:var(--primary);
+      color:var(--purple);
 
-      box-shadow:
-        5px 5px 11px rgba(163,169,180,.45),
-        -5px -5px 11px rgba(255,255,255,.95);
-    }
-
-    .btn-ghost:hover{
-      transform:translateY(-2px);
-    }
-
-    .icon-anim{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-
-      transition:
-        transform .28s cubic-bezier(.34,1.56,.64,1);
-    }
-
-    .btn:hover .icon-anim{
-      transform:scale(1.15) rotate(-7deg);
-    }
-
-    /* ================= SOCIAL ================= */
-
-    .social-icon{
-      width:36px;
-      height:36px;
-
-      border-radius:11px;
+      font-size:17px;
+      cursor:pointer;
 
       display:flex;
       align-items:center;
       justify-content:center;
 
-      color:var(--muted);
-      text-decoration:none;
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
 
-      transition:.2s;
+      transition:.25s;
+    }
+
+    .theme-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .theme-btn:active{
+      transform:translateY(1px);
 
       box-shadow:
-        4px 4px 9px rgba(163,169,180,.4),
-        -4px -4px 9px rgba(255,255,255,.95);
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
     }
 
-    .social-icon:hover{
-      color:var(--primary);
-      transform:translateY(-3px);
-    }
+    /* ================= MOBILE MENU ================= */
 
-    /* ================= MAIN CARD ================= */
+    .menu{
+      display:none;
 
-    .main-card{
+      width:43px;
+      height:43px;
+
+      border:0;
+      border-radius:13px;
+
       background:var(--surface);
+      color:var(--purple);
+
+      font-size:19px;
+      cursor:pointer;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+    }
+
+    /* ================= MAIN ================= */
+
+    .page{
+      min-height:calc(100vh - 90px);
+
+      padding:35px 6% 60px;
+
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .container{
+      width:100%;
+      max-width:470px;
+    }
+
+    /* ================= HEADER ================= */
+
+    .page-header{
+      text-align:center;
+      margin-bottom:28px;
+      animation:fadeUp .7s ease;
+    }
+
+    .logo-box{
+      width:90px;
+      height:90px;
+
+      padding:8px;
+      margin:0 auto 18px;
+
+      border-radius:23px;
+
+      background:var(--surface);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        10px 10px 22px var(--shadow-dark),
+        -10px -10px 22px var(--shadow-light);
+    }
+
+    .logo-box img{
+      width:74px;
+      height:74px;
+
+      object-fit:cover;
+      border-radius:17px;
+    }
+
+    .label{
+      color:var(--purple);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:3px;
+
+      margin-bottom:7px;
+    }
+
+    .page-header h1{
+      font-size:27px;
+      font-weight:800;
+      margin-bottom:6px;
+    }
+
+    .page-header p{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* ================= CARD ================= */
+
+    .card{
+      background:var(--surface);
+
+      padding:28px;
 
       border-radius:25px;
 
       box-shadow:
-        13px 13px 28px rgba(163,169,180,.48),
-        -13px -13px 28px rgba(255,255,255,.98);
+        13px 13px 28px var(--shadow-dark),
+        -13px -13px 28px var(--shadow-light);
+
+      animation:zoomIn .8s ease;
     }
 
     /* ================= INPUT ================= */
 
-    .input-field{
-      background:var(--surface);
+    .field-label{
+      display:block;
 
-      border:none;
+      color:var(--muted);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+
+      margin-bottom:9px;
+    }
+
+    .input-wrap{
+      position:relative;
+    }
+
+    .input-wrap i{
+      position:absolute;
+
+      left:15px;
+      top:50%;
+
+      transform:translateY(-50%);
+
+      color:var(--purple);
+
+      font-size:13px;
+    }
+
+    .input-field{
+      width:100%;
+
+      padding:14px 14px 14px 43px;
+
+      border:0;
+      outline:none;
+
+      border-radius:14px;
+
+      background:var(--surface);
 
       color:var(--text);
 
-      border-radius:13px;
-
-      font-size:.875rem;
-      font-family:'Inter',sans-serif;
-
-      width:100%;
-
-      padding:13px 13px 13px 43px;
+      font-family:"Inter",sans-serif;
+      font-size:13px;
 
       box-shadow:
-        inset 5px 5px 10px rgba(163,169,180,.4),
-        inset -5px -5px 10px rgba(255,255,255,.95);
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
 
       transition:.2s;
     }
 
     .input-field::placeholder{
-      color:#9a9aa5;
+      color:var(--muted);
     }
 
     .input-field:focus{
-      outline:none;
-
       box-shadow:
-        inset 5px 5px 10px rgba(163,169,180,.35),
-        inset -5px -5px 10px rgba(255,255,255,.95),
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light),
         0 0 0 2px rgba(124,58,237,.12);
     }
 
     /* ================= SESSION ================= */
 
+    .session-title{
+      color:var(--muted);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+
+      margin-bottom:9px;
+    }
+
     .session-option{
-      transition:.2s;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      padding:13px;
+
+      border-radius:14px;
+
       cursor:pointer;
+
+      margin-bottom:10px;
+
+      transition:.2s;
     }
 
     .session-option:hover{
@@ -383,160 +411,122 @@
     }
 
     .session-selected{
-      background:var(--surface)!important;
-
       box-shadow:
-        inset 5px 5px 10px rgba(163,169,180,.4),
-        inset -5px -5px 10px rgba(255,255,255,.95),
-        0 0 0 1px rgba(124,58,237,.15);
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light),
+        0 0 0 1px rgba(124,58,237,.12);
+    }
+
+    .session-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
     .session-icon{
-      box-shadow:
-        4px 4px 8px rgba(163,169,180,.4),
-        -4px -4px 8px rgba(255,255,255,.95);
-    }
-
-    /* ================= GUIDE ================= */
-
-    .guide-box{
-      background:var(--surface);
-
-      box-shadow:
-        inset 5px 5px 10px rgba(163,169,180,.3),
-        inset -5px -5px 10px rgba(255,255,255,.95);
-    }
-
-    .guide-step{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-
-      padding:11px;
+      width:38px;
+      height:38px;
 
       border-radius:12px;
-
-      transition:.18s;
-    }
-
-    .guide-step:hover{
-      box-shadow:
-        4px 4px 9px rgba(163,169,180,.3),
-        -4px -4px 9px rgba(255,255,255,.95);
-    }
-
-    .guide-num{
-      width:25px;
-      height:25px;
-
-      border-radius:50%;
-
-      background:var(--primary);
-      color:white;
 
       display:flex;
       align-items:center;
       justify-content:center;
 
-      font-size:.7rem;
-      font-weight:800;
-
-      flex-shrink:0;
-
-      box-shadow:
-        3px 3px 7px rgba(124,58,237,.28),
-        -3px -3px 7px rgba(255,255,255,.95);
-    }
-
-    /* ================= RESULT ================= */
-
-    .result-code-box{
       background:var(--surface);
 
-      border-radius:18px;
-
-      padding:22px 15px;
-
-      text-align:center;
+      color:var(--muted);
 
       box-shadow:
-        inset 7px 7px 14px rgba(163,169,180,.4),
-        inset -7px -7px 14px rgba(255,255,255,.95);
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
     }
 
-    .code-display{
-      font-size:2.2rem;
-
-      font-weight:800;
-
-      letter-spacing:9px;
-
-      color:var(--primary);
-
-      font-family:'JetBrains Mono',monospace;
-
-      text-shadow:
-        1px 1px 0 white;
+    .session-selected .session-icon{
+      background:var(--purple);
+      color:white;
     }
 
-    .copy-btn,
-    .new-btn{
-
-      transition:.2s;
-
-      border:none;
-
-      border-radius:11px;
-
-      padding:9px 18px;
-
-      font-size:.8rem;
-
+    .session-name{
+      color:var(--text);
+      font-size:12px;
       font-weight:700;
+    }
 
-      font-family:'Inter',sans-serif;
+    .session-desc{
+      color:var(--muted);
+      font-size:10px;
+      margin-top:3px;
+    }
+
+    .radio{
+      width:17px;
+      height:17px;
+
+      border-radius:50%;
+
+      border:2px solid #c9ccd2;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .radio.selected{
+      border-color:var(--purple);
+      background:var(--purple);
+    }
+
+    .radio-dot{
+      width:6px;
+      height:6px;
+
+      border-radius:50%;
+      background:white;
+    }
+
+    /* ================= BUTTON ================= */
+
+    .get-code{
+      width:100%;
+      height:50px;
+
+      border:0;
+      border-radius:15px;
+
+      background:var(--purple);
+      color:white;
+
+      font-size:12px;
+      font-weight:800;
 
       cursor:pointer;
 
       display:flex;
       align-items:center;
-      gap:6px;
-
-      background:var(--surface);
-    }
-
-    .copy-btn{
-
-      color:var(--primary);
+      justify-content:center;
+      gap:9px;
 
       box-shadow:
-        4px 4px 9px rgba(163,169,180,.4),
-        -4px -4px 9px rgba(255,255,255,.95);
+        8px 8px 17px rgba(124,58,237,.25),
+        -7px -7px 15px var(--shadow-light);
+
+      transition:.2s;
     }
 
-    .new-btn{
-
-      color:var(--muted);
-
-      box-shadow:
-        4px 4px 9px rgba(163,169,180,.4),
-        -4px -4px 9px rgba(255,255,255,.95);
-    }
-
-    .copy-btn:hover,
-    .new-btn:hover{
+    .get-code:hover{
+      background:var(--purple-dark);
       transform:translateY(-2px);
     }
 
-    .copy-btn:active,
-    .new-btn:active{
-      box-shadow:
-        inset 4px 4px 8px rgba(163,169,180,.35),
-        inset -4px -4px 8px rgba(255,255,255,.95);
+    .get-code:active{
+      transform:translateY(1px);
     }
 
-    .copy-btn.copied{
-      color:#16a34a;
+    .get-code:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none;
     }
 
     /* ================= SPINNER ================= */
@@ -546,7 +536,7 @@
       height:16px;
 
       border:2px solid rgba(255,255,255,.35);
-      border-top-color:#fff;
+      border-top-color:white;
 
       border-radius:50%;
 
@@ -559,7 +549,370 @@
       }
     }
 
-    /* ================= SHAKE ================= */
+    /* ================= ERROR ================= */
+
+    .error{
+      color:#ef4444;
+
+      font-size:11px;
+
+      margin-top:8px;
+
+      display:none;
+      align-items:center;
+      gap:6px;
+    }
+
+    /* ================= GUIDE ================= */
+
+    .guide{
+      margin-top:22px;
+
+      padding:17px;
+
+      border-radius:18px;
+
+      background:var(--surface);
+
+      box-shadow:
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
+    }
+
+    .guide-title{
+      color:var(--purple);
+
+      font-size:11px;
+      font-weight:800;
+
+      display:flex;
+      align-items:center;
+      gap:7px;
+
+      margin-bottom:12px;
+    }
+
+    .step{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+
+      padding:8px;
+
+      border-radius:11px;
+    }
+
+    .step-number{
+      width:23px;
+      height:23px;
+
+      flex-shrink:0;
+
+      border-radius:50%;
+
+      background:var(--purple);
+      color:white;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:9px;
+      font-weight:800;
+    }
+
+    .step p{
+      color:var(--muted);
+
+      font-size:10px;
+      line-height:1.6;
+
+      padding-top:3px;
+    }
+
+    .step strong{
+      color:var(--text);
+    }
+
+    /* ================= QR LINK ================= */
+
+    .qr-link{
+      margin-top:18px;
+      padding-top:16px;
+
+      border-top:1px solid rgba(163,169,180,.2);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+
+      color:var(--muted);
+
+      font-size:10px;
+    }
+
+    .qr-link a{
+      color:var(--purple);
+      font-weight:700;
+    }
+
+    /* ================= RESULT ================= */
+
+    #resultSection{
+      display:none;
+    }
+
+    .success-icon{
+      width:52px;
+      height:52px;
+
+      margin:0 auto 13px;
+
+      border-radius:17px;
+
+      background:var(--surface);
+      color:var(--purple);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+    }
+
+    .result-title{
+      text-align:center;
+      color:var(--text);
+
+      font-size:14px;
+      font-weight:800;
+
+      margin-bottom:5px;
+    }
+
+    .result-description{
+      text-align:center;
+      color:var(--muted);
+
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .code-box{
+      margin-top:22px;
+
+      padding:22px 12px;
+
+      border-radius:18px;
+
+      text-align:center;
+
+      background:var(--surface);
+
+      box-shadow:
+        inset 7px 7px 14px var(--shadow-dark),
+        inset -7px -7px 14px var(--shadow-light);
+    }
+
+    .pair-code{
+      color:var(--purple);
+
+      font-family:"JetBrains Mono",monospace;
+
+      font-size:31px;
+      font-weight:800;
+
+      letter-spacing:8px;
+
+      word-break:break-all;
+    }
+
+    .code-hint{
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:7px;
+    }
+
+    /* ================= RESULT BUTTONS ================= */
+
+    .result-actions{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+
+      margin-top:18px;
+    }
+
+    .action-btn{
+      border:0;
+
+      border-radius:12px;
+
+      padding:10px 17px;
+
+      background:var(--surface);
+
+      font-size:10px;
+      font-weight:700;
+
+      cursor:pointer;
+
+      display:flex;
+      align-items:center;
+      gap:6px;
+
+      box-shadow:
+        4px 4px 9px var(--shadow-dark),
+        -4px -4px 9px var(--shadow-light);
+
+      transition:.2s;
+    }
+
+    .action-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .copy-btn{
+      color:var(--purple);
+    }
+
+    .new-btn{
+      color:var(--muted);
+    }
+
+    /* ================= FALLBACK ================= */
+
+    .fallback{
+      display:none;
+
+      margin-bottom:15px;
+
+      padding:12px;
+
+      border-radius:13px;
+
+      color:#8b5cf6;
+
+      font-size:10px;
+      line-height:1.5;
+
+      background:var(--surface);
+
+      box-shadow:
+        inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+    }
+
+    /* ================= BACK HOME ================= */
+
+    .back-home{
+      margin-top:20px;
+
+      padding-top:17px;
+
+      border-top:1px solid rgba(163,169,180,.2);
+
+      text-align:center;
+    }
+
+    .back-home a{
+      color:var(--muted);
+
+      font-size:10px;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:6px;
+    }
+
+    .back-home a:hover{
+      color:var(--purple);
+    }
+
+    /* ================= FEATURES ================= */
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+
+      gap:10px;
+
+      margin-top:18px;
+    }
+
+    .feature{
+      padding:13px 8px;
+
+      border-radius:14px;
+
+      text-align:center;
+
+      background:var(--surface);
+
+      box-shadow:
+        5px 5px 10px var(--shadow-dark),
+        -5px -5px 10px var(--shadow-light);
+    }
+
+    .feature i{
+      color:var(--purple);
+      font-size:14px;
+
+      margin-bottom:6px;
+    }
+
+    .feature p{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer{
+      padding:25px 20px;
+
+      text-align:center;
+
+      color:var(--muted);
+
+      font-size:9px;
+    }
+
+    footer strong{
+      color:var(--purple);
+    }
+
+    /* ================= ANIMATIONS ================= */
+
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes zoomIn{
+      from{
+        opacity:0;
+        transform:scale(.95);
+      }
+
+      to{
+        opacity:1;
+        transform:scale(1);
+      }
+    }
 
     @keyframes shake{
       0%,100%{
@@ -579,78 +932,57 @@
       animation:shake .4s ease;
     }
 
-    /* ================= ANIMATION ================= */
+    /* ================= RESPONSIVE ================= */
 
-    [data-anim]{
-      will-change:transform,opacity;
+    @media(max-width:900px){
 
-      transition:
-        opacity .65s cubic-bezier(.4,0,.2,1),
-        transform .65s cubic-bezier(.4,0,.2,1);
-    }
-
-    [data-anim="fade-up"]{
-      opacity:0;
-      transform:translateY(25px);
-    }
-
-    [data-anim="zoom-in"]{
-      opacity:0;
-      transform:scale(.94);
-    }
-
-    [data-anim].in-view{
-      opacity:1;
-      transform:none;
-    }
-
-    [data-delay="1"]{
-      transition-delay:.1s;
-    }
-
-    [data-delay="2"]{
-      transition-delay:.2s;
-    }
-
-    /* ================= DIVIDER ================= */
-
-    .divider{
-      height:1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(163,169,180,.35),
-          transparent
-        );
-    }
-
-    /* ================= MOBILE ================= */
-
-    @media(max-width:800px){
-
-      .nav-bar{
-        box-shadow:
-          0 5px 16px rgba(163,169,180,.2);
+      header{
+        padding:17px 5%;
       }
 
-      .main-card{
+      .nav{
+        display:none;
+      }
+
+      .menu{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+
+    }
+
+    @media(max-width:500px){
+
+      .logo img{
+        width:43px;
+        height:43px;
+      }
+
+      .logo h2{
+        font-size:16px;
+      }
+
+      .card{
+        padding:22px 18px;
         border-radius:21px;
       }
 
-      .code-display{
-        font-size:1.85rem;
-        letter-spacing:6px;
+      .page{
+        padding:30px 5% 50px;
       }
 
-    }
+      .page-header h1{
+        font-size:24px;
+      }
 
-    @media(max-width:420px){
+      .pair-code{
+        font-size:25px;
+        letter-spacing:5px;
+      }
 
-      .code-display{
-        font-size:1.55rem;
-        letter-spacing:4px;
+      .features{
+        gap:8px;
       }
 
     }
@@ -660,971 +992,494 @@
 
 <body>
 
-  <!-- Background Decorations -->
+  <!-- ================= HEADER ================= -->
 
-  <div class="bg-shape"
-    style="
-      width:220px;
-      height:220px;
-      top:80px;
-      left:-90px;
-      background:rgba(124,58,237,.06);
-      box-shadow:
-        20px 20px 40px rgba(163,169,180,.25),
-        -20px -20px 40px rgba(255,255,255,.7);
-    ">
-  </div>
+  <header>
 
-  <div class="bg-shape"
-    style="
-      width:180px;
-      height:180px;
-      bottom:80px;
-      right:-70px;
-      background:rgba(168,85,247,.05);
-      box-shadow:
-        20px 20px 40px rgba(163,169,180,.25),
-        -20px -20px 40px rgba(255,255,255,.7);
-    ">
-  </div>
+    <a href="/" class="logo">
 
+      <img
+        src="https://i.imgur.com/IgtuuGb.png"
+        alt="LUKA-AI">
 
-  <!-- ================= NAVBAR ================= -->
+      <div>
 
-  <nav class="nav-bar sticky top-0 z-50">
+        <h2>LUKA-AI</h2>
 
-    <div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
-
-      <a href="/"
-        class="flex items-center gap-3 no-underline">
-
-        <img
-          src="https://i.imgur.com/IgtuuGb.png"
-          alt="LUKA-AI"
-          class="w-9 h-9 rounded-xl object-cover"
-          style="
-            box-shadow:
-              5px 5px 10px rgba(163,169,180,.4),
-              -5px -5px 10px rgba(255,255,255,.95);
-          "
-        >
-
-        <div class="flex flex-col leading-none">
-
-          <span
-            class="text-sm font-bold"
-            style="color:var(--text);">
-
-            LUKA-AI PAIR
-
-          </span>
-
-          <span
-            class="text-[9px] font-bold tracking-[0.2em]"
-            style="color:var(--primary);">
-
-            PAIR CODE
-
-          </span>
-
-        </div>
-
-      </a>
-
-
-      <div class="hidden md:flex items-center gap-7">
-
-        <a
-          href="https://github.com/Lucvoice/LUKA-AI"
-          target="_blank"
-          class="nav-link">
-
-          <i class="fab fa-github text-xs"></i>
-          Mayra Ai
-
-        </a>
-
-        <a
-          href="/pair"
-          class="nav-link"
-          style="color:var(--primary);">
-
-          <i class="fas fa-link text-xs"></i>
-          Pair Code
-
-        </a>
-
-        <a
-          href="/qr"
-          class="nav-link">
-
-          <i class="fas fa-qrcode text-xs"></i>
-          QR Code
-
-        </a>
+        <span>WHATSAPP BOT</span>
 
       </div>
 
-
-      <div class="flex items-center gap-3">
-
-        <a
-          href="/qr"
-          class="hidden md:inline-flex btn btn-ghost py-2 px-4 text-xs">
-
-          <span class="icon-anim">
-            <i class="fas fa-qrcode"></i>
-          </span>
-
-          Try QR Instead
-
-        </a>
+    </a>
 
 
-        <button
-          id="menuBtn"
-          class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl outline-none"
-          style="
-            background:var(--surface);
-            color:var(--primary);
-            border:none;
+    <nav class="nav">
 
-            box-shadow:
-              4px 4px 9px rgba(163,169,180,.45),
-              -4px -4px 9px rgba(255,255,255,.95);
-          ">
-
-          <i
-            class="fas fa-bars"
-            id="menuIcon">
-          </i>
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </nav>
-
-
-  <!-- ================= OVERLAY ================= -->
-
-  <div
-    id="sidebarOverlay"
-    class="fixed inset-0 z-40 bg-black/20 opacity-0 pointer-events-none">
-  </div>
-
-
-  <!-- ================= SIDEBAR ================= -->
-
-  <aside
-    id="sidebar"
-    class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-[25px]"
-    style="
-      background:var(--surface);
-      box-shadow:
-        12px 0 28px rgba(163,169,180,.35),
-        -8px -8px 20px rgba(255,255,255,.8);
-    ">
-
-    <div class="flex items-center justify-between px-5 mb-6">
-
-      <div class="flex items-center gap-2">
-
-        <img
-          src="https://i.imgur.com/IgtuuGb.png"
-          alt="LUKA-AI"
-          class="w-8 h-8 rounded-xl"
-          style="
-            box-shadow:
-              4px 4px 8px rgba(163,169,180,.4),
-              -4px -4px 8px rgba(255,255,255,.95);
-          "
-        >
-
-        <span
-          class="text-sm font-bold"
-          style="color:var(--text);">
-
-          LUKA-AI
-
-        </span>
-
-      </div>
-
-
-      <button
-        id="closeBtn"
-        class="w-8 h-8 flex items-center justify-center rounded-xl"
-        style="
-          background:var(--surface);
-          color:var(--muted);
-          border:none;
-
-          box-shadow:
-            4px 4px 8px rgba(163,169,180,.4),
-            -4px -4px 8px rgba(255,255,255,.95);
-        ">
-
-        <i class="fas fa-times text-sm"></i>
-
-      </button>
-
-    </div>
-
-
-    <div class="px-3 flex-1 space-y-1">
-
-      <a
-        href="/"
-        class="sidebar-link">
-
-        <i class="fas fa-house"></i>
-        Home
-
+      <a href="/">
+        HOME
       </a>
 
-
-      <a
-        href="/pair"
-        class="sidebar-link sidebar-active">
-
-        <i class="fas fa-link"></i>
-        Pair Code
-
+      <a href="/pair" class="active">
+        PAIR CODE
       </a>
 
-
-      <a
-        href="/qr"
-        class="sidebar-link">
-
-        <i class="fas fa-qrcode"></i>
-        QR Code
-
+      <a href="/qr">
+        QR CODE
       </a>
-
 
       <a
         href="https://github.com/Lucvoice/LUKA-AI"
-        target="_blank"
-        class="sidebar-link">
-
-        <i class="fab fa-github"></i>
-        Mayra Ai
-
+        target="_blank">
+        GITHUB
       </a>
 
-
-      <a
-        href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
-        target="_blank"
-        class="sidebar-link">
-
-        <i class="fab fa-whatsapp"></i>
-        WA Channel
-
-      </a>
-
-    </div>
+    </nav>
 
 
-    <div
-      class="px-5 pt-4"
-      style="
-        border-top:1px solid rgba(163,169,180,.2);
-      ">
+    <button
+      class="theme-btn"
+      id="themeBtn"
+      onclick="toggleTheme()"
+      aria-label="Toggle dark mode">
 
-      <p
-        style="
-          color:var(--muted);
-          font-size:.75rem;
-        ">
+      🌙
 
-        ⚡ Powered by LukaTech Lab
+    </button>
 
-      </p>
 
-    </div>
+    <button
+      class="menu"
+      id="menuBtn"
+      onclick="toggleMenu()"
+      aria-label="Open menu">
 
-  </aside>
+      ☰
+
+    </button>
+
+  </header>
 
 
   <!-- ================= MAIN ================= -->
 
-  <main class="relative z-10">
+  <main class="page">
 
-    <section
-      class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
-
-      <div class="w-full max-w-md">
+    <div class="container">
 
 
-        <!-- HEADER -->
+      <!-- HEADER -->
 
-        <div
-          class="text-center mb-8"
-          data-anim="fade-up">
+      <div class="page-header">
 
-          <div class="flex justify-center mb-5">
+        <div class="logo-box">
+
+          <img
+            src="https://i.imgur.com/IgtuuGb.png"
+            alt="LUKA-AI">
+
+        </div>
+
+
+        <div class="label">
+          // PAIR CODE LOGIN
+        </div>
+
+
+        <h1>
+          Connect Your WhatsApp
+        </h1>
+
+
+        <p>
+          Enter your number with country code — no + sign
+        </p>
+
+      </div>
+
+
+      <!-- ================= CARD ================= -->
+
+      <div class="card">
+
+
+        <!-- FORM -->
+
+        <div id="formSection">
+
+
+          <!-- PHONE -->
+
+          <div style="margin-bottom:20px;">
+
+            <label class="field-label">
+              Phone Number
+            </label>
+
+
+            <div class="input-wrap">
+
+              <i class="fas fa-mobile-alt"></i>
+
+              <input
+                id="phoneNumber"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                autocomplete="tel"
+                placeholder="e.g. 2557xxxxxxxx"
+                class="input-field">
+
+            </div>
+
 
             <div
-              class="relative p-2 rounded-[22px]"
-              style="
-                background:var(--surface);
+              id="phoneError"
+              class="error">
 
-                box-shadow:
-                  8px 8px 17px rgba(163,169,180,.48),
-                  -8px -8px 17px rgba(255,255,255,.98);
-              ">
+              <i class="fas fa-exclamation-triangle"></i>
 
-              <img
-                src="https://i.imgur.com/IgtuuGb.png"
-                alt="LUKA-AI"
-                class="w-20 h-20 rounded-[17px] object-cover"
-              >
+              <span id="phoneErrorText"></span>
 
             </div>
 
           </div>
 
 
-          <p
-            class="text-xs font-bold tracking-[0.2em] mb-1"
-            style="color:var(--primary);">
+          <!-- SESSION -->
 
-            // PAIR CODE LOGIN
+          <div style="margin-bottom:20px;">
 
-          </p>
-
-
-          <h1
-            class="text-2xl font-bold mb-1"
-            style="color:var(--text);">
-
-            Connect Your WhatsApp
-
-          </h1>
+            <div class="session-title">
+              Session Type
+            </div>
 
 
-          <p
-            class="text-sm"
-            style="color:var(--muted);">
+            <!-- LONG -->
 
-            Enter your number with country code — no + sign
+            <div
+              id="typeLong"
+              onclick="selectType('long')"
+              class="session-option session-selected">
 
-          </p>
+              <div class="session-left">
 
-        </div>
+                <div class="session-icon">
+                  <i class="fas fa-file-code"></i>
+                </div>
 
+                <div>
 
-        <!-- ================= CARD ================= -->
+                  <div class="session-name">
+                    Long Session
+                  </div>
 
-        <div
-          class="main-card p-7"
-          data-anim="zoom-in"
-          data-delay="1">
+                  <div class="session-desc">
+                    Full session string — recommended
+                  </div>
 
-
-          <!-- FORM -->
-
-          <div id="formSection">
-
-
-            <!-- PHONE -->
-
-            <div class="mb-5">
-
-              <label
-                for="phoneNumber"
-                class="block text-xs font-bold uppercase tracking-widest mb-2"
-                style="color:var(--muted);">
-
-                Phone Number
-
-              </label>
-
-
-              <div class="relative">
-
-                <i
-                  class="fas fa-mobile-alt absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"
-                  style="color:var(--primary);">
-                </i>
-
-
-                <input
-                  id="phoneNumber"
-                  type="text"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="e.g. 2557xxxxxxxx"
-                  class="input-field"
-                >
+                </div>
 
               </div>
 
 
-              <p
-                id="phoneError"
-                class="text-xs mt-2 hidden flex items-center gap-1.5"
-                style="color:#ef4444;">
+              <div
+                id="longRadio"
+                class="radio selected">
 
-                <i class="fas fa-exclamation-triangle"></i>
+                <div class="radio-dot"></div>
 
-                <span id="phoneErrorText"></span>
+              </div>
 
+            </div>
+
+
+            <!-- SHORT -->
+
+            <div
+              id="typeShort"
+              onclick="selectType('short')"
+              class="session-option">
+
+              <div class="session-left">
+
+                <div class="session-icon">
+                  <i class="fas fa-database"></i>
+                </div>
+
+                <div>
+
+                  <div
+                    class="session-name"
+                    style="color:var(--muted);">
+
+                    Short Session
+
+                  </div>
+
+                  <div class="session-desc">
+
+                    Optional session format
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                id="shortRadio"
+                class="radio">
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- BUTTON -->
+
+          <button
+            id="submitBtn"
+            class="get-code">
+
+            <span
+              id="btnContent"
+              style="display:flex;align-items:center;gap:8px;">
+
+              <i class="fab fa-whatsapp"></i>
+
+              GET PAIR CODE
+
+            </span>
+
+
+            <span
+              id="btnLoading"
+              style="display:none;align-items:center;gap:8px;">
+
+              <span class="spinner"></span>
+
+              Connecting...
+
+            </span>
+
+          </button>
+
+
+          <p
+            id="generalError"
+            style="
+              display:none;
+              color:#ef4444;
+              text-align:center;
+              font-size:10px;
+              margin-top:10px;
+            ">
+          </p>
+
+
+          <!-- GUIDE -->
+
+          <div class="guide">
+
+            <div class="guide-title">
+
+              <i class="fas fa-circle-info"></i>
+
+              How to link with pair code
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">1</div>
+
+              <p>
+                Enter your WhatsApp number above.
               </p>
 
             </div>
 
 
-            <!-- SESSION TYPE -->
+            <div class="step">
 
-            <div class="mb-5">
+              <div class="step-number">2</div>
 
-              <label
-                class="block text-xs font-bold uppercase tracking-widest mb-2"
-                style="color:var(--muted);">
-
-                Session Type
-
-              </label>
-
-
-              <!-- LONG -->
-
-              <div
-                id="typeLong"
-                onclick="selectType('long')"
-                class="session-option session-selected flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer"
-                style="margin-bottom:10px;">
-
-                <div class="flex items-center gap-3">
-
-                  <div
-                    class="session-icon w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style="
-                      color:white;
-                      background:var(--primary);
-                    ">
-
-                    <i class="fas fa-file-code text-xs"></i>
-
-                  </div>
-
-
-                  <div>
-
-                    <p
-                      class="text-sm font-semibold"
-                      style="color:var(--text);">
-
-                      Long Session
-
-                    </p>
-
-                    <p
-                      class="text-xs"
-                      style="color:var(--muted);">
-
-                      Full session string — recommended
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                <div
-                  id="longRadio"
-                  class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                  style="
-                    border-color:var(--primary);
-                    background:var(--primary);
-                  ">
-
-                  <div
-                    class="w-1.5 h-1.5 rounded-full bg-white">
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <!-- SHORT -->
-
-              <div
-                id="typeShort"
-                onclick="selectType('short')"
-                class="session-option flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer">
-
-                <div class="flex items-center gap-3">
-
-                  <div
-                    class="session-icon w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0">
-
-                    <i
-                      class="fas fa-database text-xs"
-                      style="color:var(--muted);">
-                    </i>
-
-                  </div>
-
-
-                  <div>
-
-                    <p
-                      class="text-xs font-medium"
-                      style="color:var(--muted);">
-
-                      Short Session
-
-                      <span
-                        class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded"
-                        style="
-                          background:#e2e5ea;
-                          color:#858593;
-                          font-size:.6rem;
-                        ">
-
-                        OPTIONAL
-
-                      </span>
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                <div
-                  id="shortRadio"
-                  class="w-4 h-4 rounded-full border-2 flex-shrink-0"
-                  style="border-color:#c9ccd2;">
-                </div>
-
-              </div>
+              <p>
+                Click
+                <strong>GET PAIR CODE</strong>
+                and wait for the code.
+              </p>
 
             </div>
 
 
-            <!-- BUTTON -->
+            <div class="step">
+
+              <div class="step-number">3</div>
+
+              <p>
+                Open WhatsApp →
+                <strong>
+                  Settings → Linked Devices → Link a Device
+                </strong>
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">4</div>
+
+              <p>
+                Tap
+                <strong>
+                  "Link with phone number instead"
+                </strong>
+                and enter the 8-digit code.
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">5</div>
+
+              <p>
+                Your session ID will be sent via WhatsApp ✅
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- QR -->
+
+          <div class="qr-link">
+
+            <span>
+              Prefer QR?
+            </span>
+
+            <a href="/qr">
+
+              <i class="fas fa-qrcode"></i>
+
+              Scan QR instead
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= RESULT ================= -->
+
+        <div id="resultSection">
+
+
+          <div
+            id="fallbackBanner"
+            class="fallback">
+
+            <i class="fas fa-info-circle"></i>
+
+            Session store not configured —
+            switched to <strong>Long Session</strong>.
+
+          </div>
+
+
+          <div style="text-align:center;">
+
+            <div class="success-icon">
+
+              <i class="fab fa-whatsapp" style="font-size:21px;"></i>
+
+            </div>
+
+
+            <div class="result-title">
+              Your Pair Code is Ready
+            </div>
+
+
+            <div class="result-description">
+
+              WhatsApp → Linked Devices →
+              Link a Device → Enter code
+
+            </div>
+
+          </div>
+
+
+          <!-- CODE -->
+
+          <div class="code-box">
+
+            <div
+              id="pairCode"
+              class="pair-code">
+            </div>
+
+
+            <div class="code-hint">
+
+              Enter this 8-digit code in WhatsApp
+
+            </div>
+
+          </div>
+
+
+          <!-- ACTIONS -->
+
+          <div class="result-actions">
 
             <button
-              id="submitBtn"
-              class="btn btn-primary w-full py-3 text-sm">
+              id="copyBtn"
+              class="action-btn copy-btn">
 
-              <span
-                id="btnContent"
-                class="flex items-center gap-2">
+              <i class="fas fa-copy"></i>
 
-                <span class="icon-anim">
-
-                  <i class="fab fa-whatsapp"></i>
-
-                </span>
-
-                <span>
-                  GET PAIR CODE
-                </span>
-
-              </span>
-
-
-              <span
-                id="btnLoading"
-                class="hidden flex items-center gap-2">
-
-                <span class="spinner"></span>
-
-                <span>
-                  Connecting...
-                </span>
-
+              <span id="copyText">
+                Copy Code
               </span>
 
             </button>
 
 
-            <p
-              id="generalError"
-              class="text-xs text-center mt-3 hidden"
-              style="color:#ef4444;">
-            </p>
+            <button
+              id="newCodeBtn"
+              class="action-btn new-btn">
 
+              <i class="fas fa-redo"></i>
 
-            <!-- GUIDE -->
+              New Code
 
-            <div
-              class="guide-box mt-6 rounded-2xl p-4">
-
-              <p
-                class="text-xs font-bold mb-3 flex items-center gap-2"
-                style="color:var(--primary);">
-
-                <i class="fas fa-circle-info"></i>
-
-                How to link with pair code
-
-              </p>
-
-
-              <div class="space-y-2">
-
-
-                <div class="guide-step">
-
-                  <div class="guide-num">
-                    1
-                  </div>
-
-                  <p
-                    class="text-xs"
-                    style="color:var(--muted);">
-
-                    Enter your WhatsApp number above
-
-                  </p>
-
-                </div>
-
-
-                <div class="guide-step">
-
-                  <div class="guide-num">
-                    2
-                  </div>
-
-                  <p
-                    class="text-xs"
-                    style="color:var(--muted);">
-
-                    Click
-
-                    <strong style="color:var(--text);">
-                      GET PAIR CODE
-                    </strong>
-
-                    and wait for the code
-
-                  </p>
-
-                </div>
-
-
-                <div class="guide-step">
-
-                  <div class="guide-num">
-                    3
-                  </div>
-
-                  <p
-                    class="text-xs"
-                    style="color:var(--muted);">
-
-                    Open WhatsApp →
-
-                    <strong style="color:var(--primary);">
-                      Settings → Linked Devices → Link a Device
-                    </strong>
-
-                  </p>
-
-                </div>
-
-
-                <div class="guide-step">
-
-                  <div class="guide-num">
-                    4
-                  </div>
-
-                  <p
-                    class="text-xs"
-                    style="color:var(--muted);">
-
-                    Tap
-
-                    <strong style="color:var(--text);">
-                      "Link with phone number instead"
-                    </strong>
-
-                    and enter the 8-digit code
-
-                  </p>
-
-                </div>
-
-
-                <div class="guide-step">
-
-                  <div class="guide-num">
-                    5
-                  </div>
-
-                  <p
-                    class="text-xs"
-                    style="color:var(--muted);">
-
-                    Your session ID will be sent via WhatsApp ✅
-
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <!-- QR -->
-
-            <div
-              class="mt-5 pt-4 flex items-center justify-center gap-3"
-              style="
-                border-top:1px solid rgba(163,169,180,.2);
-              ">
-
-              <span
-                class="text-xs"
-                style="color:var(--muted);">
-
-                Prefer QR?
-
-              </span>
-
-
-              <a
-                href="/qr"
-                class="text-xs font-semibold no-underline flex items-center gap-1"
-                style="color:var(--primary);">
-
-                <i class="fas fa-qrcode text-xs"></i>
-
-                Scan QR instead
-
-              </a>
-
-            </div>
+            </button>
 
           </div>
 
 
-          <!-- ================= RESULT ================= -->
+          <!-- BACK -->
 
-          <div
-            id="resultSection"
-            class="hidden">
+          <div class="back-home">
 
+            <a href="/">
 
-            <!-- FALLBACK -->
+              <i class="fas fa-arrow-left"></i>
 
-            <div
-              id="fallbackBanner"
-              class="hidden mb-4 rounded-xl p-3.5 flex items-start gap-3"
-              style="
-                background:var(--surface);
-                color:#8b5cf6;
+              Back to Home
 
-                box-shadow:
-                  inset 4px 4px 8px rgba(163,169,180,.3),
-                  inset -4px -4px 8px rgba(255,255,255,.95);
-              ">
-
-              <i class="fas fa-info-circle mt-0.5 text-sm flex-shrink-0"></i>
-
-              <p class="text-xs leading-relaxed">
-
-                Session store not configured —
-                switched to
-                <strong>
-                  Long session
-                </strong>.
-
-              </p>
-
-            </div>
-
-
-            <div class="text-center mb-6">
-
-              <div
-                class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                style="
-                  background:var(--surface);
-                  color:var(--primary);
-
-                  box-shadow:
-                    5px 5px 10px rgba(163,169,180,.4),
-                    -5px -5px 10px rgba(255,255,255,.95);
-                ">
-
-                <i class="fab fa-whatsapp text-xl"></i>
-
-              </div>
-
-
-              <p
-                class="font-semibold text-sm mb-1"
-                style="color:var(--text);">
-
-                Your Pair Code is Ready
-
-              </p>
-
-
-              <p
-                class="text-xs"
-                style="color:var(--muted);">
-
-                WhatsApp → Linked Devices →
-                Link a Device → Enter code
-
-              </p>
-
-            </div>
-
-
-            <!-- CODE -->
-
-            <div class="result-code-box mb-5">
-
-              <p
-                id="pairCode"
-                class="code-display">
-              </p>
-
-
-              <p
-                class="text-xs mt-2"
-                style="color:var(--muted);">
-
-                Enter this 8-digit code in WhatsApp
-
-              </p>
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div class="flex gap-3 justify-center">
-
-              <button
-                id="copyBtn"
-                class="copy-btn">
-
-                <i class="fas fa-copy text-xs"></i>
-
-                <span id="copyText">
-                  Copy Code
-                </span>
-
-              </button>
-
-
-              <button
-                id="newCodeBtn"
-                class="new-btn">
-
-                <i class="fas fa-redo text-xs"></i>
-
-                New Code
-
-              </button>
-
-            </div>
-
-
-            <div
-              class="mt-5 pt-5 text-center"
-              style="
-                border-top:1px solid rgba(163,169,180,.2);
-              ">
-
-              <a
-                href="/"
-                class="text-xs no-underline flex items-center justify-center gap-1.5"
-                style="color:var(--muted);">
-
-                <i class="fas fa-arrow-left text-xs"></i>
-
-                Back to Home
-
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- FEATURES -->
-
-        <div
-          class="mt-6 grid grid-cols-3 gap-3"
-          data-anim="fade-up"
-          data-delay="2">
-
-          <div
-            class="text-center p-3 rounded-xl soft-small">
-
-            <i
-              class="fas fa-shield-halved text-sm mb-1.5 block"
-              style="color:var(--primary);">
-            </i>
-
-            <p
-              class="text-xs"
-              style="color:var(--muted);">
-
-              Encrypted
-
-            </p>
-
-          </div>
-
-
-          <div
-            class="text-center p-3 rounded-xl soft-small">
-
-            <i
-              class="fas fa-bolt text-sm mb-1.5 block"
-              style="color:var(--primary);">
-            </i>
-
-            <p
-              class="text-xs"
-              style="color:var(--muted);">
-
-              Instant
-
-            </p>
-
-          </div>
-
-
-          <div
-            class="text-center p-3 rounded-xl soft-small">
-
-            <i
-              class="fas fa-mobile-screen text-sm mb-1.5 block"
-              style="color:var(--primary);">
-            </i>
-
-            <p
-              class="text-xs"
-              style="color:var(--muted);">
-
-              Secure
-
-            </p>
+            </a>
 
           </div>
 
@@ -1632,427 +1487,322 @@
 
       </div>
 
-    </section>
 
+      <!-- FEATURES -->
 
-    <div class="divider"></div>
+      <div class="features">
 
+        <div class="feature">
 
-    <!-- ================= FOOTER ================= -->
+          <i class="fas fa-shield-halved"></i>
 
-    <footer
-      class="py-8 px-5"
-      style="background:var(--surface);">
-
-      <div
-        class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-
-
-        <div class="flex items-center gap-2">
-
-          <img
-            src="https://i.imgur.com/IgtuuGb.png"
-            class="w-7 h-7 rounded-xl object-cover"
-            style="
-              box-shadow:
-                4px 4px 8px rgba(163,169,180,.4),
-                -4px -4px 8px rgba(255,255,255,.95);
-            "
-          >
-
-          <span
-            class="text-xs font-bold"
-            style="color:var(--text);">
-
-            LUKA-AI PAIR
-
-          </span>
+          <p>
+            Encrypted
+          </p>
 
         </div>
 
 
-        <p
-          class="text-xs text-center mono"
-          style="color:var(--muted);">
+        <div class="feature">
 
-          &copy;
+          <i class="fas fa-bolt"></i>
 
-          <span id="yr"></span>
+          <p>
+            Instant
+          </p>
 
-          LUKA-AI PAIR &mdash;
-
-          <a
-            href="https://github.com/Mayrabrand"
-            target="_blank"
-            style="
-              color:var(--primary);
-              text-decoration:none;
-            ">
-
-            LukaTech Lab
-
-          </a>
-
-        </p>
+        </div>
 
 
-        <div class="flex gap-2">
+        <div class="feature">
 
-          <a
-            href="https://github.com/Lucvoice/LUKA-AI"
-            target="_blank"
-            class="social-icon">
+          <i class="fas fa-mobile-screen"></i>
 
-            <i class="fab fa-github"></i>
-
-          </a>
-
-
-          <a
-            href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcH"
-            target="_blank"
-            class="social-icon">
-
-            <i class="fab fa-whatsapp"></i>
-
-          </a>
+          <p>
+            Secure
+          </p>
 
         </div>
 
       </div>
 
-    </footer>
+    </div>
 
   </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    © <span id="yr"></span>
+
+    <strong>LUKA-AI</strong>
+
+    — WhatsApp Automation Platform
+
+  </footer>
 
 
   <!-- ================= JAVASCRIPT ================= -->
 
   <script>
 
-    document.getElementById('yr').textContent =
+    /* ================= YEAR ================= */
+
+    document.getElementById("yr").textContent =
       new Date().getFullYear();
 
 
-    /* ================= SIDEBAR ================= */
+    /* ================= THEME ================= */
 
-    const sidebar =
-      document.getElementById('sidebar');
-
-    const overlay =
-      document.getElementById('sidebarOverlay');
-
-    const menuBtn =
-      document.getElementById('menuBtn');
-
-    const closeBtn =
-      document.getElementById('closeBtn');
-
-    const menuIcon =
-      document.getElementById('menuIcon');
+    const themeBtn =
+      document.getElementById("themeBtn");
 
 
-    function openSidebar(){
+    function setTheme(mode){
 
-      sidebar.style.transform =
-        'translateX(0)';
+      if(mode === "dark"){
 
-      overlay.style.opacity =
-        '1';
+        document.body.classList.add("dark");
 
-      overlay.style.pointerEvents =
-        'auto';
+        themeBtn.textContent = "☀️";
 
-      menuIcon.className =
-        'fas fa-times';
+        localStorage.setItem(
+          "luka-theme",
+          "dark"
+        );
 
-      document.body.style.overflow =
-        'hidden';
+      }else{
 
-    }
+        document.body.classList.remove("dark");
 
+        themeBtn.textContent = "🌙";
 
-    function closeSidebar(){
-
-      sidebar.style.transform =
-        'translateX(-100%)';
-
-      overlay.style.opacity =
-        '0';
-
-      overlay.style.pointerEvents =
-        'none';
-
-      menuIcon.className =
-        'fas fa-bars';
-
-      document.body.style.overflow =
-        '';
-
-    }
-
-
-    menuBtn.addEventListener(
-      'click',
-      () => {
-
-        if(
-          sidebar.style.transform ===
-          'translateX(0px)' ||
-          sidebar.style.transform ===
-          'translateX(0)'
-        ){
-
-          closeSidebar();
-
-        }else{
-
-          openSidebar();
-
-        }
+        localStorage.setItem(
+          "luka-theme",
+          "light"
+        );
 
       }
-    );
+
+    }
 
 
-    closeBtn.addEventListener(
-      'click',
-      closeSidebar
-    );
+    function toggleTheme(){
 
+      const isDark =
+        document.body.classList.contains("dark");
 
-    overlay.addEventListener(
-      'click',
-      closeSidebar
-    );
-
-
-    /* ================= ANIMATION ================= */
-
-    const obs =
-      new IntersectionObserver(
-        entries => {
-
-          entries.forEach(e => {
-
-            if(e.isIntersecting){
-
-              e.target.classList.add(
-                'in-view'
-              );
-
-            }
-
-          });
-
-        },
-        {
-          threshold:.1
-        }
+      setTheme(
+        isDark ? "light" : "dark"
       );
 
+    }
 
-    document
-      .querySelectorAll('[data-anim]')
-      .forEach(el =>
-        obs.observe(el)
-      );
+
+    const savedTheme =
+      localStorage.getItem("luka-theme");
+
+
+    if(savedTheme === "dark"){
+
+      setTheme("dark");
+
+    }else{
+
+      setTheme("light");
+
+    }
+
+
+    /* ================= MOBILE NAV ================= */
+
+    function toggleMenu(){
+
+      const nav =
+        document.querySelector(".nav");
+
+      if(nav.style.display === "flex"){
+
+        nav.style.display = "none";
+
+      }else{
+
+        nav.style.display = "flex";
+
+        nav.style.position = "absolute";
+
+        nav.style.top = "78px";
+
+        nav.style.right = "5%";
+
+        nav.style.flexDirection = "column";
+
+        nav.style.alignItems = "stretch";
+
+        nav.style.padding = "15px";
+
+        nav.style.gap = "10px";
+
+        nav.style.borderRadius = "18px";
+
+        nav.style.background =
+          "var(--surface)";
+
+        nav.style.boxShadow =
+          "10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light)";
+
+      }
+
+    }
 
 
     /* ================= SESSION ================= */
 
-    let selectedType =
-      'long';
+    let selectedType = "long";
 
 
     function selectType(type){
 
-      selectedType =
-        type;
+      selectedType = type;
 
 
       const longCard =
-        document.getElementById(
-          'typeLong'
-        );
+        document.getElementById("typeLong");
 
       const shortCard =
-        document.getElementById(
-          'typeShort'
-        );
-
+        document.getElementById("typeShort");
 
       const longRadio =
-        document.getElementById(
-          'longRadio'
-        );
+        document.getElementById("longRadio");
 
       const shortRadio =
-        document.getElementById(
-          'shortRadio'
-        );
+        document.getElementById("shortRadio");
 
 
-      if(type === 'long'){
+      if(type === "long"){
 
         longCard.classList.add(
-          'session-selected'
+          "session-selected"
         );
 
         shortCard.classList.remove(
-          'session-selected'
+          "session-selected"
         );
 
 
-        longRadio.style.background =
-          'var(--primary)';
-
-        longRadio.style.borderColor =
-          'var(--primary)';
+        longRadio.classList.add(
+          "selected"
+        );
 
         longRadio.innerHTML =
-          '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
+          '<div class="radio-dot"></div>';
 
 
-        shortRadio.style.background =
-          'transparent';
+        shortRadio.classList.remove(
+          "selected"
+        );
 
-        shortRadio.style.borderColor =
-          '#c9ccd2';
-
-        shortRadio.innerHTML =
-          '';
+        shortRadio.innerHTML = "";
 
       }else{
 
         shortCard.classList.add(
-          'session-selected'
+          "session-selected"
         );
 
         longCard.classList.remove(
-          'session-selected'
+          "session-selected"
         );
 
 
-        shortRadio.style.background =
-          'var(--primary)';
-
-        shortRadio.style.borderColor =
-          'var(--primary)';
+        shortRadio.classList.add(
+          "selected"
+        );
 
         shortRadio.innerHTML =
-          '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
+          '<div class="radio-dot"></div>';
 
 
-        longRadio.style.background =
-          'transparent';
+        longRadio.classList.remove(
+          "selected"
+        );
 
-        longRadio.style.borderColor =
-          '#c9ccd2';
-
-        longRadio.innerHTML =
-          '';
+        longRadio.innerHTML = "";
 
       }
 
     }
 
 
-    /* ================= FORM ================= */
+    /* ================= ELEMENTS ================= */
 
     const phoneInput =
-      document.getElementById(
-        'phoneNumber'
-      );
+      document.getElementById("phoneNumber");
 
     const submitBtn =
-      document.getElementById(
-        'submitBtn'
-      );
+      document.getElementById("submitBtn");
 
     const btnContent =
-      document.getElementById(
-        'btnContent'
-      );
+      document.getElementById("btnContent");
 
     const btnLoading =
-      document.getElementById(
-        'btnLoading'
-      );
+      document.getElementById("btnLoading");
 
     const phoneError =
-      document.getElementById(
-        'phoneError'
-      );
+      document.getElementById("phoneError");
 
-    const phoneErrTxt =
-      document.getElementById(
-        'phoneErrorText'
-      );
+    const phoneErrorText =
+      document.getElementById("phoneErrorText");
 
     const generalError =
-      document.getElementById(
-        'generalError'
-      );
+      document.getElementById("generalError");
 
     const formSection =
-      document.getElementById(
-        'formSection'
-      );
+      document.getElementById("formSection");
 
     const resultSection =
-      document.getElementById(
-        'resultSection'
-      );
+      document.getElementById("resultSection");
 
     const pairCode =
-      document.getElementById(
-        'pairCode'
-      );
+      document.getElementById("pairCode");
 
     const copyBtn =
-      document.getElementById(
-        'copyBtn'
-      );
+      document.getElementById("copyBtn");
 
     const copyText =
-      document.getElementById(
-        'copyText'
-      );
+      document.getElementById("copyText");
 
     const newCodeBtn =
-      document.getElementById(
-        'newCodeBtn'
-      );
+      document.getElementById("newCodeBtn");
 
+    const fallbackBanner =
+      document.getElementById("fallbackBanner");
+
+
+    /* ================= INPUT ================= */
 
     phoneInput.addEventListener(
-      'input',
+      "input",
       () => {
 
         phoneInput.value =
-          phoneInput.value.replace(
-            /\D/g,
-            ''
-          );
+          phoneInput.value.replace(/\D/g,"");
 
-        phoneError.classList.add(
-          'hidden'
-        );
+        phoneError.style.display = "none";
 
-        generalError.classList.add(
-          'hidden'
-        );
+        generalError.style.display = "none";
 
       }
     );
 
 
     phoneInput.addEventListener(
-      'keydown',
+      "keydown",
       e => {
 
-        if(e.key === 'Enter'){
+        if(e.key === "Enter"){
 
           submitBtn.click();
 
@@ -2062,34 +1812,38 @@
     );
 
 
-    function showPhoneError(msg){
+    /* ================= PHONE ERROR ================= */
 
-      phoneErrTxt.textContent =
-        msg;
+    function showPhoneError(message){
 
-      phoneError.classList.remove(
-        'hidden'
-      );
+      phoneErrorText.textContent =
+        message;
+
+      phoneError.style.display =
+        "flex";
 
       phoneInput.classList.add(
-        'shake'
+        "shake"
       );
 
       setTimeout(
-        () =>
+        () => {
+
           phoneInput.classList.remove(
-            'shake'
-          ),
+            "shake"
+          );
+
+        },
         450
       );
 
     }
 
 
-    /* ================= GET CODE ================= */
+    /* ================= GET PAIR CODE ================= */
 
     submitBtn.addEventListener(
-      'click',
+      "click",
       async () => {
 
         const num =
@@ -2103,7 +1857,7 @@
         ){
 
           showPhoneError(
-            'Enter a valid number (10–15 digits, no + sign)'
+            "Enter a valid number (10–15 digits, no + sign)"
           );
 
           return;
@@ -2111,26 +1865,20 @@
         }
 
 
-        phoneError.classList.add(
-          'hidden'
-        );
+        phoneError.style.display =
+          "none";
 
-        generalError.classList.add(
-          'hidden'
-        );
+        generalError.style.display =
+          "none";
 
 
-        btnContent.classList.add(
-          'hidden'
-        );
+        btnContent.style.display =
+          "none";
 
-        btnLoading.classList.remove(
-          'hidden'
-        );
+        btnLoading.style.display =
+          "flex";
 
-
-        submitBtn.disabled =
-          true;
+        submitBtn.disabled = true;
 
 
         try{
@@ -2146,18 +1894,17 @@
 
 
           const code =
-            data.code || '';
+            data.code || "";
 
 
           if(!code){
 
             generalError.textContent =
               data.message ||
-              'Failed to get code. Try again.';
+              "Failed to get code. Try again.";
 
-            generalError.classList.remove(
-              'hidden'
-            );
+            generalError.style.display =
+              "block";
 
             return;
 
@@ -2170,44 +1917,39 @@
 
           if(data.fallback){
 
-            document
-              .getElementById(
-                'fallbackBanner'
-              )
-              .classList.remove(
-                'hidden'
-              );
+            fallbackBanner.style.display =
+              "block";
+
+          }else{
+
+            fallbackBanner.style.display =
+              "none";
 
           }
 
 
-          formSection.classList.add(
-            'hidden'
-          );
+          formSection.style.display =
+            "none";
 
-          resultSection.classList.remove(
-            'hidden'
-          );
+          resultSection.style.display =
+            "block";
 
 
-        }catch(e){
+        }catch(error){
 
           generalError.textContent =
-            'Connection error. Please try again.';
+            "Connection error. Please try again.";
 
-          generalError.classList.remove(
-            'hidden'
-          );
+          generalError.style.display =
+            "block";
 
         }finally{
 
-          btnContent.classList.remove(
-            'hidden'
-          );
+          btnContent.style.display =
+            "flex";
 
-          btnLoading.classList.add(
-            'hidden'
-          );
+          btnLoading.style.display =
+            "none";
 
           submitBtn.disabled =
             false;
@@ -2221,38 +1963,75 @@
     /* ================= COPY ================= */
 
     copyBtn.addEventListener(
-      'click',
-      () => {
+      "click",
+      async () => {
 
-        navigator.clipboard
-          .writeText(
-            pairCode.textContent
-          )
-          .then(() => {
-
-            copyText.textContent =
-              'Copied!';
-
-            copyBtn.classList.add(
-              'copied'
-            );
+        const code =
+          pairCode.textContent.trim();
 
 
-            setTimeout(
-              () => {
+        if(!code) return;
 
-                copyText.textContent =
-                  'Copy Code';
 
-                copyBtn.classList.remove(
-                  'copied'
-                );
+        try{
 
-              },
-              2000
-            );
+          await navigator.clipboard.writeText(
+            code
+          );
 
-          });
+          copyText.textContent =
+            "Copied!";
+
+          copyBtn.style.color =
+            "#16a34a";
+
+
+          setTimeout(
+            () => {
+
+              copyText.textContent =
+                "Copy Code";
+
+              copyBtn.style.color =
+                "var(--purple)";
+
+            },
+            2000
+          );
+
+        }catch(error){
+
+          const textarea =
+            document.createElement("textarea");
+
+          textarea.value = code;
+
+          document.body.appendChild(
+            textarea
+          );
+
+          textarea.select();
+
+          document.execCommand(
+            "copy"
+          );
+
+          textarea.remove();
+
+          copyText.textContent =
+            "Copied!";
+
+          setTimeout(
+            () => {
+
+              copyText.textContent =
+                "Copy Code";
+
+            },
+            2000
+          );
+
+        }
 
       }
     );
@@ -2261,24 +2040,21 @@
     /* ================= NEW CODE ================= */
 
     newCodeBtn.addEventListener(
-      'click',
+      "click",
       () => {
 
-        resultSection.classList.add(
-          'hidden'
-        );
+        resultSection.style.display =
+          "none";
 
-        formSection.classList.remove(
-          'hidden'
-        );
+        formSection.style.display =
+          "block";
 
-        document
-          .getElementById(
-            'fallbackBanner'
-          )
-          .classList.add(
-            'hidden'
-          );
+        fallbackBanner.style.display =
+          "none";
+
+        pairCode.textContent = "";
+
+        phoneInput.focus();
 
       }
     );
@@ -2286,4 +2062,4 @@
   </script>
 
 </body>
-            </html>
+  </html>
