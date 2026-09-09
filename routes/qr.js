@@ -61,7 +61,7 @@ router.get('/session', async (req, res) => {
                             <!DOCTYPE html>
                             <html>
                             <head>
-                                <title>ATASSA-MD | QR CODE</title>
+                                <title>LUKA-AI | QR CODE</title>
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                                 <style>
                                     body {
@@ -170,7 +170,7 @@ router.get('/session', async (req, res) => {
                                         <span style="font-size:1rem;margin-top:1px;flex-shrink:0;">ℹ️</span>
                                         <p style="margin:0;font-size:0.78rem;color:#93c5fd;line-height:1.5;">Session store is not configured &mdash; automatically switched to <strong>Long session</strong>.</p>
                                     </div>` : ''}
-                                    <h1>ATASSA QR CODE</h1>
+                                    <h1>LUKA-AI QR CODE</h1>
                                     <div class="qr-container">
                                         <div class="qr-code pulse">
                                             <img src="${qrImage}" alt="QR Code"/>
