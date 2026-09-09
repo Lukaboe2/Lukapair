@@ -3,156 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>PANTHER X ULTRA PAIR | QR Code Login</title>
-  <meta name="theme-color" content="#00a884">
+  <title>ATASSA MD | QR Code Login</title>
+  <meta name="description" content="Link your WhatsApp account to Atassa-MD by scanning a QR code. Fast, secure, and simple.">
+  <meta name="theme-color" content="#7c3aed">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ATASSA MD | QR Code Login">
+  <meta property="og:description" content="Scan a QR code to link your WhatsApp with Atassa-MD.">
+  <meta property="og:image" content="https://files.gifted.co.ke/image/u90mimage.jpg">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://files.gifted.co.ke/image/u90mimage.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg-primary:   #111b21;
-      --bg-secondary: #1f2c34;
-      --bg-panel:     #2a3942;
-      --green:        #00a884;
-      --green-light:  #25d366;
-      --green-dark:   #008069;
-      --text-primary: #e9edef;
-      --text-secondary: #8696a0;
-      --border:       rgba(134,150,160,0.15);
-      --border-green: rgba(0,168,132,0.35);
-    }
-
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
+      background: #07070e;
+      color: #f1f1f1;
       min-height: 100vh;
       overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: var(--bg-panel) var(--bg-secondary);
+      scrollbar-width: none;
     }
-    body::-webkit-scrollbar { width: 5px; }
-    body::-webkit-scrollbar-track { background: var(--bg-secondary); }
-    body::-webkit-scrollbar-thumb { background: var(--bg-panel); border-radius: 4px; }
+    body::-webkit-scrollbar { display: none; }
 
-    body::before {
+    .gradient-text {
+      background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-bg { background: linear-gradient(135deg, #7c3aed, #9333ea); }
+
+    .blob {
+      position: fixed; border-radius: 50%;
+      filter: blur(90px); pointer-events: none; z-index: 0; will-change: transform;
+    }
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%      { transform: translate(20px,-20px) scale(1.05); }
+    }
+
+    .nav-glass {
+      background: rgba(7,7,14,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 0 0 22px 22px;
+    }
+    .nav-link { position: relative; transition: color 0.2s ease; }
+    .nav-link::after {
       content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300a884' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
+      position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, #c084fc, #7c3aed);
+      transition: width 0.22s ease; border-radius: 2px;
     }
-
-    .blob { position: fixed; border-radius: 50%; filter: blur(110px); pointer-events: none; z-index: 0; }
-    @keyframes floaty { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(25px,-20px) scale(1.05);} }
-
-    .nav-bar { background: rgba(17,27,33,0.92); border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .nav-link { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.18s; position: relative; padding-bottom: 2px; }
-    .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--green); border-radius:2px; transition:width 0.22s; }
-    .nav-link:hover { color: var(--green-light); }
+    .nav-link:hover { color: #c084fc; }
     .nav-link:hover::after { width: 100%; }
 
-    .sidebar-link { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:background 0.18s,color 0.18s,transform 0.18s; border:1px solid transparent; }
-    .sidebar-link:hover { background:rgba(0,168,132,0.1); border-color:var(--border-green); color:var(--green-light); transform:translateX(4px); }
-    .sidebar-link i { width:18px; text-align:center; }
-    #sidebar { transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-    #sidebarOverlay { transition:opacity 0.3s ease; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 10px;
+      color: #9ca3af; text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+    .sidebar-link:hover { background: rgba(124,58,237,0.12); color: #c084fc; transform: translateX(4px); }
+    .sidebar-link i { width: 18px; text-align: center; font-size: 0.9rem; }
 
-    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:12px; font-weight:600; font-size:0.875rem; font-family:'Inter',sans-serif; cursor:pointer; border:none; text-decoration:none; transition:transform 0.18s,box-shadow 0.18s; }
-    .btn:active { transform:scale(0.97) !important; }
-    .btn-primary { background:var(--green); color:#fff; box-shadow:0 4px 20px rgba(0,168,132,0.3); }
-    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,168,132,0.45); filter:brightness(1.05); }
-    .btn-ghost { background:var(--bg-panel); border:1px solid var(--border-green); color:var(--green-light); }
-    .btn-ghost:hover { transform:translateY(-2px); background:rgba(0,168,132,0.15); }
+    #sidebar { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+    #sidebarOverlay { transition: opacity 0.3s ease; }
 
-    .icon-anim { display:inline-flex; align-items:center; justify-content:center; transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1); }
-    .btn:hover .icon-anim { transform:scale(1.2) rotate(-8deg); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 24px; border-radius: 12px;
+      font-weight: 600; font-size: 0.875rem;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+      will-change: transform;
+    }
+    .btn:active { transform: scale(0.97) !important; }
+    .btn-primary { background: linear-gradient(135deg, #7c3aed, #9333ea); color: #fff; }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px rgba(124,58,237,0.45); }
+    .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+    .btn-ghost:hover { transform: translateY(-2px); background: rgba(255,255,255,0.1); }
 
-    .social-icon { width:34px; height:34px; border-radius:8px; background:var(--bg-panel); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--text-secondary); font-size:0.85rem; text-decoration:none; transition:background 0.2s,color 0.2s,transform 0.2s,border-color 0.2s; }
-    .social-icon:hover { background:rgba(0,168,132,0.15); color:var(--green-light); border-color:var(--border-green); transform:translateY(-3px); }
+    .icon-animated {
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn:hover .icon-animated { transform: scale(1.25) rotate(-8deg); }
 
-    .divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); }
+    .social-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: #6b7280; font-size: 0.85rem; text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .social-icon:hover { background: rgba(124,58,237,0.2); color: #c084fc; transform: translateY(-3px); }
+
+    .footer-link { color: #6b7280; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; transition: color 0.18s, transform 0.18s; }
+    .footer-link:hover { color: #c084fc; transform: translateX(4px); }
+    .divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent); }
 
     .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+      background: rgba(15,15,26,0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,58,237,0.08);
     }
 
-    /* QR frame */
-    .qr-frame {
-      position: relative;
-      width: 220px; height: 220px;
-      margin: 0 auto;
+    [data-anim] {
+      will-change: transform, opacity;
+      transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
     }
-    .qr-corner {
-      position: absolute;
-      width: 20px; height: 20px;
-      border-color: var(--green);
-      border-style: solid;
-    }
-    .qr-corner.tl { top: 0; left: 0; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
-    .qr-corner.tr { top: 0; right: 0; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
-    .qr-corner.bl { bottom: 0; left: 0; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
-    .qr-corner.br { bottom: 0; right: 0; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
-
-    .qr-img { width: 220px; height: 220px; object-fit: contain; border-radius: 8px; display: block; }
-
-    @keyframes qr-scan { 0%{top:0;} 100%{top:calc(100% - 3px);} }
-    .qr-scan-line {
-      position: absolute; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--green), transparent);
-      animation: qr-scan 2s linear infinite;
-      box-shadow: 0 0 8px var(--green);
-    }
-
-    .spinner { width:20px; height:20px; border:2.5px solid rgba(0,168,132,0.25); border-top-color:var(--green); border-radius:50%; animation:spin 0.8s linear infinite; }
-    @keyframes spin { to{transform:rotate(360deg);} }
-
-    /* Guide steps */
-    .guide-step { display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:10px; background:rgba(0,168,132,0.05); border:1px solid rgba(0,168,132,0.12); }
-    .guide-num { width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; flex-shrink:0; }
-
-    .type-btn-active { background:var(--green) !important; color:#fff !important; box-shadow:0 0 12px rgba(0,168,132,0.35); }
-
-    [data-anim] { will-change:transform,opacity; transition:opacity 0.65s cubic-bezier(0.4,0,0.2,1),transform 0.65s cubic-bezier(0.4,0,0.2,1); }
-    [data-anim="fade-up"] { opacity:0; transform:translateY(28px); }
-    [data-anim="zoom-in"] { opacity:0; transform:scale(0.9); }
-    [data-anim].in-view { opacity:1; transform:none; }
-    [data-delay="1"] { transition-delay:0.1s; }
-    [data-delay="2"] { transition-delay:0.2s; }
+    [data-anim="fade-up"]    { opacity: 0; transform: translateY(28px); }
+    [data-anim="zoom-in"]    { opacity: 0; transform: scale(0.9); }
+    [data-anim].in-view { opacity: 1; transform: translateY(0) scale(1) translateX(0); }
+    [data-delay="1"] { transition-delay: 0.1s; }
+    [data-delay="2"] { transition-delay: 0.2s; }
   </style>
 </head>
 <body>
-  <div class="blob" style="width:380px;height:380px;top:-100px;right:-80px;background:rgba(0,168,132,0.1);animation:floaty 16s ease-in-out infinite;"></div>
-  <div class="blob" style="width:300px;height:300px;bottom:10%;left:-60px;background:rgba(0,128,105,0.07);animation:floaty 20s ease-in-out 5s infinite;"></div>
+  <div class="blob w-96 h-96 bg-purple-800/18 top-[-80px] left-[-80px]" style="animation:blobFloat 14s ease-in-out infinite;"></div>
+  <div class="blob w-72 h-72 bg-violet-600/12 bottom-[10%] right-[-60px]" style="animation:blobFloat 18s ease-in-out 5s infinite;"></div>
 
-  <nav class="nav-bar sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
+  <nav class="nav-glass sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 h-12 flex items-center justify-between">
       <a href="/" class="flex items-center gap-3 no-underline">
-        <div class="flex items-center gap-1.5">
-          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-8 h-8 rounded-xl object-cover" style="box-shadow:0 0 10px rgba(0,168,132,0.35);" onerror="this.style.display='none'">
-          <img src="https://github.com/GuruhTech.png" alt="Guru" class="w-8 h-8 rounded-xl object-cover -ml-1.5" style="border:1.5px solid var(--bg-primary);" onerror="this.style.display='none'">
-        </div>
-        <div class="flex flex-col leading-none">
-          <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA PAIR</span>
-          <span class="text-[9px] font-semibold tracking-[0.2em]" style="color:var(--green)">QR CODE</span>
-        </div>
+        <img src="https://files.gifted.co.ke/image/u90mimage.jpg" alt="ATASSA" class="w-8 h-8 rounded-full border border-purple-500/50 object-cover" style="transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 14px rgba(168,85,247,0.6)'" onmouseout="this.style.boxShadow='none'">
+        <span class="text-base font-bold gradient-text">ATASSA-MD</span>
       </a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Black Panther</a>
-        <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="nav-link"><i class="fab fa-github text-xs"></i> Ultra Guru</a>
-        <a href="/pair" class="nav-link"><i class="fas fa-link text-xs"></i> Pair Code</a>
-        <a href="/qr" class="nav-link" style="color:var(--green-light);"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
+      <div class="hidden md:flex items-center gap-7">
+        <a href="https://github.com/mauricegift/atassa" target="_blank" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fab fa-github text-xs"></i> Source Code</a>
+        <a href="/pair" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fas fa-link text-xs"></i> Pair Code</a>
+        <a href="/qr" class="nav-link text-purple-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fas fa-qrcode text-xs"></i> QR Code</a>
+        <a href="https://t.me/mauricegift" target="_blank" class="nav-link text-gray-400 text-sm font-medium no-underline flex items-center gap-1.5"><i class="fab fa-telegram text-xs"></i> Support</a>
       </div>
       <div class="flex items-center gap-3">
         <a href="/pair" class="hidden md:inline-flex btn btn-ghost py-2 px-4 text-xs">
-          <span class="icon-anim"><i class="fas fa-link"></i></span> Use Pair Instead
+          <span class="icon-animated"><i class="fas fa-link"></i></span> Use Pair Instead
         </a>
-        <button id="menuBtn" class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl outline-none focus:outline-none" style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);">
+        <button id="menuBtn" class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/8 text-gray-500 outline-none focus:outline-none focus:ring-0" style="transition:background 0.18s, color 0.18s;">
           <i class="fas fa-bars" id="menuIcon"></i>
         </button>
       </div>
@@ -160,194 +155,121 @@
   </nav>
 
   <div id="sidebarOverlay" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none"></div>
-  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-2xl" style="background:var(--bg-secondary);border-right:1px solid var(--border);">
+  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-full w-72 bg-[#0a0a14] border-r border-white/6 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-3xl">
     <div class="flex items-center justify-between px-5 mb-6">
-      <div class="flex items-center gap-2">
-        <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" alt="Panther" class="w-7 h-7 rounded-lg object-cover" onerror="this.style.display='none'">
-        <span class="text-sm font-bold" style="color:var(--text-primary)">PANTHER X ULTRA</span>
-      </div>
-      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg" style="background:var(--bg-panel);color:var(--text-secondary);">
+      <a href="/" class="flex items-center gap-2.5 no-underline">
+        <img src="https://files.gifted.co.ke/image/u90mimage.jpg" alt="ATASSA" class="w-8 h-8 rounded-full border border-purple-500/50 object-cover">
+        <span class="text-sm font-bold gradient-text">ATASSA-MD</span>
+      </a>
+      <button id="closeBtn" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-gray-400" style="transition:background 0.18s,color 0.18s;">
         <i class="fas fa-times text-sm"></i>
       </button>
     </div>
     <div class="px-3 flex-1 space-y-1">
-      <a href="/" class="sidebar-link"><i class="fas fa-house"></i> Home</a>
+      <a href="/" class="sidebar-link"><i class="fas fa-home"></i> Home</a>
       <a href="/pair" class="sidebar-link"><i class="fas fa-link"></i> Pair Code</a>
-      <a href="/qr" class="sidebar-link" style="background:rgba(0,168,132,0.1);border-color:var(--border-green);color:var(--green-light);"><i class="fas fa-qrcode"></i> QR Code</a>
-      <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Black Panther</a>
-      <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Ultra Guru</a>
-      <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
+      <a href="/qr" class="sidebar-link" style="background:rgba(124,58,237,0.1);color:#c084fc;"><i class="fas fa-qrcode"></i> QR Code</a>
+      <a href="https://github.com/mauricegift/atassa" target="_blank" class="sidebar-link"><i class="fab fa-github"></i> Source Code</a>
+      <a href="https://t.me/mauricegift" target="_blank" class="sidebar-link"><i class="fab fa-telegram"></i> Support</a>
+      <a href="https://whatsapp.com/channel/0029VbCpYtZLtOj5LDuj7Q1p" target="_blank" class="sidebar-link"><i class="fab fa-whatsapp"></i> WA Channel</a>
     </div>
-    <div class="px-5 pt-4" style="border-top:1px solid var(--border);">
-      <p style="color:var(--text-secondary);font-size:0.75rem;">⚡ Powered by GuruTech Lab</p>
+    <div class="px-5 pt-5 border-t border-white/6">
+      <p class="text-gray-600 text-xs">Powered by Gifted Tech</p>
     </div>
   </aside>
 
   <main class="relative z-10">
-    <section class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
+    <section class="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-5 py-12">
       <div class="w-full max-w-md">
 
         <div class="text-center mb-8" data-anim="fade-up">
-          <div class="flex justify-center mb-5">
-            <div class="flex items-center gap-2">
-              <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg"
-                alt="BLACK-PANTHER"
-                class="w-16 h-16 rounded-2xl object-cover"
-                style="box-shadow:0 0 20px rgba(0,168,132,0.4);border:2px solid var(--border-green);"
-                onerror="this.style.display='none'">
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:var(--green);box-shadow:0 0 20px rgba(37,211,102,0.35);">
-                <i class="fas fa-qrcode" style="color:#fff;font-size:1.2rem;"></i>
-              </div>
-              <img src="https://github.com/GuruhTech.png"
-                alt="ULTRA-GURU"
-                class="w-16 h-16 rounded-2xl object-cover"
-                style="box-shadow:0 0 20px rgba(0,168,132,0.4);border:2px solid var(--border-green);"
-                onerror="this.style.display='none'">
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <img src="https://files.gifted.co.ke/image/u90mimage.jpg" alt="ATASSA" class="w-20 h-20 rounded-full border-2 border-purple-500/60 object-cover" style="box-shadow:0 0 0 6px rgba(124,58,237,0.1),0 0 30px rgba(124,58,237,0.25);">
+              <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#0a0a14] rounded-full border border-purple-500/40 flex items-center justify-center">
+                <i class="fas fa-qrcode text-purple-400 text-xs"></i>
+              </span>
             </div>
           </div>
-          <p class="text-xs font-semibold tracking-[0.2em] mb-1" style="color:var(--green);">// QR CODE LOGIN</p>
-          <h1 class="text-2xl font-bold mb-1" style="color:var(--text-primary);">Scan to Connect</h1>
-          <p class="text-sm" style="color:var(--text-secondary);">Open WhatsApp → Linked Devices → Scan the QR</p>
+          <h1 class="text-2xl font-bold gradient-text mb-1">QR Code Login</h1>
+          <p class="text-gray-500 text-sm">Scan the QR code in WhatsApp → Linked Devices</p>
         </div>
 
         <div class="card p-7" data-anim="zoom-in" data-delay="1">
-          <!-- Session type -->
           <div class="mb-5">
-            <label class="block text-xs font-semibold uppercase tracking-widest mb-2" style="color:var(--text-secondary);">Session Type</label>
-
-            <!-- Long — default primary choice -->
-            <div id="typeLong" onclick="selectType('long')" class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all duration-200" style="background:rgba(0,168,132,0.13);border:1.5px solid var(--green);margin-bottom:8px;">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--green);">
-                  <i class="fas fa-file-code text-white text-xs"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-semibold" style="color:var(--text-primary);">Long Session</p>
-                  <p class="text-xs" style="color:var(--text-secondary);">Full session string — recommended</p>
-                </div>
-              </div>
-              <div id="longRadio" class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0" style="border-color:var(--green);background:var(--green);">
-                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-              </div>
-            </div>
-
-            <!-- Short — optional -->
-            <div id="typeShort" onclick="selectType('short')" class="flex items-center justify-between px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200" style="background:transparent;border:1px dashed rgba(134,150,160,0.25);">
-              <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--bg-panel);border:1px solid var(--border);">
-                  <i class="fas fa-database text-xs" style="color:var(--text-secondary);"></i>
-                </div>
-                <div>
-                  <p class="text-xs font-medium" style="color:var(--text-secondary);">Short Session <span class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded" style="background:var(--bg-panel);color:var(--text-secondary);font-size:0.6rem;letter-spacing:0.05em;">OPTIONAL</span></p>
-                </div>
-              </div>
-              <div id="shortRadio" class="w-4 h-4 rounded-full border-2 flex-shrink-0" style="border-color:rgba(134,150,160,0.3);"></div>
-            </div>
-          </div>
-
-          <!-- Generate button -->
-          <div id="generateSection">
-            <button id="generateBtn" onclick="startQR()" class="btn btn-primary w-full py-3 text-sm">
-              <span class="icon-anim"><i class="fas fa-qrcode"></i></span>
-              <span>GENERATE QR CODE</span>
-            </button>
-          </div>
-
-          <!-- Loading -->
-          <div id="loadingSection" class="hidden text-center py-6">
-            <div class="flex justify-center mb-3"><div class="spinner"></div></div>
-            <p class="text-sm" style="color:var(--text-secondary);">Generating QR code...</p>
-          </div>
-
-          <!-- QR Display -->
-          <div id="qrSection" class="hidden">
-            <div class="text-center mb-4">
-              <p class="text-xs font-semibold mb-1" style="color:var(--green);">Scan within 60 seconds</p>
-              <p class="text-xs" style="color:var(--text-secondary);">Point your WhatsApp camera at the QR code below</p>
-            </div>
-            <div class="flex justify-center mb-4">
-              <div class="qr-frame">
-                <div class="qr-corner tl"></div>
-                <div class="qr-corner tr"></div>
-                <div class="qr-corner bl"></div>
-                <div class="qr-corner br"></div>
-                <div class="qr-scan-line" id="scanLine"></div>
-                <img id="qrImage" class="qr-img" src="" alt="QR Code" style="padding:8px;background:var(--bg-panel);border-radius:10px;border:1px solid var(--border-green);">
-              </div>
-            </div>
-            <div class="text-center">
-              <button onclick="startQR()" class="btn btn-ghost text-xs py-2 px-5">
-                <i class="fas fa-redo text-xs"></i> Refresh QR
+            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Session Type</label>
+            <div class="flex rounded-xl overflow-hidden border border-white/10 bg-white/[0.03]">
+              <button type="button" id="typeShort" onclick="selectType('short')"
+                class="flex-1 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200"
+                style="background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;">
+                <i class="fas fa-database text-xs"></i> Short
+              </button>
+              <button type="button" id="typeLong" onclick="selectType('long')"
+                class="flex-1 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200"
+                style="background:transparent;color:#6b7280;">
+                <i class="fas fa-file-code text-xs"></i> Long
               </button>
             </div>
           </div>
 
-          <!-- How to guide -->
-          <div class="mt-6 rounded-xl p-4" style="background:rgba(0,168,132,0.05);border:1px solid rgba(0,168,132,0.15);">
-            <p class="text-xs font-semibold mb-3 flex items-center gap-2" style="color:var(--green);">
-              <i class="fas fa-circle-info"></i> How to link with QR code
-            </p>
-            <div class="space-y-2">
-              <div class="guide-step">
-                <div class="guide-num">1</div>
-                <p class="text-xs" style="color:var(--text-secondary);">Choose your session type (Short or Long)</p>
-              </div>
-              <div class="guide-step">
-                <div class="guide-num">2</div>
-                <p class="text-xs" style="color:var(--text-secondary);">Click <strong style="color:var(--text-primary);">GENERATE QR CODE</strong> to create your code</p>
-              </div>
-              <div class="guide-step">
-                <div class="guide-num">3</div>
-                <p class="text-xs" style="color:var(--text-secondary);">Open WhatsApp → <strong style="color:var(--green);">Settings → Linked Devices → Link a Device</strong></p>
-              </div>
-              <div class="guide-step">
-                <div class="guide-num">4</div>
-                <p class="text-xs" style="color:var(--text-secondary);">Point your camera at the QR code to scan it</p>
-              </div>
-              <div class="guide-step">
-                <div class="guide-num">5</div>
-                <p class="text-xs" style="color:var(--text-secondary);">Your session ID will be sent via WhatsApp ✅</p>
-              </div>
+          <button id="generateBtn" onclick="startQR()" class="btn btn-primary w-full py-3 text-sm">
+            <span class="icon-animated"><i class="fas fa-qrcode"></i></span>
+            <span>GENERATE QR CODE</span>
+          </button>
+
+          <div class="mt-5 pt-5 border-t border-white/6">
+            <div class="bg-purple-900/10 border border-purple-500/15 rounded-xl p-4">
+              <p class="text-gray-400 text-xs font-semibold mb-2.5 flex items-center gap-1.5">
+                <i class="fas fa-info-circle text-purple-400"></i> How it works
+              </p>
+              <ol class="text-gray-500 text-xs space-y-1.5">
+                <li class="flex items-start gap-2"><span class="text-purple-400 font-bold mt-0.5">1.</span> Choose your session type above</li>
+                <li class="flex items-start gap-2"><span class="text-purple-400 font-bold mt-0.5">2.</span> Click Generate to show the QR code</li>
+                <li class="flex items-start gap-2"><span class="text-purple-400 font-bold mt-0.5">3.</span> Open WhatsApp → Linked Devices → Link a Device</li>
+                <li class="flex items-start gap-2"><span class="text-purple-400 font-bold mt-0.5">4.</span> Scan the QR — your session will be sent via WhatsApp</li>
+              </ol>
             </div>
           </div>
 
           <div class="mt-4 flex items-center justify-center gap-3">
-            <span class="text-xs" style="color:var(--text-secondary);">Prefer typing?</span>
-            <a href="/pair" class="text-xs font-medium no-underline flex items-center gap-1" style="color:var(--green);">
+            <span class="text-gray-600 text-xs">Prefer typing?</span>
+            <a href="/pair" class="text-purple-400 text-xs font-medium no-underline flex items-center gap-1" style="transition:color 0.18s;" onmouseover="this.style.color='#c084fc'" onmouseout="this.style.color='#a855f7'">
               <i class="fas fa-link text-xs"></i> Use Pair Code instead
             </a>
           </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-3 gap-3" data-anim="fade-up" data-delay="2">
-          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
-            <i class="fas fa-shield-halved text-sm mb-1.5 block" style="color:var(--green);"></i>
-            <p class="text-xs" style="color:var(--text-secondary);">Encrypted</p>
+        <div class="mt-8 grid grid-cols-3 gap-3" data-anim="fade-up" data-delay="2">
+          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
+            <i class="fas fa-shield-alt text-purple-400 text-sm mb-1.5 block"></i>
+            <p class="text-gray-500 text-xs">Encrypted</p>
           </div>
-          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
-            <i class="fas fa-bolt text-sm mb-1.5 block" style="color:var(--green-light);"></i>
-            <p class="text-xs" style="color:var(--text-secondary);">Instant</p>
+          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
+            <i class="fas fa-bolt text-purple-400 text-sm mb-1.5 block"></i>
+            <p class="text-gray-500 text-xs">Instant</p>
           </div>
-          <div class="text-center p-3 rounded-xl" style="background:var(--bg-secondary);border:1px solid var(--border);">
-            <i class="fas fa-mobile-screen text-sm mb-1.5 block" style="color:var(--green);"></i>
-            <p class="text-xs" style="color:var(--text-secondary);">Secure</p>
+          <div class="bg-white/[0.025] border border-white/6 rounded-xl p-3 text-center">
+            <i class="fas fa-mobile-alt text-purple-400 text-sm mb-1.5 block"></i>
+            <p class="text-gray-500 text-xs">No Phone</p>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-    <footer class="py-8 px-5" style="background:var(--bg-secondary);">
+    <div class="divider-line"></div>
+    <footer class="py-8 px-5 bg-[#040408]">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-2">
-          <img src="https://tmpfiles.org/dl/36257265/panther_1777780194457.jpg" class="w-6 h-6 rounded-lg object-cover" onerror="this.style.display='none'">
-          <span class="text-xs font-bold" style="color:var(--text-primary);">PANTHER X ULTRA PAIR</span>
-        </div>
-        <p class="text-xs text-center" style="color:var(--text-secondary);">&copy; <span id="yr"></span> PANTHER X ULTRA PAIR &mdash; <a href="https://github.com/GuruhTech" target="_blank" style="color:var(--green);text-decoration:none;">GuruTech Lab</a></p>
+        <a href="/" class="flex items-center gap-2 no-underline">
+          <img src="https://files.gifted.co.ke/image/u90mimage.jpg" alt="ATASSA" class="w-6 h-6 rounded-full border border-purple-500/40 object-cover">
+          <span class="text-xs font-bold gradient-text">ATASSA-MD</span>
+        </a>
+        <p class="text-gray-700 text-xs text-center">
+          &copy; <span id="yr"></span> ATASSA-MD &mdash; Built by <a href="https://github.com/mauricegift" target="_blank" class="text-purple-400 no-underline font-medium" style="transition:color 0.18s;" onmouseover="this.style.color='#c084fc'" onmouseout="this.style.color='#a855f7'">Gifted Tech</a>
+        </p>
         <div class="flex gap-2">
-          <a href="https://github.com/koyoteh/BLACK-PANTHER" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-          <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-          <a href="https://whatsapp.com/channel/0029Vb7jauLHLHQbkcbcHi0e" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://github.com/mauricegift/atassa" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+          <a href="https://t.me/mauricegift" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+          <a href="https://whatsapp.com/channel/0029VbCpYtZLtOj5LDuj7Q1p" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
     </footer>
@@ -361,44 +283,62 @@
     const menuBtn = document.getElementById('menuBtn');
     const closeBtn = document.getElementById('closeBtn');
     const menuIcon = document.getElementById('menuIcon');
-    function openSidebar() { sidebar.style.transform='translateX(0)'; overlay.style.opacity='1'; overlay.style.pointerEvents='auto'; menuIcon.className='fas fa-times'; document.body.style.overflow='hidden'; }
-    function closeSidebar() { sidebar.style.transform='translateX(-100%)'; overlay.style.opacity='0'; overlay.style.pointerEvents='none'; menuIcon.className='fas fa-bars'; document.body.style.overflow=''; }
-    menuBtn.addEventListener('click', () => { sidebar.style.transform==='translateX(0)' ? closeSidebar() : openSidebar(); });
+
+    function openSidebar() {
+      sidebar.style.transform = 'translateX(0)';
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+      menuIcon.className = 'fas fa-times';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+      sidebar.style.transform = 'translateX(-100%)';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      menuIcon.className = 'fas fa-bars';
+      document.body.style.overflow = '';
+    }
+    menuBtn.addEventListener('click', () => { sidebar.style.transform === 'translateX(0)' ? closeSidebar() : openSidebar(); menuBtn.blur(); });
     closeBtn.addEventListener('click', closeSidebar);
     overlay.addEventListener('click', closeSidebar);
 
-    const obs = new IntersectionObserver(entries => { entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view')); }, { threshold: 0.1 });
-    document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting ? e.target.classList.add('in-view') : e.target.classList.remove('in-view'));
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('[data-anim]').forEach(el => observer.observe(el));
 
-    let selectedType = 'long';
+    (function setCircularFavicon(src) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.beginPath(); ctx.arc(32,32,32,0,Math.PI*2); ctx.closePath(); ctx.clip();
+        ctx.drawImage(img, 0, 0, 64, 64);
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png'; link.rel = 'shortcut icon';
+        link.href = canvas.toDataURL(); document.head.appendChild(link);
+      };
+      img.src = src;
+    })('https://files.gifted.co.ke/image/u90mimage.jpg');
+
+    let selectedType = 'short';
+
     function selectType(type) {
       selectedType = type;
-      const longCard  = document.getElementById('typeLong');
-      const shortCard = document.getElementById('typeShort');
-      const longRadio  = document.getElementById('longRadio');
-      const shortRadio = document.getElementById('shortRadio');
-      if (type === 'long') {
-        longCard.style.background = 'rgba(0,168,132,0.13)';
-        longCard.style.border     = '1.5px solid var(--green)';
-        longRadio.style.background    = 'var(--green)';
-        longRadio.style.borderColor   = 'var(--green)';
-        longRadio.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
-        shortCard.style.background = 'transparent';
-        shortCard.style.border     = '1px dashed rgba(134,150,160,0.25)';
-        shortRadio.style.background  = 'transparent';
-        shortRadio.style.borderColor = 'rgba(134,150,160,0.3)';
-        shortRadio.innerHTML = '';
+      const shortBtn = document.getElementById('typeShort');
+      const longBtn  = document.getElementById('typeLong');
+      if (type === 'short') {
+        shortBtn.style.background = 'linear-gradient(135deg,#7c3aed,#9333ea)';
+        shortBtn.style.color = '#fff';
+        longBtn.style.background = 'transparent';
+        longBtn.style.color = '#6b7280';
       } else {
-        shortCard.style.background = 'rgba(0,168,132,0.08)';
-        shortCard.style.border     = '1.5px solid var(--green)';
-        shortRadio.style.background  = 'var(--green)';
-        shortRadio.style.borderColor = 'var(--green)';
-        shortRadio.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
-        longCard.style.background = 'transparent';
-        longCard.style.border     = '1px dashed rgba(134,150,160,0.25)';
-        longRadio.style.background   = 'transparent';
-        longRadio.style.borderColor  = 'rgba(134,150,160,0.3)';
-        longRadio.innerHTML = '';
+        longBtn.style.background = 'linear-gradient(135deg,#7c3aed,#9333ea)';
+        longBtn.style.color = '#fff';
+        shortBtn.style.background = 'transparent';
+        shortBtn.style.color = '#6b7280';
       }
     }
 
@@ -407,4 +347,4 @@
     }
   </script>
 </body>
-              </html>
+</html>
