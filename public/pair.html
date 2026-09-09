@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>LUKA-AI PAIR | Pair Code Login</title>
-  <meta name="theme-color" content="#7c3aed">
+  <meta name="theme-color" content="#08100c">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -22,29 +22,39 @@
     }
 
     :root{
-      --bg-primary:#0d0a12;
-      --bg-secondary:#17121f;
-      --bg-panel:#241b30;
+      --bg-primary:#08100c;
+      --bg-secondary:#0e1712;
+      --bg-panel:#15221a;
 
-      --green:#7c3aed;
-      --green-light:#a855f7;
-      --green-dark:#6d28d9;
+      --green:#22c55e;
+      --green-light:#4ade80;
+      --green-dark:#16a34a;
 
-      --text-primary:#f5f3ff;
-      --text-secondary:#a89bb8;
+      --text-primary:#ecfdf3;
+      --text-secondary:#8fa99a;
 
-      --border:rgba(168,85,247,0.14);
-      --border-green:rgba(168,85,247,0.38);
+      --border:rgba(74,222,128,.10);
+      --border-green:rgba(34,197,94,.30);
+
+      --shadow-dark:rgba(0,0,0,.62);
+      --shadow-light:rgba(255,255,255,.025);
+    }
+
+    html{
+      scroll-behavior:smooth;
     }
 
     body{
       font-family:'Inter',sans-serif;
-      background:var(--bg-primary);
+      background:
+        radial-gradient(circle at 10% 5%,rgba(34,197,94,.07),transparent 30%),
+        radial-gradient(circle at 90% 90%,rgba(22,163,74,.05),transparent 30%),
+        var(--bg-primary);
       color:var(--text-primary);
       min-height:100vh;
       overflow-x:hidden;
       scrollbar-width:thin;
-      scrollbar-color:var(--bg-panel) var(--bg-secondary);
+      scrollbar-color:var(--bg-panel) var(--bg-primary);
     }
 
     body::-webkit-scrollbar{
@@ -52,19 +62,19 @@
     }
 
     body::-webkit-scrollbar-track{
-      background:var(--bg-secondary);
+      background:var(--bg-primary);
     }
 
     body::-webkit-scrollbar-thumb{
       background:var(--bg-panel);
-      border-radius:4px;
+      border-radius:10px;
     }
 
     body::before{
       content:'';
       position:fixed;
       inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.045'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       pointer-events:none;
       z-index:0;
     }
@@ -72,9 +82,10 @@
     .blob{
       position:fixed;
       border-radius:50%;
-      filter:blur(110px);
+      filter:blur(120px);
       pointer-events:none;
       z-index:0;
+      opacity:.7;
     }
 
     @keyframes floaty{
@@ -90,11 +101,16 @@
       font-family:'JetBrains Mono',monospace;
     }
 
+    /* =========================
+       SOFT UI NAVBAR
+    ========================= */
+
     .nav-bar{
-      background:rgba(13,10,18,0.92);
-      border-bottom:1px solid var(--border);
-      backdrop-filter:blur(20px);
-      -webkit-backdrop-filter:blur(20px);
+      background:var(--bg-primary);
+      border-bottom:1px solid rgba(255,255,255,.025);
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.35),
+        0 -1px 0 rgba(255,255,255,.015) inset;
     }
 
     .nav-link{
@@ -105,7 +121,7 @@
       display:flex;
       align-items:center;
       gap:6px;
-      transition:color .18s;
+      transition:color .18s,transform .18s;
       position:relative;
       padding-bottom:2px;
     }
@@ -120,35 +136,48 @@
       background:var(--green);
       border-radius:2px;
       transition:width .22s;
+      box-shadow:0 0 8px rgba(34,197,94,.6);
     }
 
     .nav-link:hover{
       color:var(--green-light);
+      transform:translateY(-1px);
     }
 
     .nav-link:hover::after{
       width:100%;
     }
 
+    /* =========================
+       SIDEBAR
+    ========================= */
+
     .sidebar-link{
       display:flex;
       align-items:center;
       gap:12px;
-      padding:10px 14px;
-      border-radius:10px;
+      padding:11px 14px;
+      border-radius:14px;
       color:var(--text-secondary);
       text-decoration:none;
       font-size:.875rem;
       font-weight:500;
-      transition:background .18s,color .18s,transform .18s;
+      transition:
+        background .18s,
+        color .18s,
+        transform .18s,
+        box-shadow .18s;
       border:1px solid transparent;
     }
 
     .sidebar-link:hover{
-      background:rgba(124,58,237,.12);
+      background:var(--bg-panel);
       border-color:var(--border-green);
       color:var(--green-light);
       transform:translateX(4px);
+      box-shadow:
+        5px 5px 12px rgba(0,0,0,.4),
+        -3px -3px 8px rgba(255,255,255,.018);
     }
 
     .sidebar-link i{
@@ -158,11 +187,18 @@
 
     #sidebar{
       transition:transform .3s cubic-bezier(.4,0,.2,1);
+      box-shadow:
+        18px 0 40px rgba(0,0,0,.5),
+        -3px 0 10px rgba(255,255,255,.015);
     }
 
     #sidebarOverlay{
       transition:opacity .3s ease;
     }
+
+    /* =========================
+       BUTTONS
+    ========================= */
 
     .btn{
       display:inline-flex;
@@ -170,29 +206,41 @@
       justify-content:center;
       gap:8px;
       padding:12px 24px;
-      border-radius:12px;
+      border-radius:14px;
       font-weight:600;
       font-size:.875rem;
       font-family:'Inter',sans-serif;
       cursor:pointer;
       border:none;
       text-decoration:none;
-      transition:transform .18s,box-shadow .18s;
+      transition:
+        transform .18s,
+        box-shadow .18s,
+        background .18s;
     }
 
     .btn:active{
       transform:scale(.97)!important;
+      box-shadow:
+        inset 5px 5px 10px rgba(0,0,0,.35),
+        inset -3px -3px 7px rgba(255,255,255,.05)!important;
     }
 
     .btn-primary{
-      background:var(--green);
+      background:linear-gradient(145deg,#25d366,#16a34a);
       color:#fff;
-      box-shadow:0 4px 20px rgba(124,58,237,.35);
+      box-shadow:
+        8px 8px 18px rgba(0,0,0,.48),
+        -5px -5px 12px rgba(255,255,255,.025),
+        0 0 18px rgba(34,197,94,.12);
     }
 
     .btn-primary:hover{
       transform:translateY(-3px);
-      box-shadow:0 8px 30px rgba(124,58,237,.55);
+      box-shadow:
+        10px 12px 24px rgba(0,0,0,.55),
+        -5px -5px 12px rgba(255,255,255,.03),
+        0 0 28px rgba(34,197,94,.25);
       filter:brightness(1.08);
     }
 
@@ -207,11 +255,17 @@
       background:var(--bg-panel);
       border:1px solid var(--border-green);
       color:var(--green-light);
+      box-shadow:
+        6px 6px 14px rgba(0,0,0,.42),
+        -4px -4px 10px rgba(255,255,255,.02);
     }
 
     .btn-ghost:hover{
       transform:translateY(-2px);
-      background:rgba(124,58,237,.15);
+      background:#19291f;
+      box-shadow:
+        8px 8px 17px rgba(0,0,0,.48),
+        -4px -4px 10px rgba(255,255,255,.025);
     }
 
     .icon-anim{
@@ -225,10 +279,14 @@
       transform:scale(1.2) rotate(-8deg);
     }
 
+    /* =========================
+       SOFT SOCIAL BUTTON
+    ========================= */
+
     .social-icon{
-      width:34px;
-      height:34px;
-      border-radius:8px;
+      width:36px;
+      height:36px;
+      border-radius:12px;
       background:var(--bg-panel);
       border:1px solid var(--border);
       display:flex;
@@ -237,48 +295,101 @@
       color:var(--text-secondary);
       font-size:.85rem;
       text-decoration:none;
-      transition:background .2s,color .2s,transform .2s,border-color .2s;
+      transition:
+        background .2s,
+        color .2s,
+        transform .2s,
+        border-color .2s,
+        box-shadow .2s;
+      box-shadow:
+        5px 5px 12px rgba(0,0,0,.42),
+        -3px -3px 8px rgba(255,255,255,.018);
     }
 
     .social-icon:hover{
-      background:rgba(124,58,237,.15);
+      background:#1a2a20;
       color:var(--green-light);
       border-color:var(--border-green);
       transform:translateY(-3px);
+      box-shadow:
+        7px 8px 15px rgba(0,0,0,.48),
+        -3px -3px 8px rgba(255,255,255,.025);
     }
 
     .divider{
       height:1px;
-      background:linear-gradient(90deg,transparent,var(--border),transparent);
+      background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(74,222,128,.13),
+        transparent
+      );
     }
+
+    /* =========================
+       MAIN CARD - NEUMORPHISM
+    ========================= */
 
     .card{
       background:var(--bg-secondary);
-      border:1px solid var(--border);
-      border-radius:20px;
-      box-shadow:0 24px 60px rgba(0,0,0,.5);
+      border:1px solid rgba(74,222,128,.07);
+      border-radius:24px;
+
+      box-shadow:
+        20px 20px 45px rgba(0,0,0,.58),
+        -10px -10px 25px rgba(255,255,255,.018),
+        inset 1px 1px 0 rgba(255,255,255,.012);
+
+      position:relative;
     }
 
+    .card::before{
+      content:'';
+      position:absolute;
+      inset:1px;
+      border-radius:23px;
+      pointer-events:none;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.018),
+        inset 0 -1px 0 rgba(0,0,0,.3);
+    }
+
+    /* =========================
+       INPUT - INSET SOFT UI
+    ========================= */
+
     .input-field{
-      background:var(--bg-panel);
-      border:1px solid var(--border);
+      background:#101a14;
+      border:1px solid rgba(74,222,128,.08);
       color:var(--text-primary);
-      border-radius:10px;
+      border-radius:14px;
       font-size:.875rem;
       font-family:'Inter',sans-serif;
-      transition:border-color .2s,box-shadow .2s;
+      transition:
+        border-color .2s,
+        box-shadow .2s,
+        background .2s;
       width:100%;
-      padding:12px 12px 12px 42px;
+      padding:13px 12px 13px 42px;
+
+      box-shadow:
+        inset 6px 6px 12px rgba(0,0,0,.48),
+        inset -4px -4px 9px rgba(255,255,255,.018);
     }
 
     .input-field::placeholder{
-      color:var(--text-secondary);
+      color:#718579;
     }
 
     .input-field:focus{
       outline:none;
-      border-color:var(--green);
-      box-shadow:0 0 0 3px rgba(124,58,237,.18);
+      border-color:rgba(34,197,94,.55);
+      background:#0e1812;
+      box-shadow:
+        inset 6px 6px 12px rgba(0,0,0,.5),
+        inset -4px -4px 9px rgba(255,255,255,.018),
+        0 0 0 3px rgba(34,197,94,.08),
+        0 0 20px rgba(34,197,94,.08);
     }
 
     @keyframes shake{
@@ -294,7 +405,7 @@
     .spinner{
       width:16px;
       height:16px;
-      border:2px solid rgba(255,255,255,.25);
+      border:2px solid rgba(255,255,255,.22);
       border-top-color:#fff;
       border-radius:50%;
       animation:spin .7s linear infinite;
@@ -304,22 +415,33 @@
       to{transform:rotate(360deg)}
     }
 
+    /* =========================
+       PAIR CODE
+    ========================= */
+
     .code-display{
       font-size:2.2rem;
       font-weight:800;
       letter-spacing:10px;
       color:var(--green-light);
       font-family:'JetBrains Mono',monospace;
-      text-shadow:0 0 18px rgba(168,85,247,.35);
+      text-shadow:
+        0 0 12px rgba(74,222,128,.28),
+        0 0 28px rgba(34,197,94,.12);
     }
 
     .copy-btn{
-      transition:transform .18s,background .18s,border-color .18s;
-      background:rgba(124,58,237,.1);
+      transition:
+        transform .18s,
+        background .18s,
+        border-color .18s,
+        box-shadow .18s;
+
+      background:var(--bg-panel);
       border:1px solid var(--border-green);
-      border-radius:10px;
+      border-radius:12px;
       color:var(--green-light);
-      padding:8px 18px;
+      padding:9px 18px;
       font-size:.8rem;
       font-weight:600;
       font-family:'Inter',sans-serif;
@@ -327,26 +449,40 @@
       display:flex;
       align-items:center;
       gap:6px;
+
+      box-shadow:
+        5px 5px 12px rgba(0,0,0,.45),
+        -3px -3px 8px rgba(255,255,255,.018);
     }
 
     .copy-btn:hover{
-      background:rgba(124,58,237,.2);
+      background:#1a2a20;
       transform:translateY(-2px);
+      box-shadow:
+        7px 8px 15px rgba(0,0,0,.5),
+        -3px -3px 8px rgba(255,255,255,.02);
     }
 
     .copy-btn.copied{
-      background:rgba(168,85,247,.12);
-      border-color:rgba(168,85,247,.4);
+      background:#153c25;
+      border-color:rgba(74,222,128,.45);
       color:var(--green-light);
+      box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,.28),
+        inset -3px -3px 7px rgba(255,255,255,.025);
     }
 
     .new-btn{
-      transition:transform .18s,background .18s;
-      background:transparent;
+      transition:
+        transform .18s,
+        background .18s,
+        box-shadow .18s;
+
+      background:var(--bg-panel);
       border:1px solid var(--border);
-      border-radius:10px;
+      border-radius:12px;
       color:var(--text-secondary);
-      padding:8px 18px;
+      padding:9px 18px;
       font-size:.8rem;
       font-weight:600;
       font-family:'Inter',sans-serif;
@@ -354,29 +490,41 @@
       display:flex;
       align-items:center;
       gap:6px;
+
+      box-shadow:
+        5px 5px 12px rgba(0,0,0,.42),
+        -3px -3px 8px rgba(255,255,255,.018);
     }
 
     .new-btn:hover{
-      background:var(--bg-panel);
+      background:#1a2920;
       transform:translateY(-2px);
       color:var(--text-primary);
     }
+
+    /* =========================
+       GUIDE
+    ========================= */
 
     .guide-step{
       display:flex;
       gap:12px;
       align-items:flex-start;
       padding:12px;
-      border-radius:10px;
-      background:rgba(124,58,237,.055);
-      border:1px solid rgba(124,58,237,.14);
+      border-radius:13px;
+      background:#111c15;
+      border:1px solid rgba(74,222,128,.06);
+
+      box-shadow:
+        inset 4px 4px 9px rgba(0,0,0,.35),
+        inset -3px -3px 7px rgba(255,255,255,.012);
     }
 
     .guide-num{
       width:24px;
       height:24px;
       border-radius:50%;
-      background:var(--green);
+      background:linear-gradient(145deg,#25d366,#16a34a);
       color:#fff;
       display:flex;
       align-items:center;
@@ -384,12 +532,22 @@
       font-size:.7rem;
       font-weight:700;
       flex-shrink:0;
+
+      box-shadow:
+        4px 4px 9px rgba(0,0,0,.4),
+        -2px -2px 6px rgba(255,255,255,.02),
+        0 0 10px rgba(34,197,94,.12);
     }
+
+    /* =========================
+       ANIMATIONS
+    ========================= */
 
     [data-anim]{
       will-change:transform,opacity;
-      transition:opacity .65s cubic-bezier(.4,0,.2,1),
-      transform .65s cubic-bezier(.4,0,.2,1);
+      transition:
+        opacity .65s cubic-bezier(.4,0,.2,1),
+        transform .65s cubic-bezier(.4,0,.2,1);
     }
 
     [data-anim="fade-up"]{
@@ -414,19 +572,48 @@
     [data-delay="2"]{
       transition-delay:.2s;
     }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:640px){
+
+      .card{
+        border-radius:20px;
+        box-shadow:
+          14px 16px 32px rgba(0,0,0,.58),
+          -7px -7px 17px rgba(255,255,255,.018);
+      }
+
+      .code-display{
+        font-size:1.75rem;
+        letter-spacing:7px;
+      }
+
+      .btn{
+        border-radius:13px;
+      }
+
+      .input-field{
+        border-radius:13px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- DARK GREEN SOFT LIGHT -->
   <div class="blob"
-    style="width:380px;height:380px;top:-100px;left:-80px;background:rgba(124,58,237,.13);animation:floaty 16s ease-in-out infinite;">
+    style="width:380px;height:380px;top:-100px;left:-80px;background:rgba(34,197,94,.10);animation:floaty 16s ease-in-out infinite;">
   </div>
 
   <div class="blob"
-    style="width:300px;height:300px;bottom:10%;right:-60px;background:rgba(109,40,217,.10);animation:floaty 20s ease-in-out 5s infinite;">
+    style="width:300px;height:300px;bottom:10%;right:-60px;background:rgba(22,163,74,.08);animation:floaty 20s ease-in-out 5s infinite;">
   </div>
 
+  <!-- NAVBAR -->
   <nav class="nav-bar sticky top-0 z-50">
 
     <div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
@@ -436,7 +623,7 @@
         <img src="https://files.catbox.moe/1l02sd.png"
           alt="LUKA-AI"
           class="w-8 h-8 rounded-xl object-cover"
-          style="box-shadow:0 0 15px rgba(124,58,237,.45);">
+          style="box-shadow:0 0 16px rgba(34,197,94,.25);">
 
         <div class="flex flex-col leading-none">
 
@@ -499,7 +686,14 @@
 
         <button id="menuBtn"
           class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl outline-none"
-          style="background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);">
+          style="
+            background:var(--bg-panel);
+            border:1px solid var(--border);
+            color:var(--text-secondary);
+            box-shadow:
+              5px 5px 12px rgba(0,0,0,.42),
+              -3px -3px 8px rgba(255,255,255,.018);
+          ">
 
           <i class="fas fa-bars" id="menuIcon"></i>
 
@@ -511,13 +705,18 @@
 
   </nav>
 
+  <!-- SIDEBAR OVERLAY -->
   <div id="sidebarOverlay"
-    class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none">
+    class="fixed inset-0 z-40 bg-black/70 opacity-0 pointer-events-none">
   </div>
 
+  <!-- SIDEBAR -->
   <aside id="sidebar"
-    class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-2xl"
-    style="background:var(--bg-secondary);border-right:1px solid var(--border);">
+    class="fixed top-0 left-0 z-50 h-full w-72 flex flex-col pt-5 pb-8 transform -translate-x-full rounded-r-3xl"
+    style="
+      background:var(--bg-secondary);
+      border-right:1px solid var(--border);
+    ">
 
     <div class="flex items-center justify-between px-5 mb-6">
 
@@ -536,7 +735,14 @@
 
       <button id="closeBtn"
         class="w-8 h-8 flex items-center justify-center rounded-lg"
-        style="background:var(--bg-panel);color:var(--text-secondary);">
+        style="
+          background:var(--bg-panel);
+          color:var(--text-secondary);
+          border:1px solid var(--border);
+          box-shadow:
+            4px 4px 9px rgba(0,0,0,.4),
+            -2px -2px 6px rgba(255,255,255,.018);
+        ">
 
         <i class="fas fa-times text-sm"></i>
 
@@ -553,7 +759,14 @@
 
       <a href="/pair"
         class="sidebar-link"
-        style="background:rgba(124,58,237,.12);border-color:var(--border-green);color:var(--green-light);">
+        style="
+          background:#15291c;
+          border-color:var(--border-green);
+          color:var(--green-light);
+          box-shadow:
+            inset 4px 4px 8px rgba(0,0,0,.32),
+            inset -3px -3px 7px rgba(255,255,255,.018);
+        ">
 
         <i class="fas fa-link"></i>
         Pair Code
@@ -598,12 +811,14 @@
 
   </aside>
 
+  <!-- MAIN -->
   <main class="relative z-10">
 
     <section class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-5 py-12">
 
       <div class="w-full max-w-md">
 
+        <!-- HEADER -->
         <div class="text-center mb-8"
           data-anim="fade-up">
 
@@ -614,7 +829,13 @@
               <img src="https://files.catbox.moe/7b5bxf.png"
                 alt="LUKA-AI"
                 class="w-20 h-20 rounded-2xl object-cover"
-                style="box-shadow:0 0 30px rgba(124,58,237,.55);border:2px solid var(--border-green);">
+                style="
+                  box-shadow:
+                    12px 12px 24px rgba(0,0,0,.55),
+                    -7px -7px 16px rgba(255,255,255,.018),
+                    0 0 25px rgba(34,197,94,.18);
+                  border:2px solid rgba(34,197,94,.25);
+                ">
 
             </div>
 
@@ -637,12 +858,14 @@
 
         </div>
 
+        <!-- CARD -->
         <div class="card p-7"
           data-anim="zoom-in"
           data-delay="1">
 
           <div id="formSection">
 
+            <!-- PHONE -->
             <div class="mb-5">
 
               <label for="phoneNumber"
@@ -679,6 +902,7 @@
 
             </div>
 
+            <!-- SESSION TYPE -->
             <div class="mb-5">
 
               <label
@@ -687,15 +911,29 @@
                 Session Type
               </label>
 
+              <!-- LONG -->
               <div id="typeLong"
                 onclick="selectType('long')"
                 class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-all duration-200"
-                style="background:rgba(124,58,237,.13);border:1.5px solid var(--green);margin-bottom:8px;">
+                style="
+                  background:#14291b;
+                  border:1.5px solid var(--green);
+                  margin-bottom:8px;
+                  box-shadow:
+                    inset 5px 5px 10px rgba(0,0,0,.32),
+                    inset -4px -4px 8px rgba(255,255,255,.018),
+                    0 0 12px rgba(34,197,94,.05);
+                ">
 
                 <div class="flex items-center gap-3">
 
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style="background:var(--green);">
+                    style="
+                      background:linear-gradient(145deg,#25d366,#16a34a);
+                      box-shadow:
+                        4px 4px 9px rgba(0,0,0,.4),
+                        -2px -2px 6px rgba(255,255,255,.02);
+                    ">
 
                     <i class="fas fa-file-code text-white text-xs"></i>
 
@@ -719,7 +957,11 @@
 
                 <div id="longRadio"
                   class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                  style="border-color:var(--green);background:var(--green);">
+                  style="
+                    border-color:var(--green);
+                    background:var(--green);
+                    box-shadow:0 0 8px rgba(34,197,94,.25);
+                  ">
 
                   <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
 
@@ -727,15 +969,25 @@
 
               </div>
 
+              <!-- SHORT -->
               <div id="typeShort"
                 onclick="selectType('short')"
                 class="flex items-center justify-between px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200"
-                style="background:transparent;border:1px dashed rgba(168,155,184,.25);">
+                style="
+                  background:transparent;
+                  border:1px dashed rgba(143,169,154,.25);
+                ">
 
                 <div class="flex items-center gap-3">
 
                   <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style="background:var(--bg-panel);border:1px solid var(--border);">
+                    style="
+                      background:var(--bg-panel);
+                      border:1px solid var(--border);
+                      box-shadow:
+                        inset 3px 3px 6px rgba(0,0,0,.35),
+                        inset -2px -2px 5px rgba(255,255,255,.015);
+                    ">
 
                     <i class="fas fa-database text-xs"
                       style="color:var(--text-secondary);">
@@ -751,7 +1003,12 @@
                       Short Session
 
                       <span class="text-xs font-normal ml-1 px-1.5 py-0.5 rounded"
-                        style="background:var(--bg-panel);color:var(--text-secondary);font-size:.6rem;letter-spacing:.05em;">
+                        style="
+                          background:var(--bg-panel);
+                          color:var(--text-secondary);
+                          font-size:.6rem;
+                          letter-spacing:.05em;
+                        ">
 
                         OPTIONAL
 
@@ -765,13 +1022,14 @@
 
                 <div id="shortRadio"
                   class="w-4 h-4 rounded-full border-2 flex-shrink-0"
-                  style="border-color:rgba(168,155,184,.3);">
+                  style="border-color:rgba(143,169,154,.3);">
                 </div>
 
               </div>
 
             </div>
 
+            <!-- SUBMIT -->
             <button id="submitBtn"
               class="btn btn-primary w-full py-3 text-sm">
 
@@ -802,8 +1060,15 @@
               style="color:#f87171;">
             </p>
 
-            <div class="mt-6 rounded-xl p-4"
-              style="background:rgba(124,58,237,.055);border:1px solid rgba(124,58,237,.15);">
+            <!-- GUIDE -->
+            <div class="mt-6 rounded-2xl p-4"
+              style="
+                background:#101a14;
+                border:1px solid rgba(74,222,128,.07);
+                box-shadow:
+                  inset 5px 5px 12px rgba(0,0,0,.38),
+                  inset -4px -4px 9px rgba(255,255,255,.015);
+              ">
 
               <p class="text-xs font-semibold mb-3 flex items-center gap-2"
                 style="color:var(--green);">
@@ -866,6 +1131,7 @@
 
             </div>
 
+            <!-- QR -->
             <div class="mt-5 pt-4 flex items-center justify-center gap-3"
               style="border-top:1px solid var(--border);">
 
@@ -887,18 +1153,25 @@
 
           </div>
 
+          <!-- RESULT -->
           <div id="resultSection" class="hidden">
 
             <div id="fallbackBanner"
               class="hidden mb-4 rounded-xl p-3.5 flex items-start gap-3"
-              style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);">
+              style="
+                background:#17251b;
+                border:1px solid rgba(74,222,128,.16);
+                box-shadow:
+                  inset 4px 4px 8px rgba(0,0,0,.3),
+                  inset -3px -3px 6px rgba(255,255,255,.012);
+              ">
 
               <i class="fas fa-info-circle mt-0.5 text-sm flex-shrink-0"
-                style="color:#c084fc;">
+                style="color:var(--green-light);">
               </i>
 
               <p class="text-xs leading-relaxed"
-                style="color:#c084fc;">
+                style="color:var(--green-light);">
 
                 Session store not configured — switched to
                 <strong>Long session</strong>.
@@ -910,7 +1183,14 @@
             <div class="text-center mb-6">
 
               <div class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                style="background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);">
+                style="
+                  background:#163520;
+                  border:1px solid rgba(34,197,94,.25);
+                  box-shadow:
+                    7px 7px 14px rgba(0,0,0,.42),
+                    -4px -4px 9px rgba(255,255,255,.018),
+                    0 0 18px rgba(34,197,94,.08);
+                ">
 
                 <i class="fab fa-whatsapp text-xl"
                   style="color:var(--green-light);">
@@ -930,8 +1210,15 @@
 
             </div>
 
+            <!-- CODE BOX -->
             <div class="relative rounded-2xl p-5 text-center mb-5"
-              style="background:rgba(124,58,237,.07);border:1px solid var(--border-green);">
+              style="
+                background:#0f1913;
+                border:1px solid var(--border-green);
+                box-shadow:
+                  inset 7px 7px 15px rgba(0,0,0,.48),
+                  inset -5px -5px 10px rgba(255,255,255,.015);
+              ">
 
               <p id="pairCode"
                 class="code-display">
@@ -984,12 +1271,19 @@
 
         </div>
 
+        <!-- FEATURES -->
         <div class="mt-6 grid grid-cols-3 gap-3"
           data-anim="fade-up"
           data-delay="2">
 
           <div class="text-center p-3 rounded-xl"
-            style="background:var(--bg-secondary);border:1px solid var(--border);">
+            style="
+              background:var(--bg-secondary);
+              border:1px solid var(--border);
+              box-shadow:
+                7px 7px 14px rgba(0,0,0,.42),
+                -4px -4px 9px rgba(255,255,255,.018);
+            ">
 
             <i class="fas fa-shield-halved text-sm mb-1.5 block"
               style="color:var(--green);">
@@ -1002,7 +1296,13 @@
           </div>
 
           <div class="text-center p-3 rounded-xl"
-            style="background:var(--bg-secondary);border:1px solid var(--border);">
+            style="
+              background:var(--bg-secondary);
+              border:1px solid var(--border);
+              box-shadow:
+                7px 7px 14px rgba(0,0,0,.42),
+                -4px -4px 9px rgba(255,255,255,.018);
+            ">
 
             <i class="fas fa-bolt text-sm mb-1.5 block"
               style="color:var(--green-light);">
@@ -1015,7 +1315,13 @@
           </div>
 
           <div class="text-center p-3 rounded-xl"
-            style="background:var(--bg-secondary);border:1px solid var(--border);">
+            style="
+              background:var(--bg-secondary);
+              border:1px solid var(--border);
+              box-shadow:
+                7px 7px 14px rgba(0,0,0,.42),
+                -4px -4px 9px rgba(255,255,255,.018);
+            ">
 
             <i class="fas fa-mobile-screen text-sm mb-1.5 block"
               style="color:var(--green);">
@@ -1035,6 +1341,7 @@
 
     <div class="divider"></div>
 
+    <!-- FOOTER -->
     <footer class="py-8 px-5"
       style="background:var(--bg-secondary);">
 
@@ -1216,10 +1523,13 @@
       if(type === 'long'){
 
         longCard.style.background =
-          'rgba(124,58,237,.13)';
+          '#14291b';
 
         longCard.style.border =
           '1.5px solid var(--green)';
+
+        longCard.style.boxShadow =
+          'inset 5px 5px 10px rgba(0,0,0,.32), inset -4px -4px 8px rgba(255,255,255,.018), 0 0 12px rgba(34,197,94,.05)';
 
         longRadio.style.background =
           'var(--green)';
@@ -1234,13 +1544,16 @@
           'transparent';
 
         shortCard.style.border =
-          '1px dashed rgba(168,155,184,.25)';
+          '1px dashed rgba(143,169,154,.25)';
+
+        shortCard.style.boxShadow =
+          'none';
 
         shortRadio.style.background =
           'transparent';
 
         shortRadio.style.borderColor =
-          'rgba(168,155,184,.3)';
+          'rgba(143,169,154,.3)';
 
         shortRadio.innerHTML =
           '';
@@ -1248,10 +1561,13 @@
       }else{
 
         shortCard.style.background =
-          'rgba(124,58,237,.08)';
+          '#14291b';
 
         shortCard.style.border =
           '1.5px solid var(--green)';
+
+        shortCard.style.boxShadow =
+          'inset 5px 5px 10px rgba(0,0,0,.32), inset -4px -4px 8px rgba(255,255,255,.018), 0 0 12px rgba(34,197,94,.05)';
 
         shortRadio.style.background =
           'var(--green)';
@@ -1266,13 +1582,16 @@
           'transparent';
 
         longCard.style.border =
-          '1px dashed rgba(168,155,184,.25)';
+          '1px dashed rgba(143,169,154,.25)';
+
+        longCard.style.boxShadow =
+          'none';
 
         longRadio.style.background =
           'transparent';
 
         longRadio.style.borderColor =
-          'rgba(168,155,184,.3)';
+          'rgba(143,169,154,.3)';
 
         longRadio.innerHTML =
           '';
@@ -1502,4 +1821,4 @@
   </script>
 
 </body>
-        </html>
+                </html>
