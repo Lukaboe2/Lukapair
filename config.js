@@ -8,7 +8,7 @@ require('dotenv').config({
 
 module.exports = {
     PORT: process.env.PORT || 50900,
-    SESSION_PREFIX: process.env.SESSION_PREFIX || "LUKA;;;",
+    SESSION_PREFIX: process.env.SESSION_PREFIX || "LUKA~",
     GC_JID: process.env.GC_JID || "EyXMwZx0V556mTYY0eMQ5K",
     DATABASE_URL: process.env.DATABASE_URL || "",
     BOT_REPO: process.env.BOT_REPO || "https://github.com/Lucvoice/LUKA-AI",
