@@ -1033,55 +1033,13 @@
             </div>
 
 
-            <!-- SHORT -->
+            <!-- LONG -->
 
             <button
               type="button"
               id="typeLong"
               onclick="selectType('long')"
               class="session-option selected">
-
-              <div class="session-left">
-
-                <div class="session-icon">
-
-                  <i class="fas fa-database"></i>
-
-                </div>
-
-                <div>
-
-                  <div class="session-name">
-                    Long Session
-                  </div>
-
-                  <div class="session-desc">
-                    Lightweight session format
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div
-                id="shortRadio"
-                class="radio selected">
-
-                <div class="radio-dot"></div>
-
-              </div>
-
-            </button>
-
-
-            <!-- LONG -->
-
-            <button
-              type="button"
-              id="typeShort"
-              onclick="selectType('short')"
-              class="session-option">
 
               <div class="session-left">
 
@@ -1094,7 +1052,7 @@
                 <div>
 
                   <div class="session-name">
-                    Short Session
+                    Long Session
                   </div>
 
                   <div class="session-desc">
@@ -1108,6 +1066,48 @@
 
               <div
                 id="longRadio"
+                class="radio selected">
+
+                <div class="radio-dot"></div>
+
+              </div>
+
+            </button>
+
+
+            <!-- SHORT -->
+
+            <button
+              type="button"
+              id="typeShort"
+              onclick="selectType('short')"
+              class="session-option">
+
+              <div class="session-left">
+
+                <div class="session-icon">
+
+                  <i class="fas fa-database"></i>
+
+                </div>
+
+                <div>
+
+                  <div class="session-name">
+                    Short Session
+                  </div>
+
+                  <div class="session-desc">
+                    Lightweight session format
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                id="shortRadio"
                 class="radio">
               </div>
 
@@ -1183,11 +1183,15 @@
               </div>
 
               <p>
+
                 Click
+
                 <strong>
                   GENERATE QR CODE
                 </strong>
+
                 to start.
+
               </p>
 
             </div>
@@ -1200,10 +1204,13 @@
               </div>
 
               <p>
+
                 Open WhatsApp →
+
                 <strong>
                   Settings → Linked Devices
                 </strong>
+
               </p>
 
             </div>
@@ -1216,11 +1223,15 @@
               </div>
 
               <p>
+
                 Tap
+
                 <strong>
                   Link a Device
                 </strong>
+
                 and scan the QR code.
+
               </p>
 
             </div>
@@ -1233,7 +1244,9 @@
               </div>
 
               <p>
+
                 Your session will be sent via WhatsApp ✅
+
               </p>
 
             </div>
@@ -1569,7 +1582,7 @@
 
     /* ================= SESSION ================= */
 
-    let selectedType = "short";
+    let selectedType = "long";
 
 
     function selectType(type){
@@ -1661,11 +1674,11 @@
         /*
           Your server should provide:
 
-          /qr/session?type=short
+          /qr/session?type=long
 
           or
 
-          /qr/session?type=long
+          /qr/session?type=short
         */
 
         window.location.href =
