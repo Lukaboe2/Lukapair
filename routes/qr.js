@@ -58,7 +58,7 @@ router.get('/session', async (req, res) => {
                     const qrImage = await QRCode.toDataURL(qr);
                     if (!res.headersSent) {
                         res.send(`
-                           <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>LUKA-AI | QR CODE</title>
@@ -68,14 +68,16 @@ router.get('/session', async (req, res) => {
 
     <style>
         :root {
-            --bg: #eef1f5;
-            --surface: #eef1f5;
-            --text: #292d36;
-            --muted: #7b8190;
-            --purple: #7c3aed;
-            --purple-dark: #6424d8;
-            --shadow-dark: #d1d5db;
-            --shadow-light: #ffffff;
+            --bg: #20242b;
+            --surface: #20242b;
+            --text: #f1f3f6;
+            --muted: #9299a6;
+
+            --purple: #9b6cff;
+            --purple-dark: #b18cff;
+
+            --shadow-dark: #15181d;
+            --shadow-light: #2b3038;
         }
 
         * {
@@ -86,14 +88,18 @@ router.get('/session', async (req, res) => {
             display: flex;
             justify-content: center;
             align-items: center;
+
             min-height: 100vh;
+
             margin: 0;
             padding: 25px 18px;
 
             background: var(--bg);
 
             font-family: Arial, sans-serif;
+
             color: var(--text);
+
             text-align: center;
         }
 
@@ -112,7 +118,7 @@ router.get('/session', async (req, res) => {
                 -14px -14px 30px var(--shadow-light);
         }
 
-        /* LOGO / TITLE */
+        /* BRAND */
 
         .brand {
             width: 75px;
@@ -145,6 +151,7 @@ router.get('/session', async (req, res) => {
 
             font-size: 25px;
             font-weight: 800;
+
             letter-spacing: 0.5px;
         }
 
@@ -154,7 +161,48 @@ router.get('/session', async (req, res) => {
             color: var(--muted);
 
             font-size: 14px;
+
             line-height: 1.5;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 10px 18px;
+
+            margin-bottom: 17px;
+
+            border-radius: 20px;
+
+            background: var(--surface);
+
+            color: var(--purple);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            box-shadow:
+                5px 5px 12px var(--shadow-dark),
+                -5px -5px 12px var(--shadow-light);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--purple);
+
+            box-shadow:
+                0 0 8px rgba(155, 108, 255, 0.75);
         }
 
         /* QR AREA */
@@ -168,6 +216,7 @@ router.get('/session', async (req, res) => {
             margin: 0 auto 22px;
 
             display: flex;
+
             justify-content: center;
             align-items: center;
 
@@ -191,12 +240,13 @@ router.get('/session', async (req, res) => {
             border-radius: 25px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             box-shadow:
-                8px 8px 18px rgba(163, 168, 177, 0.45),
-                -8px -8px 18px rgba(255, 255, 255, 0.9);
+                8px 8px 18px rgba(0, 0, 0, 0.45),
+                -8px -8px 18px rgba(55, 61, 72, 0.65);
         }
 
         .qr-code img {
@@ -208,43 +258,30 @@ router.get('/session', async (req, res) => {
             border-radius: 10px;
         }
 
-        /* STATUS */
+        /* QR PULSE */
 
-        .status {
-            display: inline-flex;
-
-            align-items: center;
-            gap: 8px;
-
-            padding: 10px 18px;
-
-            margin-bottom: 17px;
-
-            border-radius: 20px;
-
-            background: var(--surface);
-
-            color: var(--purple);
-
-            font-size: 13px;
-            font-weight: 700;
-
-            box-shadow:
-                5px 5px 12px var(--shadow-dark),
-                -5px -5px 12px var(--shadow-light);
+        .pulse {
+            animation: softPulse 2.5s infinite ease-in-out;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
+        @keyframes softPulse {
 
-            border-radius: 50%;
+            0%,
+            100% {
+                box-shadow:
+                    8px 8px 18px rgba(0, 0, 0, 0.45),
+                    -8px -8px 18px rgba(55, 61, 72, 0.65);
+            }
 
-            background: #7c3aed;
-
-            box-shadow:
-                0 0 8px rgba(124, 58, 237, 0.65);
+            50% {
+                box-shadow:
+                    8px 8px 22px rgba(0, 0, 0, 0.5),
+                    -8px -8px 22px rgba(55, 61, 72, 0.75),
+                    0 0 28px rgba(155, 108, 255, 0.22);
+            }
         }
+
+        /* DESCRIPTION */
 
         p {
             color: var(--muted);
@@ -277,6 +314,7 @@ router.get('/session', async (req, res) => {
             border-radius: 18px;
 
             font-size: 14px;
+
             font-weight: 800;
 
             transition: all 0.2s ease;
@@ -298,29 +336,6 @@ router.get('/session', async (req, res) => {
             box-shadow:
                 inset 5px 5px 10px var(--shadow-dark),
                 inset -5px -5px 10px var(--shadow-light);
-        }
-
-        /* QR PULSE */
-
-        .pulse {
-            animation: softPulse 2.5s infinite ease-in-out;
-        }
-
-        @keyframes softPulse {
-
-            0%,
-            100% {
-                box-shadow:
-                    8px 8px 18px rgba(163, 168, 177, 0.45),
-                    -8px -8px 18px rgba(255, 255, 255, 0.9);
-            }
-
-            50% {
-                box-shadow:
-                    8px 8px 22px rgba(163, 168, 177, 0.5),
-                    -8px -8px 22px rgba(255, 255, 255, 1),
-                    0 0 25px rgba(124, 58, 237, 0.18);
-            }
         }
 
         /* INFO BOX */
@@ -436,25 +451,34 @@ router.get('/session', async (req, res) => {
 
         ${(sessionType === 'short' && !isConfigured()) ? `
         <div class="info-box">
-            <span class="info-icon">ℹ️</span>
+
+            <span class="info-icon">
+                ℹ️
+            </span>
 
             <p class="info-text">
                 Session store is not configured &mdash;
                 automatically switched to
                 <strong>Long session</strong>.
             </p>
+
         </div>
         ` : ''}
 
-        <h1>LUKA-AI QR CODE</h1>
+        <h1>
+            LUKA-AI QR CODE
+        </h1>
 
         <div class="subtitle">
             Scan this QR code with your phone to connect
         </div>
 
         <div class="status">
+
             <span class="status-dot"></span>
+
             Waiting for scan
+
         </div>
 
         <div class="qr-container">
@@ -474,7 +498,9 @@ router.get('/session', async (req, res) => {
             Open WhatsApp → Linked Devices → Link a Device
         </p>
 
-        <a href="./" class="back-btn">
+        <a
+            href="./"
+            class="back-btn">
             ← Back
         </a>
 
