@@ -58,139 +58,457 @@ router.get('/session', async (req, res) => {
                     const qrImage = await QRCode.toDataURL(qr);
                     if (!res.headersSent) {
                         res.send(`
-                            <!DOCTYPE html>
-                            <html>
-                            <head>
-                                <title>LUKA-AI | QR CODE</title>
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                                <style>
-                                    body {
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                        min-height: 100vh;
-                                        margin: 0;
-                                        background-color: #000;
-                                        font-family: Arial, sans-serif;
-                                        color: #fff;
-                                        text-align: center;
-                                        padding: 20px;
-                                        box-sizing: border-box;
-                                    }
-                                    .container {
-                                        width: 100%;
-                                        max-width: 600px;
-                                    }
-                                    .qr-container {
-                                        position: relative;
-                                        margin: 20px auto;
-                                        width: 300px;
-                                        height: 300px;
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                    }
-                                    .qr-code {
-                                        width: 300px;
-                                        height: 300px;
-                                        padding: 10px;
-                                        background: white;
-                                        border-radius: 20px;
-                                        box-shadow: 0 0 0 10px rgba(255,255,255,0.1),
-                                                    0 0 0 20px rgba(255,255,255,0.05),
-                                                    0 0 30px rgba(255,255,255,0.2);
-                                    }
-                                    .qr-code img {
-                                        width: 100%;
-                                        height: 100%;
-                                    }
-                                    h1 {
-                                        color: #fff;
-                                        margin: 0 0 15px 0;
-                                        font-size: 28px;
-                                        font-weight: 800;
-                                        text-shadow: 0 0 10px rgba(255,255,255,0.3);
-                                    }
-                                    p {
-                                        color: #ccc;
-                                        margin: 20px 0;
-                                        font-size: 16px;
-                                    }
-                                    .back-btn {
-                                        display: inline-block;
-                                        padding: 12px 25px;
-                                        margin-top: 15px;
-                                        background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
-                                        color: white;
-                                        text-decoration: none;
-                                        border-radius: 30px;
-                                        font-weight: bold;
-                                        border: none;
-                                        cursor: pointer;
-                                        transition: all 0.3s ease;
-                                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                                    }
-                                    .back-btn:hover {
-                                        transform: translateY(-2px);
-                                        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-                                    }
-                                    .pulse {
-                                        animation: pulse 2s infinite;
-                                    }
-                                    @keyframes pulse {
-                                        0% {
-                                            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
-                                        }
-                                        70% {
-                                            box-shadow: 0 0 0 15px rgba(255,255,255,0);
-                                        }
-                                        100% {
-                                            box-shadow: 0 0 0 0 rgba(255,255,255,0);
-                                        }
-                                    }
-                                    @media (max-width: 480px) {
-                                        .qr-container {
-                                            width: 260px;
-                                            height: 260px;
-                                        }
-                                        .qr-code {
-                                            width: 220px;
-                                            height: 220px;
-                                        }
-                                        h1 {
-                                            font-size: 24px;
-                                        }
-                                    }
-                                </style>
-                            </head>
-                            <body>
-                                <div class="container">
-                                    ${(sessionType === 'short' && !isConfigured()) ? `
-                                    <div style="margin-bottom:18px;padding:12px 16px;border-radius:12px;border:1px solid rgba(96,165,250,0.3);background:rgba(30,58,138,0.25);display:flex;align-items:flex-start;gap:10px;text-align:left;">
-                                        <span style="font-size:1rem;margin-top:1px;flex-shrink:0;">ℹ️</span>
-                                        <p style="margin:0;font-size:0.78rem;color:#93c5fd;line-height:1.5;">Session store is not configured &mdash; automatically switched to <strong>Long session</strong>.</p>
-                                    </div>` : ''}
-                                    <h1>LUKA-AI QR CODE</h1>
-                                    <div class="qr-container">
-                                        <div class="qr-code pulse">
-                                            <img src="${qrImage}" alt="QR Code"/>
-                                        </div>
-                                    </div>
-                                    <p>Scan this QR code with your phone to connect</p>
-                                    <a href="./" class="back-btn">Back</a>
-                                </div>
-                                <script>
-                                    document.querySelector('.back-btn').addEventListener('mousedown', function(e) {
-                                        this.style.transform = 'translateY(1px)';
-                                        this.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-                                    });
-                                    document.querySelector('.back-btn').addEventListener('mouseup', function(e) {
-                                        this.style.transform = 'translateY(-2px)';
-                                        this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
-                                    });
-                                </script>
-                            </body>
-                            </html>
+                           <!DOCTYPE html>
+<html>
+<head>
+    <title>LUKA-AI | QR CODE</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        :root {
+            --bg: #eef1f5;
+            --surface: #eef1f5;
+            --text: #292d36;
+            --muted: #7b8190;
+            --purple: #7c3aed;
+            --purple-dark: #6424d8;
+            --shadow-dark: #d1d5db;
+            --shadow-light: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 25px 18px;
+
+            background: var(--bg);
+
+            font-family: Arial, sans-serif;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+
+            padding: 32px 25px;
+
+            background: var(--surface);
+
+            border-radius: 35px;
+
+            box-shadow:
+                14px 14px 30px var(--shadow-dark),
+                -14px -14px 30px var(--shadow-light);
+        }
+
+        /* LOGO / TITLE */
+
+        .brand {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 24px;
+
+            background: var(--surface);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                8px 8px 18px var(--shadow-dark),
+                -8px -8px 18px var(--shadow-light);
+
+            color: var(--purple);
+
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        h1 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            margin: 9px 0 25px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* QR AREA */
+
+        .qr-container {
+            position: relative;
+
+            width: 310px;
+            height: 310px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 32px;
+
+            background: var(--surface);
+
+            box-shadow:
+                inset 9px 9px 20px var(--shadow-dark),
+                inset -9px -9px 20px var(--shadow-light);
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+
+            padding: 14px;
+
+            background: #ffffff;
+
+            border-radius: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                8px 8px 18px rgba(163, 168, 177, 0.45),
+                -8px -8px 18px rgba(255, 255, 255, 0.9);
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            border-radius: 10px;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 18px;
+
+            margin-bottom: 17px;
+
+            border-radius: 20px;
+
+            background: var(--surface);
+
+            color: var(--purple);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            box-shadow:
+                5px 5px 12px var(--shadow-dark),
+                -5px -5px 12px var(--shadow-light);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #7c3aed;
+
+            box-shadow:
+                0 0 8px rgba(124, 58, 237, 0.65);
+        }
+
+        p {
+            color: var(--muted);
+
+            margin: 0 0 20px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        /* BACK BUTTON */
+
+        .back-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 130px;
+
+            padding: 13px 25px;
+
+            background: var(--surface);
+
+            color: var(--purple);
+
+            text-decoration: none;
+
+            border-radius: 18px;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            transition: all 0.2s ease;
+
+            box-shadow:
+                7px 7px 15px var(--shadow-dark),
+                -7px -7px 15px var(--shadow-light);
+        }
+
+        .back-btn:hover {
+            color: var(--purple-dark);
+
+            transform: translateY(-2px);
+        }
+
+        .back-btn:active {
+            transform: translateY(2px);
+
+            box-shadow:
+                inset 5px 5px 10px var(--shadow-dark),
+                inset -5px -5px 10px var(--shadow-light);
+        }
+
+        /* QR PULSE */
+
+        .pulse {
+            animation: softPulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes softPulse {
+
+            0%,
+            100% {
+                box-shadow:
+                    8px 8px 18px rgba(163, 168, 177, 0.45),
+                    -8px -8px 18px rgba(255, 255, 255, 0.9);
+            }
+
+            50% {
+                box-shadow:
+                    8px 8px 22px rgba(163, 168, 177, 0.5),
+                    -8px -8px 22px rgba(255, 255, 255, 1),
+                    0 0 25px rgba(124, 58, 237, 0.18);
+            }
+        }
+
+        /* INFO BOX */
+
+        .info-box {
+            margin-bottom: 20px;
+
+            padding: 13px 15px;
+
+            border-radius: 18px;
+
+            background: var(--surface);
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            text-align: left;
+
+            color: var(--muted);
+
+            box-shadow:
+                inset 5px 5px 10px var(--shadow-dark),
+                inset -5px -5px 10px var(--shadow-light);
+        }
+
+        .info-icon {
+            color: var(--purple);
+
+            font-size: 16px;
+
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            margin: 0;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .info-text strong {
+            color: var(--purple);
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 18px 12px;
+            }
+
+            .container {
+                padding: 27px 18px;
+
+                border-radius: 30px;
+            }
+
+            .brand {
+                width: 68px;
+                height: 68px;
+
+                border-radius: 21px;
+
+                font-size: 25px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .qr-container {
+                width: 280px;
+                height: 280px;
+
+                border-radius: 28px;
+            }
+
+            .qr-code {
+                width: 225px;
+                height: 225px;
+
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 340px) {
+
+            .qr-container {
+                width: 245px;
+                height: 245px;
+            }
+
+            .qr-code {
+                width: 195px;
+                height: 195px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="brand">
+            LA
+        </div>
+
+        ${(sessionType === 'short' && !isConfigured()) ? `
+        <div class="info-box">
+            <span class="info-icon">ℹ️</span>
+
+            <p class="info-text">
+                Session store is not configured &mdash;
+                automatically switched to
+                <strong>Long session</strong>.
+            </p>
+        </div>
+        ` : ''}
+
+        <h1>LUKA-AI QR CODE</h1>
+
+        <div class="subtitle">
+            Scan this QR code with your phone to connect
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Waiting for scan
+        </div>
+
+        <div class="qr-container">
+
+            <div class="qr-code pulse">
+
+                <img
+                    src="${qrImage}"
+                    alt="LUKA-AI QR Code"
+                />
+
+            </div>
+
+        </div>
+
+        <p>
+            Open WhatsApp → Linked Devices → Link a Device
+        </p>
+
+        <a href="./" class="back-btn">
+            ← Back
+        </a>
+
+    </div>
+
+    <script>
+
+        const backButton =
+            document.querySelector('.back-btn');
+
+        backButton.addEventListener(
+            'mousedown',
+            function () {
+
+                this.style.transform =
+                    'translateY(2px)';
+
+            }
+        );
+
+        backButton.addEventListener(
+            'mouseup',
+            function () {
+
+                this.style.transform =
+                    'translateY(-2px)';
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
                         `);
                         responseSent = true;
                     }
