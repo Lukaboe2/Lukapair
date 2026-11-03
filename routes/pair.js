@@ -3,7 +3,7 @@ const {
     removeFile
 } = require('../gift');
 const { SESSION_PREFIX, GC_JID, BOT_REPO, WA_CHANNEL, MSG_FOOTER } = require('../config');
-const { isConfigured, saveSession } = require('../gift/sessionStore');
+const { isConfigured, saveSession } = require('../luka/sessionStore');
 const zlib = require('zlib');
 const express = require('express');
 const fs = require('fs');
