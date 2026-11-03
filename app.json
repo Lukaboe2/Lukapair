@@ -1,8 +1,8 @@
 {
-    "name": "Gifted Session Generator",
+    "name": "Luka Session Generator",
     "description": "Web Session Generator",
-    "logo": "https://files.catbox.moe/52699c.jpg",
-    "repository": "https://github.com/mauricegift/gifted-session",
+    "logo": "https://files.catbox.moe/pj9a34.png",
+    "repository": "https://github.com/lukaboe2/Lukapair",
     "keywords": ["Gifted-Tech"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
